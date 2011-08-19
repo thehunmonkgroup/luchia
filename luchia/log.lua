@@ -6,13 +6,17 @@ require "luchia.conf"
 local log = luchia.conf.log
 
 luchia.log = {}
-if log.enabled then
+
+function logging_exists()
   require("logging")
+  require("logging.file")
+  require("logging.console")
+end
+
+if pcall(logging_exists) and log.appender then
   if log.appender == "file" then
-    require("logging.file")
     luchia.log = logging.file(log.file, nil, log.format)
   else
-    require("logging.console")
     luchia.log = logging.console(log.format)
   end
   luchia.log:setLevel(logging[log.level])
