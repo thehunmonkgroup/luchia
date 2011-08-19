@@ -9,7 +9,6 @@ local log = luchia.log
 
 local pairs = pairs
 local setmetatable = setmetatable
-local print = print
 
 module(...)
 
@@ -38,11 +37,11 @@ function Request:new(server, params)
   request.method = params.method or "GET"
   request.path = params.path
   request.query_parameters = params.query_parameters or {}
+  request.stringified_parameters = self:stringify_parameters(request.query_parameters)
   request.data = params.data
   setmetatable(request, self)
   self.__index = self
-  request.stringified_parameters = self:stringify_parameters(request.query_parameters)
-  log:debug(string.format([[New request, method: %s, path: %s, query parameters: %s, data: %s]], request.method, request.path or "", request.stringified_parameters, request.data or ""))
+  log:debug(string.format([[New request, method: %s, path: %s, query_parameters: %s, data: %s]], request.method, request.path or "", request.stringified_parameters, request.data or ""))
   return request
 end
 
@@ -62,7 +61,10 @@ function Request:http_request()
 
   if self.data then
     source = ltn12.source.string(self.data)
-    headers = { ["content-length"] = self.data:len() }
+    headers = {
+      ["content-type"] = "application/json",
+      ["content-length"] = self.data:len(),
+    }
   end
 
   local result = {}
@@ -86,7 +88,7 @@ function Request:build_url()
     host = self.server.host,
     port = self.server.port,
     path = "/" .. self.path,
-    query = request.stringified_parameters,
+    query = self.stringified_parameters,
   }
 
   local full_url = url.build(url_parts)
@@ -97,12 +99,11 @@ end
 function Request:stringify_parameters(params)
   params = params or self.query_parameters
   local parameter_string = ""
-  if #params > 0 then
-    for name, value in pairs(params) do
-      parameter_string = string.format("%s&%s=%s", parameter_string, url.escape(name), url.escape(value))
-    end
+  for name, value in pairs(params) do
+    parameter_string = string.format("%s&%s=%s", parameter_string, url.escape(name), url.escape(value))
   end
 
+  parameter_string = parameter_string:sub(2)
   log:debug(string.format([[Built query parameters: %s]], parameter_string));
   return parameter_string
 end
