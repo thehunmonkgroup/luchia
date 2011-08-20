@@ -7,6 +7,7 @@ local string = require "string"
 local log = luchia.log
 
 local pairs = pairs
+local pcall = pcall
 local setmetatable = setmetatable
 
 module(...)
@@ -27,19 +28,35 @@ end
 
 function execute(self)
   local response_body, response_code, headers, status = self:http_request()
-  local json_response
+  local response
   if response_body then
     log:debug([[Request executed]])
     if string.match(response_code, "20[0-6]") then
       log:debug(string.format([[Request successful, response_code: %s]], response_code))
-      json_response = json.decode(response_body)
+      response = self:parse_json(response_body)
     else
       log:warn(string.format([[Request failed, response_code: %s, message: %s]], response_code, status))
     end
   else
     log:error(string.format([[Unable to access server, error message: %s]], response_code))
   end
-  return json_response, response_code, headers
+  return response, response_code, headers, status
+end
+
+function parse_json(self, json_string)
+  log:debug(string.format([[JSON to parse: %s]], json_string))
+  local result, data = pcall(
+    function ()
+      return json.decode(json_string)
+    end
+  )
+  if result then
+    log:debug([[JSON parsed successfully]])
+    return data
+  else
+    log:error([[JSON parsing failed]])
+    return result, data
+  end
 end
 
 function http_request(self)
