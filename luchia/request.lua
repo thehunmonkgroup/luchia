@@ -26,11 +26,18 @@ function new(self, server, params)
 end
 
 function execute(self)
-  local response_body, response_code, headers = self:http_request()
-  local json_response = ""
-  if response_code and response_body ~= "" then
-    log:debug(string.format([[Request executed, response_code: %s, response body: %s]], response_code, response_body))
-    json_response = json.decode(response_body)
+  local response_body, response_code, headers, status = self:http_request()
+  local json_response
+  if response_body then
+    log:debug([[Request executed]])
+    if string.match(response_code, "20[0-6]") then
+      log:debug(string.format([[Request successful, response_code: %s]], response_code))
+      json_response = json.decode(response_body)
+    else
+      log:warn(string.format([[Request failed, response_code: %s, message: %s]], response_code, status))
+    end
+  else
+    log:error(string.format([[Unable to access server, error message: %s]], response_code))
   end
   return json_response, response_code, headers
 end
@@ -48,7 +55,7 @@ function http_request(self)
   end
 
   local result = {}
-  local _, response_code, headers = http.request {
+  local _, response_code, headers, status = http.request {
     method = self.method,
     url = self:build_url(),
     sink = ltn12.sink.table(result),
@@ -56,7 +63,7 @@ function http_request(self)
     headers = headers
   }
 
-  return table.concat(result), response_code, headers
+  return table.concat(result), response_code, headers, status
 end
 
 function build_url(self)
