@@ -38,6 +38,8 @@ local params = {
 }
 req = luchia.request:new(luchia.server:new(), params)
 res = req:execute()
-log:info(res)
+if res then
+  log:info(res)
+end
 
 -- vim: set filetype=lua

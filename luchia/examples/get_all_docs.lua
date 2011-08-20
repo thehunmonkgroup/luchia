@@ -25,8 +25,10 @@ local req = request:new(srv, params)
 -- Execute the request.
 local response = req:execute()
 
--- Cycle through the returned table listing all document IDs.
-print("List of all document IDs:")
-for _, doc in ipairs(response.rows) do
-  print(doc.id)
+if response then
+  -- Cycle through the returned table listing all document IDs.
+  print("List of all document IDs:")
+  for _, doc in ipairs(response.rows) do
+    print(doc.id)
+  end
 end
