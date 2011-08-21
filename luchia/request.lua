@@ -19,7 +19,9 @@ function new(self, server, params)
   request.method = params.method or "GET"
   request.path = params.path
   request.query_parameters = params.query_parameters or {}
-  request.data = params.data
+  if params.data then
+    request.data = json.encode(params.data)
+  end
   setmetatable(request, self)
   self.__index = self
   log:debug(string.format([[New request, method: %s, path: %s, data: %s]], request.method, request.path or "", request.data or ""))
