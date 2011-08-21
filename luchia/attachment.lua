@@ -2,17 +2,26 @@ local mime = require "mime"
 local string = require "string"
 local log = luchia.log
 
+local io = require "io"
+
 local setmetatable = setmetatable
 
 module(...)
 
 function new(self, params)
   params = params or {}
-  attachment = {}
-  setmetatable(attachment, self)
-  self.__index = self
-  log:debug([[New attachment handler]])
-  return attachment
+  if params.file_path then
+    self.file_path = params.file_path
+    self.file_name = params.file_name or "attachment.txt"
+    self.content_type = params.content_type or "text/plain"
+    attachment = {}
+    setmetatable(attachment, self)
+    self.__index = self
+    log:debug([[New attachment handler]])
+    return attachment
+  else
+    log:error([[Required file path not provided for attachment]])
+  end
 end
 
 function base64_encode_file(self, file_path)
@@ -41,23 +50,17 @@ function load_file(self, file_path)
 end
 
 
-function add_attachment(self, params)
-  local document = params.document or {}
-  local file_path = params.file_path
-  local file_name = params.file_name or "attachment.txt"
-  local content_type = params.content_type or "text/plain"
-  if file_path then
-    local file_data = base64_encode(file_path)
-    if file_data then
-      document._attachments = document._attachments or {}
-      document._attachments[file_name] = {
-        content-type = content_type,
-        data = file_data,
-      }
-      log:debug(string.format([[Added attachment: %s, content_type: %s]], file_name, content_type))
-    end
-  else
-    log:warn([[Required file path not provided for attachment]])
+function add(self, document)
+  document = document or {}
+  local file_data = self:base64_encode_file(self.file_path)
+  if file_data then
+    document._attachments = document._attachments or {}
+    document._attachments[self.file_name] = {
+      ["content-type"] = self.content_type,
+      data = file_data,
+    }
+    log:debug(string.format([[Added attachment: %s, content_type: %s]], self.file_name, self.content_type))
+    return document
   end
 end
 
