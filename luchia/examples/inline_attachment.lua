@@ -14,35 +14,28 @@ log:debug("Attaching file to new document...")
 -- Grab a server object using the default connection configuration.
 local srv = server:new()
 
-local doc = {
-  title = "Test attachment",
-}
-
 local params = {
-  document = doc,
   file_name = "attachment.wav",
   file_path = "/tmp/attachment.wav",
   content_type = "audio/x-wav",
 }
+local att = attachment:new(params)
 
-
-local att = attachment:new()
-doc = att:add_attachment(params)
-
--- Build up the request parameters.
-params = {
-  method = "POST",
-  path = "example/",
+local document = {
+  title = "Test attachment",
 }
--- Grab a request object using the server object for communication.
-local req = request:new(srv, params)
--- Execute the request.
-local response = req:execute()
+local document_with_attachment = att:add(document)
 
-if response then
-  -- Cycle through the returned table listing all document IDs.
-  print("List of all document IDs:")
-  for k, v in pairs(response) do
-    print(k, v)
-  end
+if document_with_attachment then
+  -- Build up the request parameters.
+  params = {
+    method = "POST",
+    path = "example/",
+    data = document_with_attachment,
+  }
+  -- Grab a request object using the server object for communication.
+  local req = request:new(srv, params)
+  -- Execute the request.
+  local response = req:execute()
 end
+
