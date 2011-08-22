@@ -7,8 +7,8 @@ local setmetatable = setmetatable
 module(...)
 
 function new(self, params)
-  params = params or {}
-  server = {}
+  local params = params or {}
+  local server = {}
   server.protocol = params.protocol or conf.default.server.protocol
   server.user = params.user or conf.default.server.user
   server.password = params.password or conf.default.server.password

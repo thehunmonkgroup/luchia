@@ -13,8 +13,8 @@ local setmetatable = setmetatable
 module(...)
 
 function new(self, server, params)
-  params = params or {}
-  request = {}
+  local params = params or {}
+  local request = {}
   request.server = server
   request.method = params.method or "GET"
   request.path = params.path

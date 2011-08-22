@@ -9,12 +9,12 @@ local setmetatable = setmetatable
 module(...)
 
 function new(self, params)
-  params = params or {}
+  local params = params or {}
+  local attachment = {}
   if params.file_path then
-    self.file_path = params.file_path
-    self.file_name = params.file_name or "attachment.txt"
-    self.content_type = params.content_type or "text/plain"
-    attachment = {}
+    attachment.file_path = params.file_path
+    attachment.file_name = params.file_name or "attachment.txt"
+    attachment.content_type = params.content_type or "text/plain"
     setmetatable(attachment, self)
     self.__index = self
     log:debug([[New attachment handler]])
