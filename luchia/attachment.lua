@@ -49,18 +49,3 @@ function load_file(self, file_path)
   end
 end
 
-
-function add(self, document)
-  document = document or {}
-  local file_data = self:base64_encode_file(self.file_path)
-  if file_data then
-    document._attachments = document._attachments or {}
-    document._attachments[self.file_name] = {
-      ["content-type"] = self.content_type,
-      data = file_data,
-    }
-    log:debug(string.format([[Added attachment: %s, content_type: %s]], self.file_name, self.content_type))
-    return document
-  end
-end
-

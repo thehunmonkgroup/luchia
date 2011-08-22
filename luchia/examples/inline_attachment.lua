@@ -7,6 +7,7 @@ local luchia = require "luchia"
 local log = luchia.log
 local server = luchia.server
 local request = luchia.request
+local document = luchia.document
 local attachment = luchia.attachment
 
 log:debug("Attaching file to new document...")
@@ -14,6 +15,7 @@ log:debug("Attaching file to new document...")
 -- Grab a server object using the default connection configuration.
 local srv = server:new()
 
+-- Build the attachment.
 local params = {
   file_name = "attachment.wav",
   file_path = "/tmp/attachment.wav",
@@ -21,17 +23,21 @@ local params = {
 }
 local att = attachment:new(params)
 
-local document = {
-  title = "Test attachment",
+-- Create the document.
+params = {
+  document = {
+    title = "Test attachment",
+  },
 }
-local document_with_attachment = att:add(document)
+local doc = document:new(params)
 
-if document_with_attachment then
+-- Attach the attachment.
+if doc:add_attachment(att) then
   -- Build up the request parameters.
   params = {
     method = "POST",
-    path = "example/",
-    data = document_with_attachment,
+    path = "example",
+    data = doc,
   }
   -- Grab a request object using the server object for communication.
   local req = request:new(srv, params)
