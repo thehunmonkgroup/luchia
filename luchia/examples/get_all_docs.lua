@@ -6,7 +6,6 @@ local luchia = require "luchia"
 
 local log = luchia.log
 local server = luchia.server
-local request = luchia.request
 
 log:debug("Retrieving all docs...")
 
@@ -20,10 +19,8 @@ local params = {
     include_docs = "true",
   },
 }
--- Grab a request object using the server object for communication.
-local req = request:new(srv, params)
 -- Execute the request.
-local response = req:execute()
+local response = srv:request(params)
 
 if response then
   -- Cycle through the returned table listing all document IDs.

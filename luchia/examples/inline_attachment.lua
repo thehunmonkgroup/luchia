@@ -6,7 +6,6 @@ local luchia = require "luchia"
 
 local log = luchia.log
 local server = luchia.server
-local request = luchia.request
 local document = luchia.document
 local attachment = luchia.attachment
 
@@ -37,11 +36,9 @@ if doc:add_attachment(att) then
   params = {
     method = "POST",
     path = "example",
-    data = doc,
+    data = doc.data,
   }
-  -- Grab a request object using the server object for communication.
-  local req = request:new(srv, params)
   -- Execute the request.
-  local response = req:execute()
+  local response = srv:request(params)
 end
 
