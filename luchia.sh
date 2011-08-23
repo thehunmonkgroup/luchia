@@ -31,13 +31,13 @@ if #arg > 0 then
     query_parameters[key] = value
   end
 end
+srv = luchia.server:new()
 
 local params = {
   path = path,
   query_parameters = query_parameters,
 }
-req = luchia.request:new(luchia.server:new(), params)
-res = req:execute()
+res = srv:request(params)
 if res then
   log:info(res)
 end
