@@ -1,5 +1,5 @@
 --[[
-  Quick example of retrieving inline attachments.
+  Quick example of adding an inline attachment to a document.
 ]]
 
 local luchia = require "luchia"
