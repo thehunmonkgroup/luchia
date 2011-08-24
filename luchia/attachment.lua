@@ -11,10 +11,15 @@ module(...)
 function new(self, params)
   local params = params or {}
   local attachment = {}
+  attachment._type = "attachment"
   if params.file_path then
     attachment.file_path = params.file_path
     attachment.file_name = params.file_name or "attachment.txt"
     attachment.content_type = params.content_type or "text/plain"
+    local file_data = load_file(attachment, attachment.file_path)
+    if file_data then
+      attachment.file_data = file_data
+    end
     setmetatable(attachment, self)
     self.__index = self
     log:debug([[New attachment handler]])
@@ -25,9 +30,8 @@ function new(self, params)
 end
 
 function base64_encode_file(self, file_path)
-  local file_data = self:load_file(file_path)
-  if file_data then
-    local base64_data = mime.b64(file_data)
+  if self.file_data then
+    local base64_data = mime.b64(self.file_data)
     log:debug(string.format([[Base64 encoded file ' %s']], file_path))
     return base64_data
   end
