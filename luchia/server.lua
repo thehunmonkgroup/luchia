@@ -7,7 +7,6 @@ local string = require "string"
 local conf = luchia.conf
 local log = luchia.log
 
-local type = type
 local pairs = pairs
 local pcall = pcall
 local setmetatable = setmetatable

@@ -1,7 +1,6 @@
 local string = require "string"
 local log = luchia.log
 
-local type = type
 local setmetatable = setmetatable
 
 module(...)
