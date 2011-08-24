@@ -5,7 +5,8 @@
 require "luchia.conf"
 local log = luchia.conf.log
 
-luchia.log = {}
+luchia.core = luchia.core or {}
+luchia.core.log = {}
 
 function logging_exists()
   require("logging")
@@ -15,15 +16,15 @@ end
 
 if pcall(logging_exists) and log.appender then
   if log.appender == "file" then
-    luchia.log = logging.file(log.file, nil, log.format)
+    luchia.core.log = logging.file(log.file, nil, log.format)
   else
-    luchia.log = logging.console(log.format)
+    luchia.core.log = logging.console(log.format)
   end
-  luchia.log:setLevel(logging[log.level])
+  luchia.core.log:setLevel(logging[log.level])
 else
   -- If logging is disabled, provide placeholder functions.
   local none = function() end
-  luchia.log = {
+  luchia.core.log = {
     log = none,
     debug = none,
     info = none,
@@ -34,5 +35,5 @@ else
   }
 end
 
-return luchia.log
+return luchia.core.log
 

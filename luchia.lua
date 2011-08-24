@@ -3,10 +3,10 @@
 ]]
 
 require "luchia.conf"
-require "luchia.log"
-require "luchia.server"
-require "luchia.document"
-require "luchia.attachment"
+require "luchia.core.log"
+require "luchia.core.server"
+require "luchia.core.document"
+require "luchia.core.attachment"
 
 module(...)
 

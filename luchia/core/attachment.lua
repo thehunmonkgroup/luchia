@@ -1,6 +1,6 @@
 local mime = require "mime"
 local string = require "string"
-local log = luchia.log
+local log = luchia.core.log
 
 local io = require "io"
 

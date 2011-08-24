@@ -31,7 +31,9 @@ if #arg > 0 then
     query_parameters[key] = value
   end
 end
-srv = luchia.server:new()
+
+local server = luchia.core.server
+srv = server:new()
 
 local params = {
   path = path,

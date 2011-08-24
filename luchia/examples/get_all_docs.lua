@@ -4,8 +4,8 @@
 
 local luchia = require "luchia"
 
-local log = luchia.log
-local server = luchia.server
+local log = luchia.core.log
+local server = luchia.core.server
 
 log:debug("Retrieving all docs...")
 

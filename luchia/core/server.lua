@@ -5,7 +5,7 @@ local ltn12 = require "ltn12"
 local table = require "table"
 local string = require "string"
 local conf = luchia.conf
-local log = luchia.log
+local log = luchia.core.log
 
 local pairs = pairs
 local pcall = pcall

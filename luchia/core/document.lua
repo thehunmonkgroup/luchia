@@ -1,5 +1,5 @@
 local string = require "string"
-local log = luchia.log
+local log = luchia.core.log
 
 local setmetatable = setmetatable
 

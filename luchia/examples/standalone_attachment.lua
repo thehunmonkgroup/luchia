@@ -4,9 +4,9 @@
 
 local luchia = require "luchia"
 
-local log = luchia.log
-local server = luchia.server
-local attachment = luchia.attachment
+local log = luchia.core.log
+local server = luchia.core.server
+local attachment = luchia.core.attachment
 
 log:debug("Adding a standalone attachment...")
 

@@ -4,10 +4,10 @@
 
 local luchia = require "luchia"
 
-local log = luchia.log
-local server = luchia.server
-local document = luchia.document
-local attachment = luchia.attachment
+local log = luchia.core.log
+local server = luchia.core.server
+local document = luchia.core.document
+local attachment = luchia.core.attachment
 
 log:debug("Attaching file to new document...")
 
