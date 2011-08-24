@@ -36,7 +36,7 @@ if doc:add_attachment(att) then
   params = {
     method = "POST",
     path = "example",
-    data = doc.data,
+    data = doc,
   }
   -- Execute the request.
   local response = srv:request(params)
