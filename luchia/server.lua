@@ -47,7 +47,7 @@ function request(self, params)
       log:debug(string.format([[Request successful, response_code: %s]], response_code))
       response = self:parse_json(response_body)
     else
-      log:warn(string.format([[Request failed, response_code: %s, message: %s]], response_code, status))
+      log:warn(string.format([[Request failed, response_code: %s, message: %s]], response_code, status or ""))
     end
   else
     log:error(string.format([[Unable to access server, error message: %s]], response_code))
