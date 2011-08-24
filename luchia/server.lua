@@ -7,6 +7,7 @@ local string = require "string"
 local conf = luchia.conf
 local log = luchia.log
 
+local type = type
 local pairs = pairs
 local pcall = pcall
 local setmetatable = setmetatable
@@ -30,13 +31,15 @@ function new(self, params)
 end
 
 function request(self, params)
+  params = params or {}
   self.method = params.method or "GET"
   self.path = params.path
   self.query_parameters = params.query_parameters or {}
-  if params.data then
-    self.data = json.encode(params.data)
-  end
-  log:debug(string.format([[New request, method: %s, path: %s, data: %s]], self.method, self.path or "", self.data or ""))
+  self.data = params.data
+
+  self:prepare_request()
+
+  log:debug(string.format([[New request, method: %s, path: %s, request_data: %s]], self.method, self.path or "", self.request_data or ""))
   local response_body, response_code, headers, status = self:http_request()
   local response
   if response_body then
@@ -51,6 +54,19 @@ function request(self, params)
     log:error(string.format([[Unable to access server, error message: %s]], response_code))
   end
   return response, response_code, headers, status
+end
+
+function prepare_request(self)
+  if self.data then
+    if self.data._type == "document" then
+      log:debug([[Preparing document request data]])
+      self.request_data = json.encode(self.data.document)
+    elseif self.data._type == "attachment" then
+      log:debug([[Preparing attachment request data]])
+      self.content_type = self.data.content_type
+      self.request_data = self.data.file_data
+    end
+  end
 end
 
 function parse_json(self, json_string)
@@ -73,11 +89,11 @@ function http_request(self)
   local source = nil
   local headers = nil
 
-  if self.data then
-    source = ltn12.source.string(self.data)
+  if self.request_data then
+    source = ltn12.source.string(self.request_data)
     headers = {
-      ["content-type"] = "application/json",
-      ["content-length"] = self.data:len(),
+      ["content-type"] = self.content_type or "application/json",
+      ["content-length"] = self.request_data:len(),
     }
   end
 
