@@ -46,14 +46,14 @@ local function database_call(self, method, database_name)
 end
 
 function info(self, database_name)
-  database_call(self, "GET", database_name)
+  return database_call(self, "GET", database_name)
 end
 
 function create(self, database_name)
-  database_call(self, "PUT", database_name)
+  return database_call(self, "PUT", database_name)
 end
 
 function delete(self, database_name)
-  database_call(self, "DELETE", database_name)
+  return database_call(self, "DELETE", database_name)
 end
 
