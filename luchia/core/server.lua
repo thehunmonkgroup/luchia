@@ -59,6 +59,7 @@ function prepare_request(self)
   if self.data then
     if self.data._type == "document" then
       log:debug([[Preparing document request data]])
+      self.content_type = "application/json"
       self.request_data = json.encode(self.data.document)
     elseif self.data._type == "attachment" then
       log:debug([[Preparing attachment request data]])
@@ -91,7 +92,7 @@ function http_request(self)
   if self.request_data then
     source = ltn12.source.string(self.request_data)
     headers = {
-      ["content-type"] = self.content_type or "application/json",
+      ["content-type"] = self.content_type,
       ["content-length"] = self.request_data:len(),
     }
   end
