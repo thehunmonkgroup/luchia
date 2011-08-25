@@ -25,7 +25,7 @@ function new(self, params)
   server.connection = connection
   setmetatable(server, self)
   self.__index = self
-  log:debug(string.format([[New server, protocol: %s, user: %s, password: %s, host: %s, port: %s]], connection.protocol, connection.user or "", connection.password or "", connection.host, connection.port or ""))
+  log:debug(string.format([[New core server, protocol: %s, user: %s, password: %s, host: %s, port: %s]], connection.protocol, connection.user or "", connection.password or "", connection.host, connection.port or ""))
   return server
 end
 

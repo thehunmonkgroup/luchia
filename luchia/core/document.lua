@@ -16,7 +16,7 @@ function new(self, params)
   document.document._rev = document.rev
   setmetatable(document, self)
   self.__index = self
-  log:debug([[New document handler]])
+  log:debug([[New core document handler]])
   return document
 end
 

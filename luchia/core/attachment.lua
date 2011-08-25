@@ -22,7 +22,7 @@ function new(self, params)
     end
     setmetatable(attachment, self)
     self.__index = self
-    log:debug([[New attachment handler]])
+    log:debug([[New core attachment handler]])
     return attachment
   else
     log:error([[Required file path not provided for attachment]])
