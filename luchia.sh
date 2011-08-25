@@ -2,7 +2,7 @@
 
 local luchia = require "luchia"
 local logging = require "logging"
-local log = luchia.log
+local log = luchia.core.log
 log:setLevel(logging.INFO)
 
 local function usage()
