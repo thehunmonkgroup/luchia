@@ -56,16 +56,8 @@ function request(self, params)
 end
 
 function prepare_request(self)
-  if self.data then
-    if self.data._type == "document" then
-      log:debug([[Preparing document request data]])
-      self.content_type = "application/json"
-      self.request_data = json.encode(self.data.document)
-    elseif self.data._type == "attachment" then
-      log:debug([[Preparing attachment request data]])
-      self.content_type = self.data.content_type
-      self.request_data = self.data.file_data
-    end
+  if self.data and self.data.prepare_request then
+    self.data:prepare_request(self)
   end
 end
 

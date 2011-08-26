@@ -1,3 +1,5 @@
+local json = require "cjson"
+
 local string = require "string"
 local log = luchia.core.log
 
@@ -8,7 +10,6 @@ module(...)
 function new(self, params)
   local params = params or {}
   local document = {}
-  document._type = "document"
   document.id = params.id
   document.rev = params.rev
   document.document = params.document or {}
@@ -33,3 +34,8 @@ function add_attachment(self, attachment)
   end
 end
 
+function prepare_request(self, server)
+  log:debug([[Preparing document request data]])
+  server.content_type = "application/json"
+  server.request_data = json.encode(self.document)
+end

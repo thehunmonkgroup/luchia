@@ -11,7 +11,6 @@ module(...)
 function new(self, params)
   local params = params or {}
   local attachment = {}
-  attachment._type = "attachment"
   if params.file_path then
     attachment.file_path = params.file_path
     attachment.file_name = params.file_name or "attachment.txt"
@@ -53,3 +52,8 @@ function load_file(self, file_path)
   end
 end
 
+function prepare_request(self, server)
+  log:debug([[Preparing attachment request data]])
+  server.content_type = self.content_type
+  server.request_data = self.file_data
+end
