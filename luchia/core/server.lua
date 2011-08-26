@@ -34,6 +34,7 @@ function request(self, params)
   self.method = params.method or "GET"
   self.path = params.path
   self.query_parameters = params.query_parameters or {}
+  self.headers = params.headers or {}
   self.data = params.data
 
   self:prepare_request()
@@ -79,14 +80,12 @@ end
 
 function http_request(self)
   local source = nil
-  local headers = nil
+  local headers = self.headers
 
   if self.request_data then
     source = ltn12.source.string(self.request_data)
-    headers = {
-      ["content-type"] = self.content_type,
-      ["content-length"] = self.request_data:len(),
-    }
+    headers["content-type"] = self.content_type
+    headers["content-length"] = self.request_data:len()
   end
 
   local result = {}
