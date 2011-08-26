@@ -2,8 +2,8 @@
   Provides basic configurable logging facilities.
 ]]
 
-require "luchia.conf"
-local log = luchia.conf.log
+local conf = require "luchia.conf"
+local log = conf.log
 
 luchia.core = luchia.core or {}
 luchia.core.log = {}

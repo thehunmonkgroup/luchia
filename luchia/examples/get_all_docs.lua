@@ -2,7 +2,7 @@
   Quick example of retrieving all docs.
 ]]
 
-local luchia = require "luchia"
+require "luchia"
 
 local log = luchia.core.log
 local server = luchia.core.server

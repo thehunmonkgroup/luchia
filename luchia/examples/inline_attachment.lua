@@ -2,7 +2,7 @@
   Quick example of adding an inline attachment to a document.
 ]]
 
-local luchia = require "luchia"
+require "luchia"
 
 local log = luchia.core.log
 local server = luchia.core.server

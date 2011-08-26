@@ -3,14 +3,11 @@
 ]]
 
 require "luchia.conf"
-require "luchia.core.log"
-require "luchia.core.server"
-
+local log = require "luchia.core.log"
+local server = require "luchia.core.server"
 local string = require "string"
-local setmetatable = setmetatable
 
-local log = luchia.core.log
-local server = luchia.core.server
+local setmetatable = setmetatable
 
 module(...)
 

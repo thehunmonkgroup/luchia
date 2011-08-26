@@ -1,7 +1,8 @@
-local json = require "cjson"
+require "luchia.conf"
 
+local json = require "cjson"
 local string = require "string"
-local log = luchia.core.log
+local log = require "luchia.core.log"
 
 local setmetatable = setmetatable
 

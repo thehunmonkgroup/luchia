@@ -1,8 +1,11 @@
 #!/bin/env lua
 
-local luchia = require "luchia"
+require "luchia"
 local logging = require "logging"
+
 local log = luchia.core.log
+local server = luchia.core.server
+
 log:setLevel(logging.INFO)
 
 local function usage()
@@ -32,7 +35,6 @@ if #arg > 0 then
   end
 end
 
-local server = luchia.core.server
 srv = server:new()
 
 local params = {

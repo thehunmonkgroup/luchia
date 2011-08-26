@@ -1,8 +1,9 @@
+require "luchia.conf"
+
 local mime = require "mime"
 local string = require "string"
-local log = luchia.core.log
-
 local io = require "io"
+local log = require "luchia.core.log"
 
 local setmetatable = setmetatable
 

@@ -2,7 +2,7 @@
   Quick example of adding a new standalone attachment.
 ]]
 
-local luchia = require "luchia"
+require "luchia"
 
 local log = luchia.core.log
 local server = luchia.core.server
