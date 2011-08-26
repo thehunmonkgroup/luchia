@@ -99,6 +99,24 @@ function update(self, document, id, rev)
   end
 end
 
+function copy(self, id, destination)
+  if not id then
+    log:error([[id is required]])
+  elseif not destination then
+    log:error([[destination is required]])
+  else
+    local params = {
+      method = "COPY",
+      path = self.database .. "/" .. id,
+      headers = {
+        destination = destination
+      },
+    }
+    local response = self.server:request(params)
+    return response
+  end
+end
+
 function delete(self, id, rev)
   if rev then
     local params = {
