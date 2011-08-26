@@ -115,3 +115,7 @@ function delete(self, id, rev)
   end
 end
 
+function response_ok(self, response)
+  return self.server:response_ok(response)
+end
+

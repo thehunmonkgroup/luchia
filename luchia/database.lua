@@ -57,3 +57,6 @@ function delete(self, database_name)
   return database_call(self, "DELETE", database_name)
 end
 
+function response_ok(self, response)
+  return self.server:response_ok(response)
+end

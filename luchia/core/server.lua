@@ -138,3 +138,7 @@ function stringify_parameters(self, params)
   return parameter_string
 end
 
+function response_ok(self, response)
+  return response and response.ok and response.ok == true
+end
+
