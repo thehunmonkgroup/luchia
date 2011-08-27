@@ -132,6 +132,20 @@ function stringify_parameters(self, params)
   return parameter_string
 end
 
+function uuids(self, count)
+  local params = {
+    path = "_uuids",
+  }
+  if count then
+    params.query_parameters = {}
+    params.query_parameters.count = count
+  end
+  local response = self:request(params)
+  if response and response.uuids then
+    return response.uuids
+  end
+end
+
 function response_ok(self, response)
   return response and response.ok and response.ok == true
 end

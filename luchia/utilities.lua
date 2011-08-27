@@ -48,17 +48,3 @@ function active_tasks(self)
   return utilities_get_call(self, "_active_tasks")
 end
 
-function uuids(self, count)
-  local params = {
-    path = "_uuids",
-  }
-  if count then
-    params.query_parameters = {}
-    params.query_parameters.count = count
-  end
-  local response = self.server:request(params)
-  if response and response.uuids then
-    return response.uuids
-  end
-end
-
