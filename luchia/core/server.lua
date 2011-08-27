@@ -66,18 +66,22 @@ function prepare_request(self)
 end
 
 function parse_json(self, json_string)
-  log:debug(string.format([[JSON to parse: %s]], json_string))
-  local result, data = pcall(
-    function ()
-      return json.decode(json_string)
+  if json_string and json_string ~= "" then
+    log:debug(string.format([[JSON to parse: %s]], json_string))
+    local result, data = pcall(
+      function ()
+        return json.decode(json_string)
+      end
+    )
+    if result then
+      log:debug([[JSON parsed successfully]])
+      return data
+    else
+      log:error([[JSON parsing failed]])
+      return result, data
     end
-  )
-  if result then
-    log:debug([[JSON parsed successfully]])
-    return data
   else
-    log:error([[JSON parsing failed]])
-    return result, data
+    log:debug([[No JSON to parse]])
   end
 end
 
