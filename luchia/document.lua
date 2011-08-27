@@ -128,6 +128,40 @@ function delete(self, id, rev)
   end
 end
 
+function add_standalone_attachment(self, file_path, content_type, file_name, id, rev)
+  if not file_path then
+    log:error([[file_path is required]])
+  elseif not content_type then
+    log:error([[content_type is required]])
+  else
+    local params = {
+      file_name = file_name,
+      file_path = file_path,
+      content_type = content_type,
+    }
+    local att = attachment:new(params)
+
+    if att then
+      if not id then
+        id = att.file_name
+      end
+      -- Build up the request parameters.
+      params = {
+        method = "PUT",
+        path = string.format([[%s/%s/%s]], self.database, id, att.file_name),
+        data = att,
+      }
+      if rev then
+        params.query_parameters = {
+          rev = rev,
+        }
+      end
+      local response = self.server:request(params)
+      return response
+    end
+  end
+end
+
 function response_ok(self, response)
   return self.server:response_ok(response)
 end
