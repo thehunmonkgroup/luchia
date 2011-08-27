@@ -57,6 +57,9 @@ function request(self, params)
 end
 
 function prepare_request(self)
+  -- Start with fresh content_type and values.
+  self.content_type = nil
+  self.request_data = nil
   if self.data and self.data.prepare_request then
     self.data:prepare_request(self)
   end
