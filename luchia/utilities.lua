@@ -25,8 +25,8 @@ local function utilities_get_call(self, path)
   local params = {
     path = path,
   }
-  local response = self.server:request(params)
-  return response
+  local response, response_code, headers, status = self.server:request(params)
+  return response, response_code, headers, status
 end
 
 function version(self)
