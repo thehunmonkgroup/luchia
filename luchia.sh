@@ -17,7 +17,14 @@ Easy way to run GET requests against the default configured CouchDB database in
 luchia.
   path: the server path, eg. /_all_dbs.
   argN=value: Query parameter and value. 
+
+Requires either the 'lualogging' or 'stdlib' lua packages be installed, stdlib
+gives nicer output.
 ]]
+end
+
+local function stdlib_base_exists()
+  require("base")
 end
 
 if #arg == 0 then
@@ -35,15 +42,19 @@ if #arg > 0 then
   end
 end
 
-srv = server:new()
+local srv = server:new()
 
 local params = {
   path = path,
   query_parameters = query_parameters,
 }
-res = srv:request(params)
+local res = srv:request(params)
 if res then
-  log:info(res)
+  if pcall(stdlib_base_exists) then
+    print(prettytostring(res))
+  else
+    log:info(res)
+  end
 end
 
 -- vim: set filetype=lua
