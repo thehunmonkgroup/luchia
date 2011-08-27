@@ -73,15 +73,15 @@ end
 
 function create(self, document, id)
   if document then
-    local method = "POST"
-    if id then
-      method = "PUT"
-    else
-      id = ""
+    -- CouchDB documentation advises to not use POST if possible, instead
+    -- to use PUT with a newly generated id.
+    if not id then
+      local uuids = self.server:uuids()
+      id = uuids[1]
     end
     local doc = make_document(self, document, id)
     local query_parameters = nil
-    return document_call(self, method, id, query_parameters, doc)
+    return document_call(self, "PUT", id, query_parameters, doc)
   else
     log:error([[Document is required]])
   end
