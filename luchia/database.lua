@@ -21,25 +21,21 @@ function new(self, params)
   return database
 end
 
-function list(self)
-  local params = {
-    path = "_all_dbs",
-  }
-  local response = self.server:request(params)
-  return response
-end
-
 local function database_call(self, method, database_name)
   if database_name then
     local params = {
       method = method,
       path = database_name,
     }
-    local response = self.server:request(params)
-    return response
+    local response, response_code, headers, status = self.server:request(params)
+    return response, response_code, headers, status
   else
     log:error([[Database name is required]])
   end
+end
+
+function list(self)
+  return self:info("_all_dbs")
 end
 
 function info(self, database_name)
