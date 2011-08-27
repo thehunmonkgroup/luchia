@@ -205,6 +205,21 @@ function add_inline_attachment(self, file_path, content_type, file_name, documen
   end
 end
 
+function retrieve_attachment(self, attachment, id)
+  if not attachment then
+    log:error([[attachment is required]])
+  elseif not id then
+    log:error([[id is required]])
+  else
+    local params = {
+      path = string.format([[%s/%s/%s]], self.database, id, attachment),
+      parse_json_response = false,
+    }
+    local response, response_code, headers, status = self.server:request(params)
+    return response, response_code, headers, status
+  end
+end
+
 function delete_attachment(self, attachment, id, rev)
   if not attachment then
     log:error([[attachment is required]])
