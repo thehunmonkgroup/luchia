@@ -128,7 +128,7 @@ function delete(self, id, rev)
   end
 end
 
-function add_standalone_attachment(self, file_path, content_type, file_name, id, rev)
+local function build_attachment(self, file_path, content_type, file_name)
   if not file_path then
     log:error([[file_path is required]])
   elseif not content_type then
@@ -140,24 +140,47 @@ function add_standalone_attachment(self, file_path, content_type, file_name, id,
       content_type = content_type,
     }
     local att = attachment:new(params)
+    return att
+  end
+end
 
-    if att then
-      if not id then
-        id = att.file_name
-      end
-      -- Build up the request parameters.
-      params = {
-        method = "PUT",
-        path = string.format([[%s/%s/%s]], self.database, id, att.file_name),
-        data = att,
+function add_standalone_attachment(self, file_path, content_type, file_name, id, rev)
+  local att = build_attachment(self, file_path, content_type, file_name)
+  if att then
+    if not id then
+      id = att.file_name
+    end
+    -- Build up the request parameters.
+    params = {
+      method = "PUT",
+      path = string.format([[%s/%s/%s]], self.database, id, att.file_name),
+      data = att,
+    }
+    if rev then
+      params.query_parameters = {
+        rev = rev,
       }
+    end
+    local response = self.server:request(params)
+    return response
+  end
+end
+
+function add_inline_attachment(self, file_path, content_type, file_name, document, id, rev)
+  local att = build_attachment(self, file_path, content_type, file_name)
+  if att then
+    -- Attach the attachment.
+    local doc = make_document(self, document, id, rev)
+    if doc and doc:add_attachment(att) then
+      -- Use update/create methods from this class. They expect a raw document
+      -- table instead of a document object, so extract it out.
       if rev then
-        params.query_parameters = {
-          rev = rev,
-        }
+        self:update(doc.document, id, rev)
+      else
+        self:create(doc.document, id)
       end
-      local response = self.server:request(params)
-      return response
+    else
+      log:error([[Error adding attachment]])
     end
   end
 end
