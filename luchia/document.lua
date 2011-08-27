@@ -36,8 +36,8 @@ local function document_call(self, method, path, query_parameters, data)
       query_parameters = query_parameters,
       data = data,
     }
-    local response = self.server:request(params)
-    return response
+    local response, response_code, headers, status = self.server:request(params)
+    return response, response_code, headers, status
   else
     log:error([[Path is required]])
   end
@@ -89,9 +89,11 @@ end
 
 function update(self, document, id, rev)
   if not document then
-    log:error([[Document is required]])
+    log:error([[document is required]])
   elseif not id then
-    log:error([[ID is required]])
+    log:error([[id is required]])
+  elseif not rev then
+    log:error([[rev is required]])
   else
     local doc = make_document(self, document, id, rev)
     local query_parameters = nil
@@ -125,6 +127,24 @@ function delete(self, id, rev)
     return document_call(self, "DELETE", id, params)
   else
     log:error([[rev is required]])
+  end
+end
+
+function info(self, id)
+  if id then
+    local response, response_code, headers = document_call(self, "HEAD", id)
+    return headers
+  else
+    log:error([[id is required]])
+  end
+end
+
+function current_revision(self, id)
+  if id then
+    local headers = self:info(id)
+    return headers.etag
+  else
+    log:error([[id is required]])
   end
 end
 
