@@ -27,7 +27,7 @@ function add_attachment(self, attachment)
   if file_data then
     self.document._attachments = self.document._attachments or {}
     self.document._attachments[attachment.file_name] = {
-      ["content-type"] = attachment.content_type,
+      ["content_type"] = attachment.content_type,
       data = file_data,
     }
     log:debug(string.format([[Added inline attachment: %s, content_type: %s]], attachment.file_name, attachment.content_type))
