@@ -185,6 +185,22 @@ function add_inline_attachment(self, file_path, content_type, file_name, documen
   end
 end
 
+function delete_attachment(self, attachment, id, rev)
+  if not attachment then
+    log:error([[attachment is required]])
+  elseif not id then
+    log:error([[id is required]])
+  elseif not rev then
+    log:error([[rev is required]])
+  else
+    local path = string.format([[%s/%s]], id, attachment)
+    local params = {
+      rev = rev,
+    }
+    return document_call(self, "DELETE", path, params)
+  end
+end
+
 function response_ok(self, response)
   return self.server:response_ok(response)
 end
