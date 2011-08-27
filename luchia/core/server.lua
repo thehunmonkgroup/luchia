@@ -35,6 +35,7 @@ function request(self, params)
   self.path = params.path
   self.query_parameters = params.query_parameters or {}
   self.headers = params.headers or {}
+  self.parse_json_response = params.parse_json_response == nil and true or params.parse_json_response
   self.data = params.data
 
   self:prepare_request()
@@ -46,7 +47,11 @@ function request(self, params)
     log:debug([[Request executed]])
     if string.match(response_code, "20[0-6]") then
       log:debug(string.format([[Request successful, response_code: %s]], response_code))
-      response = self:parse_json(response_body)
+      if self.parse_json_response then
+        response = self:parse_json(response_body)
+      else
+        response = response_body
+      end
     else
       log:warn(string.format([[Request failed, response_code: %s, message: %s]], response_code, status or ""))
     end
