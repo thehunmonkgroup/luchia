@@ -11,21 +11,31 @@ module(...)
 
 function new(self, params)
   local params = params or {}
-  local attachment = {}
-  if params.file_path then
-    attachment.file_path = params.file_path
-    attachment.file_name = params.file_name or "attachment.txt"
-    attachment.content_type = params.content_type or "text/plain"
-    local file_data = load_file(attachment, attachment.file_path)
-    if file_data then
-      attachment.file_data = file_data
-    end
-    setmetatable(attachment, self)
-    self.__index = self
-    log:debug([[New core attachment handler]])
-    return attachment
+  if not params.file_path then
+    log:error([[file_path is required]])
+  elseif not params.content_type then
+    log:error([[content_type is required]])
   else
-    log:error([[Required file path not provided for attachment]])
+    local attachment = {}
+    attachment.file_path = params.file_path
+    attachment.content_type = params.content_type
+    if params.file_name then
+      attachment.file_name = params.file_name
+    else
+      attachment.file_name = string.match(attachment.file_path, ".+/([^/]+)$")
+    end
+    if attachment.file_name then
+      local file_data = load_file(attachment, attachment.file_path)
+      if file_data then
+        attachment.file_data = file_data
+      end
+      setmetatable(attachment, self)
+      self.__index = self
+      log:debug(string.format([[New core attachment handler, file_path: %s, content_type: %s, file_name: %s]], attachment.file_path, attachment.content_type, attachment.file_name))
+      return attachment
+    else
+      log:error([[Illegal file path]])
+    end
   end
 end
 

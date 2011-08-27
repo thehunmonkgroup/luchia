@@ -16,7 +16,6 @@ local srv = server:new()
 
 -- Build the attachment.
 local params = {
-  file_name = "attachment.wav",
   file_path = "/tmp/attachment.wav",
   content_type = "audio/x-wav",
 }
