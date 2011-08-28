@@ -53,16 +53,6 @@ local function make_document(self, data, id, rev)
   return doc
 end
 
-local function make_attachment(self, file_name, file_path, content_type)
-  local params = {
-    file_name = file_name,
-    file_path = file_path,
-    content_type = content_type,
-  }
-  local att = attachment:new(params)
-  return att
-end
-
 function list(self, query_parameters)
   return document_call(self, "GET", "_all_docs", query_parameters)
 end
@@ -148,7 +138,7 @@ function current_revision(self, id)
   end
 end
 
-local function build_attachment(self, file_path, content_type, file_name)
+local function make_attachment(self, file_path, content_type, file_name)
   if not file_path then
     log:error([[file_path is required]])
   elseif not content_type then
@@ -165,7 +155,7 @@ local function build_attachment(self, file_path, content_type, file_name)
 end
 
 function add_standalone_attachment(self, file_path, content_type, file_name, id, rev)
-  local att = build_attachment(self, file_path, content_type, file_name)
+  local att = make_attachment(self, file_path, content_type, file_name)
   if att then
     if not id then
       id = att.file_name
@@ -187,7 +177,7 @@ function add_standalone_attachment(self, file_path, content_type, file_name, id,
 end
 
 function add_inline_attachment(self, file_path, content_type, file_name, document, id, rev)
-  local att = build_attachment(self, file_path, content_type, file_name)
+  local att = make_attachment(self, file_path, content_type, file_name)
   if att then
     -- Attach the attachment.
     local doc = make_document(self, document, id, rev)
