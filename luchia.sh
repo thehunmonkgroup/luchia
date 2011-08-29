@@ -1,5 +1,9 @@
 #!/bin/env lua
 
+--- Shell script to make simple GET requests to the default server.
+-- @author Chad Phillips
+-- @copyright 2011 Chad Phillips
+
 require "luchia"
 local logging = require "logging"
 

@@ -1,6 +1,6 @@
---[[
-  Methods for working with documents.
-]]
+--- High-level document class.
+-- @author Chad Phillips
+-- @copyright 2011 Chad Phillips
 
 require "luchia.conf"
 local log = require "luchia.core.log"
@@ -11,7 +11,10 @@ local string = require "string"
 
 local setmetatable = setmetatable
 
-module(...)
+--- High-level document class.
+-- Contains all of the high-level methods to manage documents and attachments.
+-- This module should be used instead of the core modules when possible.
+module("luchia.document")
 
 function new(self, database, params)
   local params = params or {}

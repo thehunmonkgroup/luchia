@@ -1,6 +1,6 @@
---[[
-  Various utility methods.
-]]
+--- High-level utilities class.
+-- @author Chad Phillips
+-- @copyright 2011 Chad Phillips
 
 require "luchia.conf"
 local log = require "luchia.core.log"
@@ -9,7 +9,10 @@ local string = require "string"
 
 local setmetatable = setmetatable
 
-module(...)
+--- High-level utilities class.
+-- Contains all high-level utility methods. This module should be used instead
+-- of the core modules when possible.
+module("luchia.utilities")
 
 function new(self, params)
   local params = params or {}

@@ -1,6 +1,6 @@
---[[
-  Methods for working with databases.
-]]
+--- High-level database class.
+-- @author Chad Phillips
+-- @copyright 2011 Chad Phillips
 
 require "luchia.conf"
 local log = require "luchia.core.log"
@@ -9,7 +9,10 @@ local string = require "string"
 
 local setmetatable = setmetatable
 
-module(...)
+--- High-level database class.
+-- Contains all of the high-level methods to manage databases. This module
+-- should be used instead of the core modules when possible.
+module("luchia.database")
 
 function new(self, params)
   local params = params or {}

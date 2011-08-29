@@ -1,6 +1,6 @@
---[[
-  Provides basic configurable logging facilities.
-]]
+--- Provides logging facilities.
+-- @author Chad Phillips
+-- @copyright 2011 Chad Phillips
 
 local conf = require "luchia.conf"
 local log = conf.log

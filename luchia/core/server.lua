@@ -1,3 +1,7 @@
+--- Core server handler class.
+-- @author Chad Phillips
+-- @copyright 2011 Chad Phillips
+
 local json = require "cjson"
 local http = require "socket.http"
 local url = require "socket.url"
@@ -11,7 +15,15 @@ local pairs = pairs
 local pcall = pcall
 local setmetatable = setmetatable
 
-module(...)
+--- Core server handler class.
+-- Note that for most cases, the methods in the higher-level luchia.database,
+-- luchia.document, and luchia.utilities modules should be used; this module
+-- provides the core server functionality that those higher-level modules use,
+-- but can be used directly for more complex server requests.
+-- @see luchia.database
+-- @see luchia.document
+-- @see luchia.utilities
+module("luchia.core.server")
 
 function new(self, params)
   local params = params or {}
