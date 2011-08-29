@@ -1,6 +1,48 @@
 --- Provides logging facilities.
+-- The lualogging module is required in order for logging to work properly,
+-- as luchia merely leverages its functionality. If lualogging is not
+-- installed, then logging will be disabled.
 -- @author Chad Phillips
 -- @copyright 2011 Chad Phillips
+
+--- Log a message at the debug level.
+-- @param self
+-- @param message The message to log.
+-- Note that for all logging methods listed, a function signature like
+-- that of string.format() can be used, eg. <code>log:debug("hello world")
+-- </code> and <code>log:debug("hello %s", "world")</code> are both valid and
+-- will produce the same output.
+-- @usage luchia.core.log:debug("debug message")
+-- @class function
+-- @name debug
+
+--- Log a message at the info level.
+-- @param self
+-- @param message The message to log.
+-- @usage luchia.core.log:info("info message")
+-- @class function
+-- @name info
+
+--- Log a message at the warn level.
+-- @param self
+-- @param message The message to log.
+-- @usage luchia.core.log:warn("warn message")
+-- @class function
+-- @name warn
+
+--- Log a message at the error level.
+-- @param self
+-- @param message The message to log.
+-- @usage luchia.core.log:error("error message")
+-- @class function
+-- @name error
+
+--- Log a message at the fatal level.
+-- @param self
+-- @param message The message to log.
+-- @usage luchia.core.log:fatal("fatal message")
+-- @class function
+-- @name fatal
 
 local conf = require "luchia.conf"
 local log = conf.log
