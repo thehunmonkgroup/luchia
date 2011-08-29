@@ -5,6 +5,8 @@
 -- @copyright 2011 Chad Phillips
 
 --- Shell script to make simple GET requests to the default server.
+-- Requires either the lualogging or stdlib packages be installed. With stdlib
+-- the output is much prettier.
 -- @usage Run request.lua without any arguments for help/usage.
 -- @class function
 -- @name request.lua
