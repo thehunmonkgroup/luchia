@@ -1,8 +1,32 @@
-Lua API for CouchDB, WIP at this point...
+Lua API for CouchDB.
 
-Requires:
-  luasocket
-  cjson
+INSTALLATION:
 
-Optional
-  lualogging
+It is recommended to install the LuaRocks (http://luarocks.org) package
+manager, as all required and optional dependencies are easy install via this
+method.  Here are the dependencies:
+
+  Requires:
+    luasocket
+    cjson
+
+  Optional
+    lualogging
+    lua-stdlib
+    luadoc
+
+Future plans are to add luchia to the main LuaRocks repository, but until
+then copy luchia.lua and the luchia directory from the base luchia directory,
+and put them somewhere in your Lua package path.
+
+DOCUMENTATION:
+
+All documentation is inline, but is luadoc
+(http://keplerproject.github.com/luadoc) compatible. To generate HTML
+documentation, install luadoc, enter the base luchia directory, then
+run:
+  mkdir doc
+  /path/to/luadoc -d doc *.sh *.lua luchia/*.lua luchia/core/*.lua
+
+If you don't want to go this route, then at least start with the inline
+documentation in luchia.lua.
