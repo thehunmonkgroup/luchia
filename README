@@ -12,8 +12,8 @@ method.  Here are the dependencies:
 
   Optional
     lualogging
-    lua-stdlib
     luadoc
+    stdlib
 
 Future plans are to add luchia to the main LuaRocks repository, but until
 then copy luchia.lua and the luchia directory from the base luchia directory,
