@@ -26,7 +26,7 @@ All documentation is inline, but is luadoc
 documentation, install luadoc, enter the base luchia directory, then
 run:
   mkdir doc
-  /path/to/luadoc -d doc *.sh *.lua luchia/*.lua luchia/core/*.lua
+  /path/to/luadoc -d doc *.lua luchia/*.lua luchia/core/*.lua
 
 If you don't want to go this route, then at least start with the inline
 documentation in luchia.lua.
