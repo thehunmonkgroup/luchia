@@ -9,15 +9,21 @@ default = {}
 
 --- The default server.
 -- When no server object is created specifically, the default server is used.
--- @field protocol The protocol to use, currently only "http" is allowed.
--- @field host The host name, eg. "localhost" or "www.example.com".
--- @field port The port to use, eg. "5984".
+-- @field protocol Required. The protocol to use, currently only "http" is
+-- allowed.
+-- @field host Required. The host name, eg. "localhost" or "www.example.com".
+-- @field port Required. The port to use, eg. "5984".
+-- @field user Optional. For authentication scenarios, the user to
+-- authenticate as.
+-- @field password Optional. For authentication scenarios, the user's password.
 -- @class table
 -- @name default.server
 default.server = {}
 default.server.protocol = "http"
 default.server.host = "localhost"
 default.server.port = "5984"
+default.server.user = nil
+default.server.password = nil
 
 --- Logging options.
 -- The lualogging package must be installed to use the logging facilities.
