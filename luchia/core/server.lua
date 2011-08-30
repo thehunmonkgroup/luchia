@@ -45,7 +45,7 @@ module("luchia.core.server")
 -- default server setting in luchia.conf will be used instead to build the
 -- server object.
 -- @return A new server object.
--- @usage document = luchia.core.server:new(params)
+-- @usage srv = luchia.core.server:new(params)
 -- @see new_params
 function new(self, params)
   local params = params or {}
@@ -90,7 +90,8 @@ end
 -- @param params Optional. A table with the request metadata.
 -- @return The following four values, in this order: response_data,
 -- response_code, headers, status_code.
--- @usage document = luchia.core.server:new(params)
+-- @usage response_data, response_code, headers, status_code =
+-- srv:request(params)
 -- @see request_params
 -- @see prepare_request
 -- @see http_request
@@ -150,7 +151,7 @@ end
 --- Parse a JSON string.
 -- @param json_string The JSON string to parse.
 -- @return The parsed JSON string, converted to a Lua table.
--- @usage luchia.core.server:parse_json('{"key": "value"}')
+-- @usage srv:parse_json('{"key": "value"}')
 -- @see request
 function parse_json(self, json_string)
   if json_string and json_string ~= "" then
@@ -177,6 +178,8 @@ end
 -- not be used.
 -- @return The following four values, in this order: response_data,
 -- response_code, headers, status_code.
+-- @usage response_data, response_code, headers, status_code =
+-- srv:http_request()
 -- @see request
 -- @see build_url
 function http_request(self)
@@ -228,8 +231,7 @@ end
 -- value is parameter value. If not provided, the query_parameters attribute
 -- on the server object is used.
 -- @return The query string.
--- @usage luchia.core.server:stringify_parameters({ include_docs = "true",
--- limit = "3" })
+-- @usage srv:stringify_parameters({ include_docs = "true", limit = "3" })
 -- @see http_request
 function stringify_parameters(self, params)
   params = params or self.query_parameters
@@ -248,7 +250,7 @@ end
 -- server itself if no other facility is available to generate them.
 -- @param count The number of uuids to generate, default is 1.
 -- @return A list of uuids.
--- @usage luchia.core.server:uuids(10)
+-- @usage srv:uuids(10)
 function uuids(self, count)
   local params = {
     path = "_uuids",
@@ -267,6 +269,7 @@ end
 -- A convenience method to ensure a successful request.
 -- @param response The response object returned from the server request.
 -- @return true if the server responsed with an ok:true, false otherwise.
+-- @usage operation_succeeded = srv:response_ok(response)
 function response_ok(self, response)
   return response and response.ok and response.ok == true
 end
