@@ -87,6 +87,7 @@ end
 -- A convenience method to ensure a successful request.
 -- @param response The response object returned from the server request.
 -- @return true if the server responsed with an ok:true, false otherwise.
+-- @usage operation_succeeded = db:response_ok(response)
 function response_ok(self, response)
   return self.server:response_ok(response)
 end
