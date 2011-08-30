@@ -14,10 +14,9 @@ local setmetatable = setmetatable
 -- of the core modules when possible.
 module("luchia.utilities")
 
-function new(self, params)
-  local params = params or {}
+function new(self, server)
   local utilities = {}
-  utilities.server = params.server or server:new()
+  utilities.server = server or server:new()
   setmetatable(utilities, self)
   self.__index = self
   log:debug(string.format([[New utilities handler]]))

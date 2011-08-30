@@ -25,6 +25,7 @@ default.server.port = "5984"
 default.server.user = nil
 default.server.password = nil
 
+
 --- Logging options.
 -- The lualogging package must be installed to use the logging facilities.
 -- @field appender Where to log messages. Must be one of "console", "file",

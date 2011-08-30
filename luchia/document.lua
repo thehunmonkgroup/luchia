@@ -16,12 +16,11 @@ local setmetatable = setmetatable
 -- This module should be used instead of the core modules when possible.
 module("luchia.document")
 
-function new(self, database, params)
-  local params = params or {}
+function new(self, database, server)
   if database then
     local document = {}
     document.database = database
-    document.server = params.server or server:new()
+    document.server = server or server:new()
     setmetatable(document, self)
     self.__index = self
     log:debug(string.format(string.format([[New document handler to database '%s']], document.database)))
