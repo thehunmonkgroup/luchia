@@ -19,16 +19,16 @@ module("luchia.document")
 
 --- Create a new document handler object.
 -- @param database The database to connect to.
--- @param server Optional. The server object to use for the server connection.
--- If not provided, a server object will be generated from the default server
--- configuration.
+-- @param document_server Optional. The server object to use for the server
+-- connection. If not provided, a server object will be generated from the
+-- default server configuration.
 -- @return A document handler object.
 -- @usage doc = luchia.document:new("example_database", server)
-function new(self, database, server)
+function new(self, database, document_server)
   if database then
     local document = {}
     document.database = database
-    document.server = server or server:new()
+    document.server = document_server or server:new()
     setmetatable(document, self)
     self.__index = self
     log:debug(string.format(string.format([[New document handler to database '%s']], document.database)))

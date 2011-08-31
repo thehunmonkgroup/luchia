@@ -15,14 +15,14 @@ local setmetatable = setmetatable
 module("luchia.utilities")
 
 --- Create a new utilities handler object.
--- @param server Optional. The server object to use for the server connection.
--- If not provided, a server object will be generated from the default server
--- configuration.
+-- @param utilities_server Optional. The server object to use for the server
+-- connection. If not provided, a server object will be generated from the
+-- default server configuration.
 -- @return A utilities handler object.
 -- @usage util = luchia.utilities:new(server)
-function new(self, server)
+function new(self, utilities_server)
   local utilities = {}
-  utilities.server = server or server:new()
+  utilities.server = utilities_server or server:new()
   setmetatable(utilities, self)
   self.__index = self
   log:debug(string.format([[New utilities handler]]))
