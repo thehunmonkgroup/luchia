@@ -16,6 +16,14 @@ local setmetatable = setmetatable
 -- This module should be used instead of the core modules when possible.
 module("luchia.document")
 
+
+--- Create a new document handler object.
+-- @param database The database to connect to.
+-- @param server Optional. The server object to use for the server connection.
+-- If not provided, a server object will be generated from the default server
+-- configuration.
+-- @return A document handler object.
+-- @usage doc = luchia.document:new("example_database", server)
 function new(self, database, server)
   if database then
     local document = {}
@@ -228,6 +236,11 @@ function delete_attachment(self, attachment, id, rev)
   end
 end
 
+--- Check the response for success.
+-- A convenience method to ensure a successful request.
+-- @param response The response object returned from the server request.
+-- @return true if the server responsed with an ok:true, false otherwise.
+-- @usage operation_succeeded = doc:response_ok(response)
 function response_ok(self, response)
   return self.server:response_ok(response)
 end
