@@ -73,6 +73,7 @@ function new(self, params)
     if params.file_name then
       attachment.file_name = params.file_name
     else
+      -- Grab filename from the full path.
       attachment.file_name = string.match(attachment.file_path, ".+/([^/]+)$")
     end
     if attachment.file_name then

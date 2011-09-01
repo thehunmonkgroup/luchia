@@ -62,6 +62,7 @@ function new(self, params)
   document.id = params.id
   document.rev = params.rev
   document.document = params.document or {}
+  -- Copy id and rev into the document object.
   document.document._id = document.id
   document.document._rev = document.rev
   setmetatable(document, self)
@@ -81,6 +82,8 @@ end
 function add_attachment(self, attachment)
   local file_data = attachment:base64_encode_file(attachment.file_path)
   if file_data then
+    -- Attachments are located under the special _attachments key of the
+    -- document.
     self.document._attachments = self.document._attachments or {}
     self.document._attachments[attachment.file_name] = {
       ["content_type"] = attachment.content_type,

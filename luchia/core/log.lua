@@ -56,6 +56,8 @@ function logging_exists()
   require("logging.console")
 end
 
+-- To prevent a crash if lualogging is not installed, wrap it a protected
+-- call.
 if pcall(logging_exists) and log.appender then
   if log.appender == "file" then
     luchia.core.log = logging.file(log.file, nil, log.format)

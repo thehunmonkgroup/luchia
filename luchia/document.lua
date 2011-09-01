@@ -272,10 +272,10 @@ end
 function add_standalone_attachment(self, file_path, content_type, file_name, id, rev)
   local att = make_attachment(self, file_path, content_type, file_name)
   if att then
+    -- Name the document the same as the attachment if none was provided.
     if not id then
       id = att.file_name
     end
-    -- Build up the request parameters.
     params = {
       method = "PUT",
       path = string.format([[%s/%s/%s]], self.database, id, att.file_name),
@@ -311,7 +311,6 @@ end
 function add_inline_attachment(self, file_path, content_type, file_name, document, id, rev)
   local att = make_attachment(self, file_path, content_type, file_name)
   if att then
-    -- Attach the attachment.
     local doc = make_document(self, document, id, rev)
     if doc and doc:add_attachment(att) then
       -- Use update/create methods from this class. They expect a raw document
@@ -341,6 +340,8 @@ function retrieve_attachment(self, attachment, id)
   else
     local params = {
       path = string.format([[%s/%s/%s]], self.database, id, attachment),
+      -- Attachments don't come back as JSON, so prevent the automatic
+      -- parsing.
       parse_json_response = false,
     }
     local response, response_code, headers, status = self.server:request(params)

@@ -67,6 +67,8 @@ module("luchia.core.server")
 function new(self, params)
   local params = params or {}
   local server = {}
+  -- Build the connection parameters, fall back to the default server value if
+  -- none is provided.
   local connection = {}
   connection.protocol = params.protocol or conf.default.server.protocol
   connection.user = params.user or conf.default.server.user
@@ -173,6 +175,7 @@ end
 function parse_json(self, json_string)
   if json_string and json_string ~= "" then
     log:debug(string.format([[JSON to parse: %s]], json_string))
+    -- Invalid JSON causes an error, so wrap the parsing in a protected call.
     local result, data = pcall(
       function ()
         return json.decode(json_string)
@@ -257,6 +260,7 @@ function stringify_parameters(self, params)
     parameter_string = string.format("%s&%s=%s", parameter_string, url.escape(name), url.escape(value))
   end
 
+  -- Remove leading ampersand.
   parameter_string = parameter_string:sub(2)
   log:debug(string.format([[Built query parameters: %s]], parameter_string));
   return parameter_string
