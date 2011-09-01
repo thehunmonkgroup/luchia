@@ -11,10 +11,25 @@ local log = require "luchia.core.log"
 local setmetatable = setmetatable
 
 --- Core document handler class.
--- Implements the methods necessary to handle documents. Note that for most
+-- <p>Implements the methods necessary to handle documents. Note that for most
 -- cases, the document handling methods in luchia.document should be used;
 -- this module provides the core functionality that those higher-level methods
 -- use.
+-- See the method documentation for more detail, here is a quick primer:</p>
+-- <p><code>
+-- -- Require the class.<br />
+-- local document = require "luchia.core.document"<br />
+-- -- Build a new document object.<br />
+-- local doc = document:new({<br />
+-- &nbsp;&nbsp;id = "document-id",<br />
+-- &nbsp;&nbsp;document = {<br />
+-- &nbsp;&nbsp;&nbsp;&nbsp;hello = "world",<br />
+-- &nbsp;&nbsp;},<br />
+-- })<br />
+-- -- Add an attachment.<br />
+-- local response = doc:add_attachment(previously_created_attachment_object)
+-- <br />
+-- </p></code>
 -- @see luchia.document
 module("luchia.core.document")
 

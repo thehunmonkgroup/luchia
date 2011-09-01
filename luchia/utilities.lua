@@ -10,8 +10,17 @@ local string = require "string"
 local setmetatable = setmetatable
 
 --- High-level utilities class.
--- Contains all high-level utility methods. This module should be used instead
+-- <p>Contains all high-level utility methods. This module should be used instead
 -- of the core modules when possible.
+-- See the method documentation for more detail, here is a quick primer:</p>
+-- <p><code>
+-- -- Require the class.<br />
+-- local utilities = require "luchia.utilities"<br />
+-- -- Build a new utilities object.<br />
+-- local util = utilities:new()<br />
+-- -- Grab server version.<br />
+-- local response = util:version()<br />
+-- </p></code>
 module("luchia.utilities")
 
 --- Create a new utilities handler object.

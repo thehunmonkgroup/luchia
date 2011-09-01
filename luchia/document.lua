@@ -12,8 +12,17 @@ local string = require "string"
 local setmetatable = setmetatable
 
 --- High-level document class.
--- Contains all of the high-level methods to manage documents and attachments.
+-- <p>Contains all of the high-level methods to manage documents and attachments.
 -- This module should be used instead of the core modules when possible.
+-- See the method documentation for more detail, here is a quick primer:</p>
+-- <p><code>
+-- -- Require the class.<br />
+-- local document = require "luchia.document"<br />
+-- -- Build a new document object.<br />
+-- local doc = document:new("example_database")<br />
+-- -- Create a new document.<br />
+-- local response = doc:create({hello = "world"})<br />
+-- </p></code>
 module("luchia.document")
 
 

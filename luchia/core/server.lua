@@ -16,10 +16,27 @@ local pcall = pcall
 local setmetatable = setmetatable
 
 --- Core server handler class.
--- Note that for most cases, the methods in the higher-level luchia.database,
+-- <p>Note that for most cases, the methods in the higher-level luchia.database,
 -- luchia.document, and luchia.utilities modules should be used; this module
 -- provides the core server functionality that those higher-level modules use,
 -- but can be used directly for more complex server requests.
+-- See the method documentation for more detail, here is a quick primer:</p>
+-- <p><code>
+-- -- Require the class.<br />
+-- local server = require "luchia.core.server"<br />
+-- -- Build a new server object.<br />
+-- local srv = server:new({<br />
+-- &nbsp;&nbsp;connection = {<br />
+-- &nbsp;&nbsp;&nbsp;&nbsp;protocol = "http",<br />
+-- &nbsp;&nbsp;&nbsp;&nbsp;host = "www.example.com",<br />
+-- &nbsp;&nbsp;&nbsp;&nbsp;port = "5984",<br />
+-- &nbsp;&nbsp;},<br />
+-- })<br />
+-- -- Make a request.<br />
+-- local response = srv:request({<br />
+-- &nbsp;&nbsp;path = "/",<br />
+-- })<br />
+-- </p></code>
 -- @see luchia.database
 -- @see luchia.document
 -- @see luchia.utilities

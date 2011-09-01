@@ -10,8 +10,17 @@ local string = require "string"
 local setmetatable = setmetatable
 
 --- High-level database class.
--- Contains all of the high-level methods to manage databases. This module
+-- <p>Contains all of the high-level methods to manage databases. This module
 -- should be used instead of the core modules when possible.
+-- See the method documentation for more detail, here is a quick primer:</p>
+-- <p><code>
+-- -- Require the class.<br />
+-- local database = require "luchia.database"<br />
+-- -- Build a new database object.<br />
+-- local db = database:new()<br />
+-- -- Create a new database.<br />
+-- local response = db:create("example_database")<br />
+-- </p></code>
 module("luchia.database")
 
 --- Create a new database handler object.

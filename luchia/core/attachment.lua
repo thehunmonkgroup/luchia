@@ -12,10 +12,23 @@ local log = require "luchia.core.log"
 local setmetatable = setmetatable
 
 --- Core attachment handler class.
--- Implements the methods necessary to handle attachments. Note that for most
+-- <p>Implements the methods necessary to handle attachments. Note that for most
 -- cases, the attachment handling methods in luchia.document should be used;
 -- this module provides the core functionality that those higher-level methods
 -- use.
+-- See the method documentation for more detail, here is a quick primer:</p>
+-- <p><code>
+-- -- Require the class.<br />
+-- local attachment = require "luchia.core.attachment"<br />
+-- -- Build a new attachment object.<br />
+-- local att = attachment:new({<br />
+-- &nbsp;&nbsp;file_path = "/tmp/attachment.txt",<br />
+-- &nbsp;&nbsp;content_type = "text/plain",<br />
+-- &nbsp;&nbsp;file_name = "afile",<br />
+-- })<br />
+-- -- Base64 encode the file data.<br />
+-- local encoded_data = att:base64_encode_file()<br />
+-- </p></code>
 -- @see luchia.document
 module("luchia.core.attachment")
 
