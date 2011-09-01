@@ -74,7 +74,7 @@ function new(self, params)
       attachment.file_name = params.file_name
     else
       -- Grab filename from the full path.
-      attachment.file_name = string.match(attachment.file_path, ".+/([^/]+)$")
+      attachment.file_name = string.match(attachment.file_path, ".+/([^/%s]+)$")
     end
     if attachment.file_name then
       local file_data = load_file(attachment)
