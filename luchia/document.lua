@@ -79,7 +79,7 @@ end
 -- @param rev The document revision.
 -- @return The new document object.
 local function make_document(self, data, id, rev)
-  params = {
+  local params = {
     document = data,
     id = id,
     rev = rev,
@@ -276,7 +276,7 @@ function add_standalone_attachment(self, file_path, content_type, file_name, id,
     if not id then
       id = att.file_name
     end
-    params = {
+    local params = {
       method = "PUT",
       path = string.format([[%s/%s/%s]], self.database, id, att.file_name),
       data = att,
