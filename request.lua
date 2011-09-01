@@ -1,4 +1,4 @@
-#!/bin/env lua
+#!/usr/bin/env lua
 
 --- Shell script to make simple GET requests to the default server.
 -- @author Chad Phillips
@@ -12,12 +12,9 @@
 -- @name request.lua
 
 require "luchia"
-local logging = require "logging"
 
 local log = luchia.core.log
 local server = luchia.core.server
-
-log:setLevel(logging.INFO)
 
 local function usage()
   print [[
@@ -34,8 +31,14 @@ gives nicer output.
 ]]
 end
 
+--- Loader function for the base module.
 local function stdlib_base_exists()
   require("base")
+end
+
+--- Loader function for the logging module.
+local function logging_exists()
+  require("logging")
 end
 
 if #arg == 0 then
@@ -61,10 +64,14 @@ local params = {
 }
 local res = srv:request(params)
 if res then
+  -- Conditionally try to load the base module, then the logging module.
   if pcall(stdlib_base_exists) then
     print(prettytostring(res))
-  else
+  elseif pcall(logging_exists) then
+    log:setLevel(logging.INFO)
     log:info(res)
+  else
+    usage()
   end
 end
 
