@@ -67,12 +67,12 @@ module("luchia.core.server")
 function new(self, params)
   local params = params or {}
   local server = {}
-  local connection = params.connection or {}
-  connection.protocol = connection.protocol or conf.default.server.protocol
-  connection.user = connection.user or conf.default.server.user
-  connection.password = connection.password or conf.default.server.password
-  connection.host = connection.host or conf.default.server.host
-  connection.port = connection.port or conf.default.server.port
+  local connection = {}
+  connection.protocol = params.protocol or conf.default.server.protocol
+  connection.user = params.user or conf.default.server.user
+  connection.password = params.password or conf.default.server.password
+  connection.host = params.host or conf.default.server.host
+  connection.port = params.port or conf.default.server.port
   server.connection = connection
   setmetatable(server, self)
   self.__index = self
