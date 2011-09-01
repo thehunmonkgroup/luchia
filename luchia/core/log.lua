@@ -8,10 +8,10 @@
 --- Log a message at the debug level.
 -- @param self
 -- @param message The message to log.
--- Note that for all logging methods listed, a function signature like
--- that of string.format() can be used, eg. <code>log:debug("hello world")
--- </code> and <code>log:debug("hello %s", "world")</code> are both valid and
--- will produce the same output.
+--   Note that for all logging methods listed, a function signature like
+--   that of string.format() can be used, eg. <code>log:debug("hello world")
+--   </code> and <code>log:debug("hello %s", "world")</code> are both valid
+--   and will produce the same output.
 -- @usage luchia.core.log:debug("debug message")
 -- @class function
 -- @name debug

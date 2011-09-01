@@ -56,7 +56,7 @@ module("luchia.core.attachment")
 -- attachment object must be created, and passed to the 'data' parameter of
 -- luchia.core.server:request().
 -- @param params Required. A table with the metadata necessary to create a new
--- attachment object.
+--   attachment object.
 -- @return A new attachment object.
 -- @usage attachment = luchia.core.attachment:new(params)
 -- @see new_params

@@ -29,8 +29,8 @@ module("luchia.document")
 --- Create a new document handler object.
 -- @param database The database to connect to.
 -- @param document_server Optional. The server object to use for the server
--- connection. If not provided, a server object will be generated from the
--- default server configuration.
+--   connection. If not provided, a server object will be generated from the
+--   default server configuration.
 -- @return A document handler object.
 -- @usage doc = luchia.document:new("example_database", server)
 function new(self, database, document_server)
@@ -52,11 +52,11 @@ end
 -- @param method The HTTP method.
 -- @param path The server path.
 -- @param query_parameters Optional. A table of query parameters to pass to
--- the server, key is parameter name, value is parameter value, eg.
--- '{ include_docs = "true", limit = "3" }'.
+--   the server, key is parameter name, value is parameter value, eg.
+--   '{ include_docs = "true", limit = "3" }'.
 -- @param data Optional. A data object.
 -- @return The following four values, in this order: response_data,
--- response_code, headers, status_code.
+--   response_code, headers, status_code.
 local function document_call(self, method, path, query_parameters, data)
   if path then
     local params = {
@@ -101,7 +101,7 @@ end
 -- @param id The document ID.
 -- @param query_parameters Same as the document_call method.
 -- @return Same values as document_call, response_data is a table representing
--- the document.
+--   the document.
 -- @usage response = doc:retrieve("document-id")
 -- @see document_call
 function retrieve(self, id, query_parameters)
@@ -111,9 +111,9 @@ end
 --- Create a document.
 -- @param document A table representing the document.
 -- @param id Optional. The document ID. If not provided, a server-generated
--- uuid will be used instead.
+--   uuid will be used instead.
 -- @return Same values as document_call, response_data is a table of the
--- request result.
+--   request result.
 -- @usage response = doc:create({hello = "world"}, "document-id")
 -- @see document_call
 function create(self, document, id)
@@ -137,9 +137,9 @@ end
 -- @param id The document ID.
 -- @param rev The document revision.
 -- @return Same values as document_call, response_data is a table of the
--- request result.
+--   request result.
 -- @usage response = doc:update({hello = "another world"}, "document-id",
--- "1-15f65339921e497348be384867bb940f")
+--   "1-15f65339921e497348be384867bb940f")
 -- @see document_call
 function update(self, document, id, rev)
   if not document then
@@ -159,7 +159,7 @@ end
 -- @param id The document ID.
 -- @param destination The ID of the destination document.
 -- @return Same values as document_call, response_data is a table of the
--- request result.
+--   request result.
 -- @usage response = doc:copy("document-id", "document-copy")
 -- @see document_call
 function copy(self, id, destination)
@@ -184,9 +184,9 @@ end
 -- @param id The document ID.
 -- @param rev The document revision.
 -- @return Same values as document_call, response_data is a table of the
--- request result.
+--   request result.
 -- @usage response = doc:delete("document-id",
--- "1-15f65339921e497348be384867bb940f")
+--   "1-15f65339921e497348be384867bb940f")
 -- @see document_call
 function delete(self, id, rev)
   if not id then
@@ -231,10 +231,10 @@ end
 --- Make an attachment object.
 -- This is an internal method only.
 -- @param file_path The path to the file to add as an attachment. Relative
--- paths can be used, but must have a path component, eg. "./myfile" or
--- "/tmp/attachment.txt".
+--   paths can be used, but must have a path component, eg. "./myfile" or
+--   "/tmp/attachment.txt".
 -- @param content_type The mime content type of the attachment, eg.
--- "text/plain"
+--   "text/plain"
 -- @param file_name Optional. The name of the attachment as stored in CouchDB.
 --   If not provided, then the base name of file_path will be used.
 -- @return The new attachment object.
@@ -259,13 +259,14 @@ end
 -- @param content_type Same as make_attachment.
 -- @param file_name Same as make_attachment.
 -- @param id Optional. The document ID to attach the file to. If no document
--- exists, one will be created for the attachment.
+--   exists, one will be created for the attachment.
 -- @param rev The document revision. This is only required if attaching to an
--- existing document.
+--   existing document.
 -- @return Same values as document_call, response_data is a table of the
--- request result.
+--   request result.
 -- @usage response = doc:add_standalone_attachment("/tmp/file.txt",
--- "text/plain", "afile", "document-id", "1-15f65339921e497348be384867bb940f")
+--   "text/plain", "afile", "document-id",
+--   "1-15f65339921e497348be384867bb940f")
 -- @see make_attachment
 -- @see document_call
 function add_standalone_attachment(self, file_path, content_type, file_name, id, rev)
@@ -295,16 +296,16 @@ end
 -- @param content_type Same as make_attachment.
 -- @param file_name Same as make_attachment.
 -- @param document Optional. A table representing the document to add the
--- attachment to. If none is provided, an empty document will be used.
+--   attachment to. If none is provided, an empty document will be used.
 -- @param id Optional. The document ID to attach the file to. If no document
--- exists, one will be created for the attachment.
+--   exists, one will be created for the attachment.
 -- @param rev The document revision. This is only required if attaching to an
--- existing document.
+--   existing document.
 -- @return Same values as document_call, response_data is a table of the
--- request result.
+--   request result.
 -- @usage response = doc:add_inline_attachment("/tmp/file.txt",
--- "text/plain", "afile", {hello = "world"}, "document-id",
--- "1-15f65339921e497348be384867bb940f")
+--   "text/plain", "afile", {hello = "world"}, "document-id",
+--   "1-15f65339921e497348be384867bb940f")
 -- @see make_attachment
 -- @see document_call
 function add_inline_attachment(self, file_path, content_type, file_name, document, id, rev)
@@ -352,9 +353,9 @@ end
 -- @param id The document ID.
 -- @param rev The document revision.
 -- @return Same values as document_call, response_data is a table of the
--- request result.
+--   request result.
 -- @usage response = doc:delete_attachment("afile", "document-id",
--- "1-15f65339921e497348be384867bb940f")
+--   "1-15f65339921e497348be384867bb940f")
 -- @see document_call
 function delete_attachment(self, attachment, id, rev)
   if not attachment then

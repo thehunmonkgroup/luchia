@@ -37,12 +37,12 @@ module("luchia.core.document")
 -- This is the optional table to pass when calling the 'new' method to create
 -- new document objects.
 -- @field id Optional. The document ID. If provided, this is copied into the
--- document itself.
+--   document itself.
 -- @field rev Optional. The document revision. If provided, this is copied
--- into the document itself.
+--   into the document itself.
 -- @field document Optional. A table representing the document to be stored in
--- CouchDB. This table is converted to proper JSON format before being sent to
--- the database.
+--   CouchDB. This table is converted to proper JSON format before being sent to
+--   the database.
 -- @class table
 -- @name new_params
 -- @see new
@@ -52,7 +52,7 @@ module("luchia.core.document")
 -- must be created, and passed to the 'data' parameter of
 -- luchia.core.server:request().
 -- @param params Optional. A table with the metadata necessary to create a new
--- document object.
+--   document object.
 -- @return A new document object.
 -- @usage document = luchia.core.document:new(params)
 -- @see new_params
@@ -74,9 +74,9 @@ end
 -- This method should not usually be called directly, instead use the
 -- higher-level luchia.document:add_inline_attachment().
 -- @param attachment The attachment object to add to the document, as generated
--- by luchia.core.attachment:new().
+--   by luchia.core.attachment:new().
 -- @return The document table with the attachment added. Note that this does
--- return the full document object.
+--   not return the full document object.
 -- @usage document_table = document:add_attachment(attachment)
 function add_attachment(self, attachment)
   local file_data = attachment:base64_encode_file(attachment.file_path)

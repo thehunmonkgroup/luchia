@@ -58,9 +58,9 @@ module("luchia.core.server")
 -- In order to talk to CouchDB, a server object must be created with the
 -- proper connection parameters.
 -- @param params Optional. A table with the metadata necessary to create a new
--- server object. If a needed connection parameter is not passed here, the
--- default server setting in luchia.conf will be used instead to build the
--- server object.
+--   server object. If a needed connection parameter is not passed here, the
+--   default server setting in luchia.conf will be used instead to build the
+--   server object.
 -- @return A new server object.
 -- @usage srv = luchia.core.server:new(params)
 -- @see new_params
@@ -84,16 +84,16 @@ end
 -- This is the optional table to pass when calling the 'request' method on
 -- server objects.
 -- @field method Optional. The server method, must be one of "GET", "POST",
--- "PUT", "DELETE", "HEAD", "COPY". Default is "GET".
+--   "PUT", "DELETE", "HEAD", "COPY". Default is "GET".
 -- @field path Optional. The path on the server to access.
 -- @field query_parameters Optional. A table of query parameters to pass to
--- the server, key is parameter name, value is parameter value, eg.
--- '{ include_docs = "true", limit = "3" }'.
+--   the server, key is parameter name, value is parameter value, eg.
+--   '{ include_docs = "true", limit = "3" }'.
 -- @field headers Optional. A table of headers to pass to the server, eg.
--- '{ destination = "doc_id" }'.
+--   '{ destination = "doc_id" }'.
 -- @field parse_json_response Optional. Boolean. Set to false to disable
--- automatic parsing of the JSON response from the server into a Lua table.
--- Default is true.
+--   automatic parsing of the JSON response from the server into a Lua table.
+--   Default is true.
 -- @field data A data object containing data to pass to the server.
 -- @class table
 -- @name request_params
@@ -106,9 +106,9 @@ end
 -- proper connection parameters.
 -- @param params Optional. A table with the request metadata.
 -- @return The following four values, in this order: response_data,
--- response_code, headers, status_code.
+--   response_code, headers, status_code.
 -- @usage response_data, response_code, headers, status_code =
--- srv:request(params)
+--   srv:request(params)
 -- @see request_params
 -- @see prepare_request
 -- @see http_request
@@ -194,9 +194,9 @@ end
 -- This is the low level method to make a server request, and should generally
 -- not be used.
 -- @return The following four values, in this order: response_data,
--- response_code, headers, status_code.
+--   response_code, headers, status_code.
 -- @usage response_data, response_code, headers, status_code =
--- srv:http_request()
+--   srv:http_request()
 -- @see request
 -- @see build_url
 function http_request(self)
@@ -245,8 +245,8 @@ end
 
 --- Builds a query string from a Lua table of query parameters.
 -- @param params Optional. A table of query parameters, key is parameter name,
--- value is parameter value. If not provided, the query_parameters attribute
--- on the server object is used.
+--   value is parameter value. If not provided, the query_parameters attribute
+--   on the server object is used.
 -- @return The query string.
 -- @usage srv:stringify_parameters({ include_docs = "true", limit = "3" })
 -- @see http_request

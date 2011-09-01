@@ -25,8 +25,8 @@ module("luchia.database")
 
 --- Create a new database handler object.
 -- @param database_server Optional. The server object to use for the server
--- connection. If not provided, a server object will be generated from the
--- default server configuration.
+--   connection. If not provided, a server object will be generated from the
+--   default server configuration.
 -- @return A database handler object.
 -- @usage db = luchia.database:new(server)
 function new(self, database_server)
@@ -43,7 +43,7 @@ end
 -- @param method The HTTP method.
 -- @param database_name The database name.
 -- @return The following four values, in this order: response_data,
--- response_code, headers, status_code.
+--   response_code, headers, status_code.
 local function database_call(self, method, database_name)
   if database_name then
     local params = {
@@ -67,7 +67,7 @@ end
 
 --- Get information on a database.
 -- @return Same values as database_call, response_data is a table of database
--- information.
+--   information.
 -- @usage db:info("example_database")
 -- @see database_call
 function info(self, database_name)
@@ -76,7 +76,7 @@ end
 
 --- Create a database.
 -- @return Same values as database_call, response_data is a table of the
--- request result.
+--   request result.
 -- @usage db:create("example_database")
 -- @see database_call
 function create(self, database_name)
@@ -85,7 +85,7 @@ end
 
 --- Delete a database.
 -- @return Same values as database_call, response_data is a table of the
--- request result.
+--   request result.
 -- @usage db:delete("example_database")
 -- @see database_call
 function delete(self, database_name)
@@ -100,3 +100,4 @@ end
 function response_ok(self, response)
   return self.server:response_ok(response)
 end
+
