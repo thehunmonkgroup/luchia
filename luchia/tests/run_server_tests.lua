@@ -1,0 +1,1 @@
+require "luchia.tests.common"
