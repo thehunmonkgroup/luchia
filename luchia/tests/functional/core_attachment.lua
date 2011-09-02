@@ -20,27 +20,27 @@ end
 
 function tests.test_core_attachment_new_no_params()
   local att = attachment:new()
-  assert_not_table(att, "No file_path, content_type params passed.")
+  assert_equal(nil, att, "No file_path, content_type params passed.")
 end
 
 function tests.test_core_attachment_new_missing_file_path()
   local att = attachment:new({content_type = text_content_type})
-  assert_not_table(att, "No file_path param passed.")
+  assert_equal(nil, att, "No file_path param passed.")
 end
 
 function tests.test_core_attachment_new_missing_content_type()
   local att = attachment:new({file_path = good_text_file})
-  assert_not_table(att, "No content_type param passed.")
+  assert_equal(nil, att, "No content_type param passed.")
 end
 
 function tests.test_core_attachment_new_bad_file_path()
   local att = attachment:new({file_path = badfile, content_type = text_content_type})
-  assert_not_table(att, "Bad file_path param passed.")
+  assert_equal(nil, att, "Bad file_path param passed.")
 end
 
 function tests.test_core_attachment_new_bad_file_path()
   local att = attachment:new({file_path = "./" .. badfile, content_type = text_content_type})
-  assert_not_table(att, "Non-existent file passed.")
+  assert_equal(nil, att, "Non-existent file passed.")
 end
 
 function tests.get_good_file(file_name)
