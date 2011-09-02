@@ -1,7 +1,4 @@
 --- Provides logging facilities.
--- The lualogging module is required in order for logging to work properly,
--- as luchia merely leverages its functionality. If lualogging is not
--- installed, then logging will be disabled.
 -- @author Chad Phillips
 -- @copyright 2011 Chad Phillips
 
@@ -44,40 +41,21 @@
 -- @class function
 -- @name fatal
 
+require("logging")
 local conf = require "luchia.conf"
 local log = conf.log
 
 luchia.core = luchia.core or {}
 luchia.core.log = {}
 
-function logging_exists()
-  require("logging")
+if log.appender == "file" then
   require("logging.file")
-  require("logging.console")
-end
-
--- To prevent a crash if lualogging is not installed, wrap it a protected
--- call.
-if pcall(logging_exists) and log.appender then
-  if log.appender == "file" then
-    luchia.core.log = logging.file(log.file, nil, log.format)
-  else
-    luchia.core.log = logging.console(log.format)
-  end
-  luchia.core.log:setLevel(logging[log.level])
+  luchia.core.log = logging.file(log.file, nil, log.format)
 else
-  -- If logging is disabled, provide placeholder functions.
-  local none = function() end
-  luchia.core.log = {
-    log = none,
-    debug = none,
-    info = none,
-    warn = none,
-    ["error"] = none,
-    fatal = none,
-    setLevel = none,
-  }
+  require("logging.console")
+  luchia.core.log = logging.console(log.format)
 end
+luchia.core.log:setLevel(logging[log.level])
 
 return luchia.core.log
 

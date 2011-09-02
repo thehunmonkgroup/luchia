@@ -27,7 +27,6 @@ default.server.password = nil
 
 
 --- Logging options.
--- The lualogging package must be installed to use the logging facilities.
 -- @field appender Where to log messages. Must be one of "console", "file",
 --   false (disables logging).
 -- @field level Minimum level of messages to log. Must be one of "DEBUG",

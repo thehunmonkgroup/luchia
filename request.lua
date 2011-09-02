@@ -5,8 +5,6 @@
 -- @copyright 2011 Chad Phillips
 
 --- Shell script to make simple GET requests to the default server.
--- Requires either the lualogging or stdlib packages be installed. With stdlib
--- the output is much prettier.
 -- @usage Run request.lua without any arguments for help/usage.
 -- @class function
 -- @name request.lua
@@ -26,19 +24,13 @@ luchia.
   path: the server path, eg. /_all_dbs.
   argN=value: Query parameter and value.
 
-Requires either the 'lualogging' or 'stdlib' lua packages be installed, stdlib
-gives nicer output.
+With the optional stdlib package installed, the output is much prettier.
 ]]
 end
 
 --- Loader function for the base module.
 local function stdlib_base_exists()
   require("base")
-end
-
---- Loader function for the logging module.
-local function logging_exists()
-  require("logging")
 end
 
 if #arg == 0 then
@@ -64,14 +56,12 @@ local params = {
 }
 local res = srv:request(params)
 if res then
-  -- Conditionally try to load the base module, then the logging module.
+  -- Conditionally try to load the base module, fall back to regular logging.
   if pcall(stdlib_base_exists) then
     print(prettytostring(res))
-  elseif pcall(logging_exists) then
+  else
     log:setLevel(logging.INFO)
     log:info(res)
-  else
-    usage()
   end
 end
 

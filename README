@@ -7,11 +7,11 @@ manager, as all required and optional dependencies are easy install via this
 method.  Here are the dependencies:
 
   Requires:
-    luasocket
     cjson
+    lualogging
+    luasocket
 
   Optional
-    lualogging
     luadoc
     stdlib
 
