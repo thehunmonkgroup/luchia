@@ -80,11 +80,11 @@ function new(self, params)
       local file_data = load_file(attachment)
       if file_data then
         attachment.file_data = file_data
+        setmetatable(attachment, self)
+        self.__index = self
+        log:debug(string.format([[New core attachment handler, file_path: %s, content_type: %s, file_name: %s]], attachment.file_path, attachment.content_type, attachment.file_name))
+        return attachment
       end
-      setmetatable(attachment, self)
-      self.__index = self
-      log:debug(string.format([[New core attachment handler, file_path: %s, content_type: %s, file_name: %s]], attachment.file_path, attachment.content_type, attachment.file_name))
-      return attachment
     else
       log:error([[Illegal file path]])
     end
