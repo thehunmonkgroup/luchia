@@ -14,6 +14,7 @@ local log = require "luchia.core.log"
 local pairs = pairs
 local pcall = pcall
 local setmetatable = setmetatable
+local tonumber = tonumber
 
 --- Core server handler class.
 -- <p>Note that for most cases, the methods in the higher-level luchia.database,
@@ -41,6 +42,45 @@ local setmetatable = setmetatable
 -- @see luchia.document
 -- @see luchia.utilities
 module("luchia.core.server")
+
+--- Checks for a valid server protocol.
+-- This is an internal only method.
+-- @return true on a valid protocol, nil otherwise.
+-- @usage srv:valid_protocol()
+local function valid_protocol(self)
+  if self.connection.protocol == "http" then
+    return true
+  else
+    log:error([[protocol must be one of: http]])
+  end
+end
+
+--- Checks for a valid server host.
+-- This is an internal only method.
+-- TODO: Research RFC on valid hostnames.
+-- @return true on a valid host, nil otherwise.
+-- @usage srv:valid_host()
+local function valid_host(self)
+  if string.match(self.connection.host, "^[%a%.-_]+$") then
+    return true
+  else
+    log:error([[Invalid host]])
+  end
+end
+
+--- Checks for a valid server port.
+-- This is an internal only method.
+-- TODO: Research valid port numbers.
+-- @return true on a valid port, nil otherwise.
+-- @usage srv:valid_port()
+local function valid_port(self)
+  local port = tonumber(self.connection.port)
+  if port and port >= 1 and port <= 65536 then
+    return true
+  else
+    log:error([[Invalid port]])
+  end
+end
 
 --- Parameters table for creating new server objects.
 -- This is the optional table to pass when calling the 'new' method to create
@@ -76,10 +116,15 @@ function new(self, params)
   connection.host = params.host or conf.default.server.host
   connection.port = params.port or conf.default.server.port
   server.connection = connection
-  setmetatable(server, self)
-  self.__index = self
-  log:debug(string.format([[New core server, protocol: %s, user: %s, password: %s, host: %s, port: %s]], connection.protocol, connection.user or "", connection.password or "", connection.host, connection.port or ""))
-  return server
+  local is_valid_protocol = valid_protocol(server)
+  local is_valid_host = valid_host(server)
+  local is_valid_port = valid_port(server)
+  if is_valid_protocol and is_valid_host and is_valid_port then
+    setmetatable(server, self)
+    self.__index = self
+    log:debug(string.format([[New core server, protocol: %s, user: %s, password: %s, host: %s, port: %s]], connection.protocol, connection.user or "", connection.password or "", connection.host, connection.port or ""))
+    return server
+  end
 end
 
 --- Parameters table for sending server requests.
