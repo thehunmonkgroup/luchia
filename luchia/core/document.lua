@@ -9,6 +9,7 @@ local string = require "string"
 local log = require "luchia.core.log"
 
 local setmetatable = setmetatable
+local type = type
 
 --- Core document handler class.
 -- <p>Implements the methods necessary to handle documents. Note that for most
@@ -84,17 +85,23 @@ end
 --   not return the full document object.
 -- @usage document_table = document:add_attachment(attachment)
 function add_attachment(self, attachment)
-  local file_data = attachment:base64_encode_file(attachment.file_path)
-  if file_data then
-    -- Attachments are located under the special _attachments key of the
-    -- document.
-    self.document._attachments = self.document._attachments or {}
-    self.document._attachments[attachment.file_name] = {
-      ["content_type"] = attachment.content_type,
-      data = file_data,
-    }
-    log:debug(string.format([[Added inline attachment: %s, content_type: %s]], attachment.file_name, attachment.content_type))
-    return self.document
+  if attachment and type(attachment.base64_encode_file) == "function" then
+    local file_data = attachment:base64_encode_file()
+    if file_data then
+      -- Attachments are located under the special _attachments key of the
+      -- document.
+      self.document._attachments = self.document._attachments or {}
+      self.document._attachments[attachment.file_name] = {
+        ["content_type"] = attachment.content_type,
+        data = file_data,
+      }
+      log:debug(string.format([[Added inline attachment: %s, content_type: %s]], attachment.file_name, attachment.content_type))
+      return self.document
+    else
+      log:error(string.format([[Unable to encode file data for file: %s]], attachment.file_path or ""))
+    end
+  else
+    log:error([[Invalid attachment object]])
   end
 end
 
