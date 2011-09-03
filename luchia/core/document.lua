@@ -62,13 +62,17 @@ function new(self, params)
   document.id = params.id
   document.rev = params.rev
   document.document = params.document or {}
-  -- Copy id and rev into the document object.
-  document.document._id = document.id
-  document.document._rev = document.rev
-  setmetatable(document, self)
-  self.__index = self
-  log:debug([[New core document handler]])
-  return document
+  if document.rev and not document.id then
+    log:error([[id required with rev]])
+  else
+    -- Copy id and rev into the document object.
+    document.document._id = document.id
+    document.document._rev = document.rev
+    setmetatable(document, self)
+    self.__index = self
+    log:debug([[New core document handler]])
+    return document
+  end
 end
 
 --- Add an inline attachment to a document.
