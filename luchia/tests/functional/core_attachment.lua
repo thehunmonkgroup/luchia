@@ -1,3 +1,4 @@
+local common = require "luchia.tests.common"
 local attachment = require "luchia.core.attachment"
 
 local tests = {}
@@ -5,17 +6,14 @@ local text_content_type, good_text_file, good_text_default_file_name
 local good_text_custom_file_name, good_text_file_data, badfile
 
 function tests.setup()
-  luchia.test.create_files()
+  good_text_file, good_text_default_file_name, good_text_file_data = common.create_file1()
   text_content_type = "text/plain"
-  good_text_file = luchia.temp.file1.file_path
-  good_text_default_file_name = luchia.temp.file1.file_name
   good_text_custom_file_name = "custom_textfile1.txt"
-  good_text_file_data = luchia.temp.file1.file_data
   badfile = "badfile.txt"
 end
 
 function tests.teardown()
-  luchia.test.remove_files()
+  common.remove_file1()
 end
 
 function tests.test_core_attachment_new_no_params()
