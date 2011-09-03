@@ -1,34 +1,77 @@
 --- Common testing functions.
 
-luchia = luchia or {}
-luchia.temp = luchia.temp or {}
-luchia.test = luchia.test or {}
+local io = require "io"
+local os = require "os"
+local string = require "string"
 
-local file1_data = "foo"
+local pairs = pairs
+local require = require
+local tonumber = tonumber
 
-function luchia.test.create_files()
-  luchia.temp.file1 = {}
-  luchia.temp.file1.file_path = os.tmpname()
+local assert_table = assert_table
+local assert_equal = assert_equal
+local assert_match = assert_match
+local assert_gte = assert_gte
+local assert_lte = assert_lte
+
+local file1_path
+
+module("luchia.tests.common")
+
+function create_file1()
+  local file1_data = "foo"
+  file1_path = os.tmpname()
   -- Grab filename from the full path.
-  luchia.temp.file1.file_name = string.match(luchia.temp.file1.file_path, ".+/([^/%s]+)$")
-  local file = io.open(luchia.temp.file1.file_path, "w")
+  local file_name = string.match(file1_path, ".+/([^/%s]+)$")
+  local file = io.open(file1_path, "w")
   file:write(file1_data)
   file:close()
-  file = io.open(luchia.temp.file1.file_path)
-  luchia.temp.file1.file_data = file:read("*a")
+  file = io.open(file1_path)
+  local file_data = file:read("*a")
   file:close()
+  return file1_path, file_name, file_data
 end
 
-function luchia.test.remove_files()
-  if luchia.temp.file1.file_path then
-    os.remove(luchia.temp.file1.file_path)
+function remove_file1()
+  if file1_path then
+    os.remove(file1_path)
   end
 end
 
-function luchia.test.table_length(t)
+function table_length(t)
   local count = 0
   for _, _ in pairs(t)
     do count = count + 1
   end
   return count
 end
+
+function conf_valid_default_server_table()
+  local conf = require "luchia.conf"
+  assert_table(conf, "conf")
+  assert_table(conf.default, "conf.default")
+  assert_table(conf.default.server, "conf.default.server")
+end
+
+function valid_server_protocol(protocol, field)
+  assert_equal("http", protocol, field)
+end
+
+function valid_server_host(host, field)
+  -- TODO: Research RFC on valid hostnames.
+  assert_match("^[%a%.-_]+$", host, field)
+end
+
+function valid_server_port(port, field)
+  port = tonumber(port)
+  -- TODO: Research valid port numbers.
+  assert_gte(1, port, field)
+  assert_lte(65536, port, field)
+end
+
+function conf_valid_log_table()
+  local conf = require "luchia.conf"
+  assert_table(conf, "conf")
+  assert_table(conf.log, "conf.log")
+end
+
