@@ -38,7 +38,7 @@ default.server.password = nil
 -- @class table
 -- @name log
 log = {}
-log.appender = "console"
+log.appender = "file"
 log.level = "DEBUG"
 log.format = "%level %message\n"
 log.file = "/tmp/luchia.log"
