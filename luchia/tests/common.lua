@@ -25,3 +25,10 @@ function luchia.test.remove_files()
   end
 end
 
+function luchia.test.table_length(t)
+  local count = 0
+  for _, _ in pairs(t)
+    do count = count + 1
+  end
+  return count
+end
