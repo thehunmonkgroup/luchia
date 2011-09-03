@@ -1,6 +1,8 @@
-tests = {}
-function tests.test_assert()
-   assert_true(true)
-end
+local common = require "luchia.tests.common"
+local server = require "luchia.utilities"
+
+local tests = {}
+
 return tests
+
 
