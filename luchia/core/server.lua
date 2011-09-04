@@ -15,6 +15,7 @@ local pairs = pairs
 local pcall = pcall
 local setmetatable = setmetatable
 local tonumber = tonumber
+local type = type
 
 --- Core server handler class.
 -- <p>Note that for most cases, the methods in the higher-level luchia.database,
@@ -90,6 +91,9 @@ end
 -- @field port The port to use, eg. "5984".
 -- @field user For authentication scenarios, the user to authenticate as.
 -- @field password For authentication scenarios, the user's password.
+-- @field custom_request_function A custom request function can be substituted
+--   for the default http.request function available from luasocket. The
+--   testing framework uses this to mock for unit tests.
 -- @class table
 -- @name new_params
 -- @see new
@@ -116,6 +120,11 @@ function new(self, params)
   connection.host = params.host or conf.default.server.host
   connection.port = params.port or conf.default.server.port
   server.connection = connection
+  if type(params.custom_request_function) == "function" then
+    server.request_function = params.custom_request_function
+  else
+    server.request_function = http.request
+  end
   local is_valid_protocol = valid_protocol(server)
   local is_valid_host = valid_host(server)
   local is_valid_port = valid_port(server)
@@ -258,7 +267,7 @@ function http_request(self)
   end
 
   local result = {}
-  local _, response_code, headers, status = http.request {
+  local _, response_code, headers, status = self.request_function {
     method = self.method,
     url = self:build_url(),
     sink = ltn12.sink.table(result),

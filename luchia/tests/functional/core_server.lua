@@ -13,11 +13,12 @@ local bad_port_low = "0"
 local bad_port_nan = "foo"
 local user = "user"
 local password = "password"
+local custom_request_function = function() end
 
 local function valid_server_table(srv)
   assert_table(srv, "srv")
   assert_table(srv.connection, "srv.connection")
-  assert_equal(1, common.table_length(srv), "srv length")
+  assert_equal(2, common.table_length(srv), "srv length")
 end
 
 local function bad_server_param(protocol, host, port)
@@ -56,6 +57,7 @@ end
 
 function tests.test_core_server_new_no_params()
   local conf = require "luchia.conf"
+  local http = require "socket.http"
   local srv = server:new()
   valid_server_table(srv)
   assert_equal(conf.default.server.protocol, srv.connection.protocol, "srv.connection.protocol")
@@ -65,15 +67,17 @@ function tests.test_core_server_new_no_params()
   assert_equal(conf.default.server.password, srv.connection.password, "srv.connection.password")
   assert_gte(3, common.table_length(srv.connection), "srv.connection length")
   assert_lte(5, common.table_length(srv.connection), "srv.connection length")
+  assert_equal(http.request, srv.request_function, "default srv.request_function")
 end
 
-function tests.test_core_server_new_no_all_params()
+function tests.test_core_server_new_all_params()
   local params = {
     protocol = good_protocol,
     host = good_host,
     port = good_port,
     user = user,
     password = password,
+    custom_request_function = custom_request_function,
   }
   local srv = server:new(params)
   valid_server_table(srv)
@@ -83,6 +87,7 @@ function tests.test_core_server_new_no_all_params()
   assert_equal(user, srv.connection.user, "srv.connection.user")
   assert_equal(password, srv.connection.password, "srv.connection.password")
   assert_equal(5, common.table_length(srv.connection), "srv.connection length")
+  assert_equal(custom_request_function, srv.request_function, "custom srv.request_function")
 end
 
 return tests
