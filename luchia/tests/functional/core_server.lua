@@ -1,6 +1,5 @@
 local common = require "luchia.tests.common"
 local server = require "luchia.core.server"
-local conf = require "luchia.conf"
 
 local tests = {}
 
@@ -47,7 +46,7 @@ local function bad_server_param(protocol, host, port)
 end
 
 local function request_function(request)
-  local url_string = string.format([[%s://%s:%s]], conf.default.server.protocol, conf.default.server.host, conf.default.server.port)
+  local url_string = string.format([[%s://%s:%s]], good_protocol, good_host, good_port)
   local response_data = ""
   local response_code = "200"
   local headers = {}
@@ -72,7 +71,11 @@ local function request_function(request)
 end
 
 local function custom_request_server(params)
-  params = params or {}
+  params = params or {
+    protocol = good_protocol,
+    host = good_host,
+    port = good_port,
+  }
   params.custom_request_function = request_function
   local srv = server:new(params)
   valid_server_table(srv)
@@ -82,10 +85,6 @@ end
 local function prepare_request(self, server)
   server.content_type = content_type
   server.request_data = json_good
-end
-
-function tests.setup()
-  common.conf_valid_default_server_table()
 end
 
 function tests.test_core_server_new_bad_protocol()
@@ -109,6 +108,7 @@ function tests.test_core_server_new_bad_port_nan()
 end
 
 function tests.test_core_server_new_no_params()
+  common.conf_valid_default_server_table()
   local conf = require "luchia.conf"
   local http = require "socket.http"
   local srv = server:new()
@@ -143,22 +143,35 @@ function tests.test_core_server_new_all_params()
   assert_equal(request_function, srv.request_function, "custom srv.request_function")
 end
 
-function tests.test_core_server_prepare_request_reset_data()
+function tests.test_core_server_prepare_request_reset_content_type()
   local srv = custom_request_server()
   srv.content_type = content_type
-  srv.request_data = request_data
   srv:prepare_request()
   assert_equal(nil, srv.content_type, "srv.content_type")
+end
+
+function tests.test_core_server_prepare_request_reset_request_data()
+  local srv = custom_request_server()
+  srv.request_data = request_data
+  srv:prepare_request()
   assert_equal(nil, srv.request_data, "srv.request_data")
 end
 
-function tests.test_core_server_prepare_request_set_data()
+function tests.test_core_server_prepare_request_set_content_type()
   local srv = custom_request_server()
   srv.data = {
     prepare_request = prepare_request,
   }
   srv:prepare_request()
   assert_equal(content_type, srv.content_type, "srv.content_type")
+end
+
+function tests.test_core_server_prepare_request_set_request_data()
+  local srv = custom_request_server()
+  srv.data = {
+    prepare_request = prepare_request,
+  }
+  srv:prepare_request()
   assert_equal(json_good, srv.request_data, "srv.request_data")
 end
 
@@ -201,14 +214,12 @@ function tests.test_core_server_build_url()
   srv.query_parameters = query_parameters
   local result = srv:build_url()
   local full_url = string.format([[%s://%s:%s@%s:%s/%s?%s]], good_protocol, user, password, good_host, good_port, path, query_string)
-  assert_string(result, "result")
   assert_equal(full_url, result, "result")
 end
 
 function tests.test_core_server_stringify_parameters_empty()
   local srv = custom_request_server()
   local result = srv:stringify_parameters()
-  assert_string(result, "result")
   assert_equal("", result, "result")
 end
 
@@ -216,14 +227,12 @@ function tests.test_core_server_stringify_parameters_server_attribute()
   local srv = custom_request_server()
   srv.query_parameters = query_parameters
   local result = srv:stringify_parameters()
-  assert_string(result, "result")
   assert_equal(query_string, result, "result")
 end
 
 function tests.test_core_server_stringify_parameters_server_argument()
   local srv = custom_request_server()
   local result = srv:stringify_parameters(query_parameters)
-  assert_string(result, "result")
   assert_equal(query_string, result, "result")
 end
 
