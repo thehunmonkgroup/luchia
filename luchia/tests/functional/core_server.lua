@@ -250,5 +250,33 @@ function tests.test_core_server_uuids_count_bad()
   assert_equal(nil, result, "result")
 end
 
+function tests.test_core_server_response_ok()
+  local srv = custom_request_server()
+  local response = {ok = true}
+  local result = srv:response_ok(response)
+  assert_true(result, "result")
+end
+
+function tests.test_core_server_response_ok_false()
+  local srv = custom_request_server()
+  local response = {ok = false}
+  local result = srv:response_ok(response)
+  assert_false(result, "result")
+end
+
+function tests.test_core_server_response_ok_empty()
+  local srv = custom_request_server()
+  local response = {}
+  local result = srv:response_ok(response)
+  assert_equal(nil, result, "result")
+end
+
+function tests.test_core_server_response_ok_nil()
+  local srv = custom_request_server()
+  local response = nil
+  local result = srv:response_ok(response)
+  assert_equal(nil, result, "result")
+end
+
 return tests
 
