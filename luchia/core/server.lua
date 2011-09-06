@@ -94,6 +94,9 @@ end
 -- @field custom_request_function A custom request function can be substituted
 --   for the default http.request function available from luasocket. The
 --   testing framework uses this to mock for unit tests.
+-- @field custom_default_server A custom default server table can be
+--   substituted for the default one available from luchia.conf. The testing
+--   framework uses this to mock for unit tests.
 -- @class table
 -- @name new_params
 -- @see new
@@ -103,22 +106,23 @@ end
 -- proper connection parameters.
 -- @param params Optional. A table with the metadata necessary to create a new
 --   server object. If a needed connection parameter is not passed here, the
---   default server setting in luchia.conf will be used instead to build the
+--   default server setting configuration will be used instead to build the
 --   server object.
 -- @return A new server object.
 -- @usage srv = luchia.core.server:new(params)
 -- @see new_params
 function new(self, params)
   local params = params or {}
+  local settings = params.custom_default_server or conf
   local server = {}
   -- Build the connection parameters, fall back to the default server value if
   -- none is provided.
   local connection = {}
-  connection.protocol = params.protocol or conf.default.server.protocol
-  connection.user = params.user or conf.default.server.user
-  connection.password = params.password or conf.default.server.password
-  connection.host = params.host or conf.default.server.host
-  connection.port = params.port or conf.default.server.port
+  connection.protocol = params.protocol or settings.default.server.protocol
+  connection.user = params.user or settings.default.server.user
+  connection.password = params.password or settings.default.server.password
+  connection.host = params.host or settings.default.server.host
+  connection.port = params.port or settings.default.server.port
   server.connection = connection
   if type(params.custom_request_function) == "function" then
     server.request_function = params.custom_request_function
