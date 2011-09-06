@@ -1,7 +1,6 @@
 require "lunatest"
 require "luchia.tests.common"
 
-lunatest.suite("luchia.tests.unit.conf")
 lunatest.suite("luchia.tests.unit.core_log")
 lunatest.suite("luchia.tests.unit.core_server")
 lunatest.suite("luchia.tests.unit.core_attachment")
