@@ -1,5 +1,6 @@
 local common = require "luchia.tests.common"
 local server = require "luchia.core.server"
+local conf = require "luchia.conf"
 
 local tests = {}
 
@@ -13,12 +14,21 @@ local bad_port_low = "0"
 local bad_port_nan = "foo"
 local user = "user"
 local password = "password"
+local path = "example/foo"
+local query_parameters = {
+  include_docs = "true",
+  limit = "3",
+}
+local query_string = "include_docs=true&limit=3"
 
 local content_type = "application/json"
 local json_good = '{"foo":"bar"}'
 local json_good_key = "foo"
 local json_good_value = "bar"
 local json_bad = 'foo'
+
+local uuid1 = "1c10da9e7736fc84bbb380fd1f002554"
+local uuid2 = "1c10da9e7736fc84bbb380fd1f0026b8"
 
 local function valid_server_table(srv)
   assert_table(srv, "srv")
@@ -37,6 +47,28 @@ local function bad_server_param(protocol, host, port)
 end
 
 local function request_function(request)
+  local url_string = string.format([[%s://%s:%s]], conf.default.server.protocol, conf.default.server.host, conf.default.server.port)
+  local response_data = ""
+  local response_code = "200"
+  local headers = {}
+  local status = "HTTP/1.1 200 OK"
+
+  local uuids = url_string .. "/_uuids?"
+  local uuids_with_count = url_string .. "/_uuids?count=2"
+  local uuids_bad = url_string .. "/_uuids?count=bad"
+
+  if request.url == uuids then
+    response_data = '{"uuids":["' .. uuid1 .. '"]}'
+  elseif request.url == uuids_with_count then
+    response_data = '{"uuids":["' .. uuid1 .. '","' .. uuid2 .. '"]}'
+  elseif request.url == uuids_bad then
+    response_data = '{}'
+  end
+
+  local source = ltn12.source.string(response_data)
+  ltn12.pump.all(source, request.sink)
+
+  return 1, response_code, headers, status
 end
 
 local function custom_request_server(params)
@@ -154,6 +186,68 @@ function tests.test_core_server_parse_json_good()
   assert_table(result, "result")
   assert_equal(result[json_good_key], json_good_value, "result")
   assert_equal(1, common.table_length(result), "result")
+end
+
+function tests.test_core_server_build_url()
+  local params = {
+    protocol = good_protocol,
+    host = good_host,
+    port = good_port,
+    user = user,
+    password = password,
+  }
+  local srv = custom_request_server(params)
+  srv.path = path
+  srv.query_parameters = query_parameters
+  local result = srv:build_url()
+  local full_url = string.format([[%s://%s:%s@%s:%s/%s?%s]], good_protocol, user, password, good_host, good_port, path, query_string)
+  assert_string(result, "result")
+  assert_equal(full_url, result, "result")
+end
+
+function tests.test_core_server_stringify_parameters_empty()
+  local srv = custom_request_server()
+  local result = srv:stringify_parameters()
+  assert_string(result, "result")
+  assert_equal("", result, "result")
+end
+
+function tests.test_core_server_stringify_parameters_server_attribute()
+  local srv = custom_request_server()
+  srv.query_parameters = query_parameters
+  local result = srv:stringify_parameters()
+  assert_string(result, "result")
+  assert_equal(query_string, result, "result")
+end
+
+function tests.test_core_server_stringify_parameters_server_argument()
+  local srv = custom_request_server()
+  local result = srv:stringify_parameters(query_parameters)
+  assert_string(result, "result")
+  assert_equal(query_string, result, "result")
+end
+
+function tests.test_core_server_uuids_no_param()
+  local srv = custom_request_server()
+  local result = srv:uuids()
+  assert_table(result, "result")
+  assert_equal(1, #result, "result")
+  assert_equal(uuid1, result[1], "result")
+end
+
+function tests.test_core_server_uuids_count_2()
+  local srv = custom_request_server()
+  local result = srv:uuids(2)
+  assert_table(result, "result")
+  assert_equal(2, #result, "result")
+  assert_equal(uuid1, result[1], "result")
+  assert_equal(uuid2, result[2], "result")
+end
+
+function tests.test_core_server_uuids_count_bad()
+  local srv = custom_request_server()
+  local result = srv:uuids("bad")
+  assert_equal(nil, result, "result")
 end
 
 return tests
