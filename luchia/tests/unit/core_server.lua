@@ -6,13 +6,26 @@ local tests = {}
 local good_protocol = "http"
 local good_host = "www.example.com"
 local good_port = "5984"
+local user = "user"
+local password = "password"
+local conf = {
+  default = {
+    server = {
+      protocol = good_protocol,
+      host = good_host,
+      port = good_port,
+      user = user,
+      password = password,
+    },
+  },
+}
+
 local bad_protocol = "ftp"
 local bad_host = "www;example;com"
 local bad_port_high = "70000"
 local bad_port_low = "0"
 local bad_port_nan = "foo"
-local user = "user"
-local password = "password"
+
 local path = "example/foo"
 local query_parameters = {
   include_docs = "true",
@@ -107,20 +120,38 @@ function tests.test_core_server_new_bad_port_nan()
   bad_server_param(good_protocol, good_host, bad_port_nan)
 end
 
-function tests.test_core_server_new_no_params()
-  common.conf_valid_default_server_table()
-  local conf = require "luchia.conf"
-  local http = require "socket.http"
-  local srv = server:new()
+function tests.test_core_server_new_default_params()
+  local params = {
+    custom_default_server = conf,
+  }
+  local srv = server:new(params)
   valid_server_table(srv)
   assert_equal(conf.default.server.protocol, srv.connection.protocol, "srv.connection.protocol")
   assert_equal(conf.default.server.host, srv.connection.host, "srv.connection.host")
   assert_equal(conf.default.server.port, srv.connection.port, "srv.connection.port")
   assert_equal(conf.default.server.user, srv.connection.user, "srv.connection.user")
   assert_equal(conf.default.server.password, srv.connection.password, "srv.connection.password")
-  assert_gte(3, common.table_length(srv.connection), "srv.connection length")
-  assert_lte(5, common.table_length(srv.connection), "srv.connection length")
+  assert_equal(5, common.table_length(srv.connection), "srv.connection length")
+end
+
+function tests.test_core_server_new_default_params_default_request_function()
+  local http = require "socket.http"
+  local params = {
+    custom_default_server = conf,
+  }
+  local srv = server:new(params)
+  valid_server_table(srv)
   assert_equal(http.request, srv.request_function, "default srv.request_function")
+end
+
+function tests.test_core_server_new_default_params_custom_request_function()
+  local params = {
+    custom_default_server = conf,
+    custom_request_function = request_function,
+  }
+  local srv = server:new(params)
+  valid_server_table(srv)
+  assert_equal(request_function, srv.request_function, "custom srv.request_function")
 end
 
 function tests.test_core_server_new_all_params()
@@ -130,7 +161,6 @@ function tests.test_core_server_new_all_params()
     port = good_port,
     user = user,
     password = password,
-    custom_request_function = request_function,
   }
   local srv = server:new(params)
   valid_server_table(srv)
@@ -140,7 +170,6 @@ function tests.test_core_server_new_all_params()
   assert_equal(user, srv.connection.user, "srv.connection.user")
   assert_equal(password, srv.connection.password, "srv.connection.password")
   assert_equal(5, common.table_length(srv.connection), "srv.connection length")
-  assert_equal(request_function, srv.request_function, "custom srv.request_function")
 end
 
 function tests.test_core_server_prepare_request_reset_content_type()
