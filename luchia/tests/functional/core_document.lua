@@ -8,18 +8,7 @@ local rev = "rev"
 local doc_key = "key"
 local doc_value = "value"
 local content_type = "application/json"
-
-local text_file_content_type, text_file_path, text_file_name, text_file_data
-
-function tests.setup()
-  text_file_path, text_file_name, text_file_data = common.create_file1()
-  text_file_content_type = "text/plain"
-end
-
-function tests.teardown()
-  common.remove_file1()
-end
-
+local text_file_content_type = "text/plain"
 
 function tests.test_core_document_new_no_params()
   local doc = document:new()
@@ -87,24 +76,26 @@ end
 function tests.test_core_document_add_attachment_valid_att()
   local mime = require "mime"
   local attachment = require "luchia.core.attachment"
+  local file_path, file_name, file_data = common.create_file1()
   local doc = document:new()
   local params = {
-    file_path = text_file_path,
+    file_path = file_path,
     content_type = text_file_content_type,
-    file_name = text_file_name,
+    file_name = file_name,
   }
   local att = attachment:new(params)
   local return_document = doc:add_attachment(att)
+  common.remove_file1()
   assert_table(doc, "doc")
   assert_table(doc.document, "doc.document")
   assert_equal(1, common.table_length(doc), "doc length")
   assert_table(doc.document._attachments, "doc.document._attachments")
   assert_equal(1, common.table_length(doc.document), "doc.document length")
-  assert_table(doc.document._attachments[text_file_name], "doc.document._attachments[text_file_name]")
+  assert_table(doc.document._attachments[file_name], "doc.document._attachments[file_name]")
   assert_equal(1, common.table_length(doc.document._attachments), "doc.document._attachments length")
-  assert_equal(text_file_content_type, doc.document._attachments[text_file_name].content_type, "doc.document._attachments[text_file_name].content_type")
-  assert_equal(mime.b64(text_file_data), doc.document._attachments[text_file_name].data, "doc.document._attachments[text_file_name].data")
-  assert_equal(2, common.table_length(doc.document._attachments[text_file_name]), "doc.document._attachments[text_file_name] length")
+  assert_equal(text_file_content_type, doc.document._attachments[file_name].content_type, "doc.document._attachments[file_name].content_type")
+  assert_equal(mime.b64(file_data), doc.document._attachments[file_name].data, "doc.document._attachments[file_name].data")
+  assert_equal(2, common.table_length(doc.document._attachments[file_name]), "doc.document._attachments[file_name] length")
   assert_equal(doc.document, return_document, "return doc.document")
 end
 
@@ -118,7 +109,7 @@ function tests.test_core_document_add_attachment_invalid_att()
   assert_equal(nil, return_document, "return doc.document")
 end
 
-function tests.test_core_document_prepare_request()
+function tests.test_core_document_prepare_request_content_type()
   local json = require "cjson"
   local server = {}
   local params = {
@@ -131,9 +122,22 @@ function tests.test_core_document_prepare_request()
   local doc = document:new(params)
   doc:prepare_request(server)
   assert_equal(content_type, server.content_type, "server.content_type")
-  assert_equal(json.encode(doc.document), server.request_data, "server.request_data")
 end
 
+function tests.test_core_document_prepare_request_request_data()
+  local json = require "cjson"
+  local server = {}
+  local params = {
+    id = id,
+    rev = rev,
+    document = {
+      [doc_key] = doc_value,
+    },
+  }
+  local doc = document:new(params)
+  doc:prepare_request(server)
+  assert_equal(json.encode(doc.document), server.request_data, "server.request_data")
+end
 
 return tests
 
