@@ -308,7 +308,7 @@ end
 -- @usage srv:stringify_parameters({ include_docs = "true", limit = "3" })
 -- @see http_request
 function stringify_parameters(self, params)
-  params = params or self.query_parameters
+  params = params or self.query_parameters or {}
   local parameter_string = ""
   for name, value in pairs(params) do
     parameter_string = string.format("%s&%s=%s", parameter_string, url.escape(name), url.escape(value))
