@@ -177,7 +177,7 @@ function request(self, params)
   self:prepare_request(params)
   self:prepare_request_data()
 
-  log:debug(string.format([[New request, method: %s, path: %s, request_data: %s]], self.method, self.path or "", self.request_data or ""))
+  log:debug(string.format([[New request, method: %s, path: %s, request_data: %s]], self.method, self.path, self.request_data or ""))
 
   local response_data, response_code, headers, status = self:execute_request()
   return response_data, response_code, headers, status
@@ -195,7 +195,7 @@ end
 function prepare_request(self, params)
   params = params or {}
   self.method = params.method or "GET"
-  self.path = params.path
+  self.path = params.path or ""
   self.query_parameters = params.query_parameters or {}
   self.headers = params.headers or {}
   self.parse_json_response = params.parse_json_response == nil and true or params.parse_json_response
