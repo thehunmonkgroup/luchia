@@ -202,7 +202,7 @@ function prepare_request(self, params)
   self.data = params.data
 end
 
--- Prepare request data before sending it to the server.
+--- Prepare request data before sending it to the server.
 -- The server object calls this method prior to sending a request to the
 -- server. If a data object has been passed to the server, and it implements
 -- the 'prepare_request_data' method, it will be called and passed the entire
