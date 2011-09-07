@@ -231,6 +231,7 @@ end
 -- @usage response_data, response_code, headers, status_code =
 --   srv:execute_request()
 -- @see request
+-- @see http_request
 -- @see parse_response_data
 function execute_request(self)
   local response_body, response_code, headers, status = self:http_request()
@@ -269,7 +270,7 @@ end
 -- @param json_string The JSON string to parse.
 -- @return The parsed JSON string, converted to a Lua table.
 -- @usage srv:parse_json('{"key": "value"}')
--- @see request
+-- @see parse_response_data
 function parse_json(self, json_string)
   if json_string and json_string ~= "" then
     log:debug(string.format([[JSON to parse: %s]], json_string))
@@ -298,7 +299,7 @@ end
 --   response_code, headers, status_code.
 -- @usage response_data, response_code, headers, status_code =
 --   srv:http_request()
--- @see request
+-- @see execute_request
 -- @see build_url
 function http_request(self)
   local source = nil
@@ -350,7 +351,7 @@ end
 --   on the server object is used.
 -- @return The query string.
 -- @usage srv:stringify_parameters({ include_docs = "true", limit = "3" })
--- @see http_request
+-- @see build_url
 function stringify_parameters(self, params)
   params = params or self.query_parameters or {}
   local parameter_string = ""
