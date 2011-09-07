@@ -161,7 +161,7 @@ end
 -- @see prepare_request_data
 
 
---- Creates a new core server handler.
+--- Send a request to the CouchDB server.
 -- In order to talk to CouchDB, a server object must be created with the
 -- proper connection parameters.
 -- @param params Optional. A table with the request metadata.
@@ -170,10 +170,29 @@ end
 -- @usage response_data, response_code, headers, status_code =
 --   srv:request(params)
 -- @see request_params
+-- @see prepare_request
 -- @see prepare_request_data
--- @see http_request
--- @see parse_json
+-- @see execute_request
 function request(self, params)
+  self:prepare_request(params)
+  self:prepare_request_data()
+
+  log:debug(string.format([[New request, method: %s, path: %s, request_data: %s]], self.method, self.path or "", self.request_data or ""))
+
+  local response_data, response_code, headers, status = self:execute_request()
+  return response_data, response_code, headers, status
+end
+
+
+--- Prepare a request to the CouchDB server.
+-- This method is invoked by the request method to set up the necessary
+-- parameters before making a request to the CouchDB server. It should not
+-- generally need to be called separately.
+-- @param params Optional. A table with the request metadata.
+-- @usage srv:prepare_request(params)
+-- @see request_params
+-- @see request
+function prepare_request(self, params)
   params = params or {}
   self.method = params.method or "GET"
   self.path = params.path
@@ -181,31 +200,9 @@ function request(self, params)
   self.headers = params.headers or {}
   self.parse_json_response = params.parse_json_response == nil and true or params.parse_json_response
   self.data = params.data
-
-  self:prepare_request_data()
-
-  log:debug(string.format([[New request, method: %s, path: %s, request_data: %s]], self.method, self.path or "", self.request_data or ""))
-  local response_body, response_code, headers, status = self:http_request()
-  local response
-  if response_body then
-    log:debug([[Request executed]])
-    if string.match(response_code, "20[0-6]") then
-      log:debug(string.format([[Request successful, response_code: %s]], response_code))
-      if self.parse_json_response then
-        response = self:parse_json(response_body)
-      else
-        response = response_body
-      end
-    else
-      log:warn(string.format([[Request failed, response_code: %s, message: %s]], response_code, status or ""))
-    end
-  else
-    log:error(string.format([[Unable to access server, error message: %s]], response_code))
-  end
-  return response, response_code, headers, status
 end
 
--- Prepare a request before sending it to the server.
+-- Prepare request data before sending it to the server.
 -- The server object calls this method prior to sending a request to the
 -- server. If a data object has been passed to the server, and it implements
 -- the 'prepare_request_data' method, it will be called and passed the entire
@@ -223,6 +220,49 @@ function prepare_request_data(self)
   if self.data and self.data.prepare_request_data then
     self.data:prepare_request_data(self)
   end
+end
+
+--- Execute a request to the CouchDB server.
+-- This method is invoked by the request method to send a request to the
+-- CouchDB server, then collect and parse the response. It should not
+-- generally need to be called separately.
+-- @return The following four values, in this order: response_data,
+--   response_code, headers, status_code.
+-- @usage response_data, response_code, headers, status_code =
+--   srv:execute_request()
+-- @see request
+-- @see parse_response_data
+function execute_request(self)
+  local response_body, response_code, headers, status = self:http_request()
+  local response_data
+  if response_body then
+    log:debug([[Request executed]])
+    if string.match(response_code, "20[0-6]") then
+      log:debug(string.format([[Request successful, response_code: %s]], response_code))
+      response_data = self:parse_response_data(response_body)
+    else
+      log:warn(string.format([[Request failed, response_code: %s, message: %s]], response_code, status or ""))
+    end
+  else
+    log:error(string.format([[Unable to access server, error message: %s]], response_code))
+  end
+  return response_data, response_code, headers, status
+end
+
+--- Parse the response data from the CouchDB server if necessary.
+-- @param data The data to parse.
+-- @usage parsed_data = srv:parse_response_data(data)
+-- @return The parsed data.
+-- @see execute_request
+-- @see parse_json
+function parse_response_data(self, data)
+  local parsed_data
+  if self.parse_json_response then
+    parsed_data = self:parse_json(data)
+  else
+    parsed_data = data
+  end
+  return parsed_data
 end
 
 --- Parse a JSON string.
