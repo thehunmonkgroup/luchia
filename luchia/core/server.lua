@@ -158,7 +158,7 @@ end
 -- @class table
 -- @name request_params
 -- @see request
--- @see prepare_request
+-- @see prepare_request_data
 
 
 --- Creates a new core server handler.
@@ -170,7 +170,7 @@ end
 -- @usage response_data, response_code, headers, status_code =
 --   srv:request(params)
 -- @see request_params
--- @see prepare_request
+-- @see prepare_request_data
 -- @see http_request
 -- @see parse_json
 function request(self, params)
@@ -182,7 +182,7 @@ function request(self, params)
   self.parse_json_response = params.parse_json_response == nil and true or params.parse_json_response
   self.data = params.data
 
-  self:prepare_request()
+  self:prepare_request_data()
 
   log:debug(string.format([[New request, method: %s, path: %s, request_data: %s]], self.method, self.path or "", self.request_data or ""))
   local response_body, response_code, headers, status = self:http_request()
@@ -208,7 +208,7 @@ end
 -- Prepare a request before sending it to the server.
 -- The server object calls this method prior to sending a request to the
 -- server. If a data object has been passed to the server, and it implements
--- the 'prepare_request' method, it will be called and passed the entire
+-- the 'prepare_request_data' method, it will be called and passed the entire
 -- server object, so that it may make any necessary adjustments prior to the
 -- request.  In particular it should properly set the 'request_data' and
 -- 'content_type' attributes on the server object to appropriate values for
@@ -216,12 +216,12 @@ end
 -- Note that the core document and attachment classes already implement this
 -- method, so it should generally not need to be implemented.
 -- @see request
-function prepare_request(self)
+function prepare_request_data(self)
   -- Start with fresh content_type and values.
   self.content_type = nil
   self.request_data = nil
-  if self.data and self.data.prepare_request then
-    self.data:prepare_request(self)
+  if self.data and self.data.prepare_request_data then
+    self.data:prepare_request_data(self)
   end
 end
 

@@ -106,10 +106,10 @@ function add_attachment(self, attachment)
 end
 
 --- Prepare document for a server request.
--- This method is called by luchia.core.server:prepare_request() to allow the
--- document object to properly prepare the data for a server request.
+-- This method is called by luchia.core.server:prepare_request_data() to allow
+-- the document object to properly prepare the data for a server request.
 -- @param server The server object to prepare the request for.
-function prepare_request(self, server)
+function prepare_request_data(self, server)
   log:debug([[Preparing document request data]])
   server.content_type = "application/json"
   server.request_data = json.encode(self.document)

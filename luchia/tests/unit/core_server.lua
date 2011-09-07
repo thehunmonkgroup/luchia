@@ -95,7 +95,7 @@ local function custom_request_server(params)
   return srv
 end
 
-local function prepare_request(self, server)
+local function prepare_request_data(self, server)
   server.content_type = content_type
   server.request_data = json_good
 end
@@ -172,35 +172,35 @@ function tests.test_core_server_new_all_params()
   assert_equal(5, common.table_length(srv.connection), "srv.connection length")
 end
 
-function tests.test_core_server_prepare_request_reset_content_type()
+function tests.test_core_server_prepare_request_data_reset_content_type()
   local srv = custom_request_server()
   srv.content_type = content_type
-  srv:prepare_request()
+  srv:prepare_request_data()
   assert_equal(nil, srv.content_type, "srv.content_type")
 end
 
-function tests.test_core_server_prepare_request_reset_request_data()
+function tests.test_core_server_prepare_request_data_reset_request_data()
   local srv = custom_request_server()
   srv.request_data = request_data
-  srv:prepare_request()
+  srv:prepare_request_data()
   assert_equal(nil, srv.request_data, "srv.request_data")
 end
 
-function tests.test_core_server_prepare_request_set_content_type()
+function tests.test_core_server_prepare_request_data_set_content_type()
   local srv = custom_request_server()
   srv.data = {
-    prepare_request = prepare_request,
+    prepare_request_data = prepare_request_data,
   }
-  srv:prepare_request()
+  srv:prepare_request_data()
   assert_equal(content_type, srv.content_type, "srv.content_type")
 end
 
-function tests.test_core_server_prepare_request_set_request_data()
+function tests.test_core_server_prepare_request_data_set_request_data()
   local srv = custom_request_server()
   srv.data = {
-    prepare_request = prepare_request,
+    prepare_request_data = prepare_request_data,
   }
-  srv:prepare_request()
+  srv:prepare_request_data()
   assert_equal(json_good, srv.request_data, "srv.request_data")
 end
 

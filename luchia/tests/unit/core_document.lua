@@ -109,7 +109,7 @@ function tests.test_core_document_add_attachment_invalid_att()
   assert_equal(nil, return_document, "return doc.document")
 end
 
-function tests.test_core_document_prepare_request_content_type()
+function tests.test_core_document_prepare_request_data_content_type()
   local json = require "cjson"
   local server = {}
   local params = {
@@ -120,11 +120,11 @@ function tests.test_core_document_prepare_request_content_type()
     },
   }
   local doc = document:new(params)
-  doc:prepare_request(server)
+  doc:prepare_request_data(server)
   assert_equal(content_type, server.content_type, "server.content_type")
 end
 
-function tests.test_core_document_prepare_request_request_data()
+function tests.test_core_document_prepare_request_data_request_data()
   local json = require "cjson"
   local server = {}
   local params = {
@@ -135,7 +135,7 @@ function tests.test_core_document_prepare_request_request_data()
     },
   }
   local doc = document:new(params)
-  doc:prepare_request(server)
+  doc:prepare_request_data(server)
   assert_equal(json.encode(doc.document), server.request_data, "server.request_data")
 end
 

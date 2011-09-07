@@ -81,17 +81,17 @@ function tests.test_core_attachment_base64_encode_file()
   assert_equal(mime.b64(file_data), base64_data)
 end
 
-function tests.test_core_attachment_prepare_request_content_type()
+function tests.test_core_attachment_prepare_request_data_content_type()
   local server = {}
   local att = build_new_attachment()
-  att:prepare_request(server)
+  att:prepare_request_data(server)
   assert_equal(att.content_type, server.content_type)
 end
 
-function tests.test_core_attachment_prepare_request_request_data()
+function tests.test_core_attachment_prepare_request_data_request_data()
   local server = {}
   local att = build_new_attachment()
-  att:prepare_request(server)
+  att:prepare_request_data(server)
   assert_equal(att.file_data, server.request_data)
 end
 
