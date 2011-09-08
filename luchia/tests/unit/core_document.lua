@@ -9,6 +9,7 @@ local doc_key = "key"
 local doc_value = "value"
 local content_type = "application/json"
 local text_file_content_type = "text/plain"
+local attachment_file_name = "attachment.txt"
 
 function tests.test_core_document_new_no_params()
   local doc = document:new()
@@ -76,12 +77,12 @@ end
 function tests.test_core_document_add_attachment_valid_att()
   local mime = require "mime"
   local attachment = require "luchia.core.attachment"
-  local file_path, file_name, file_data = common.create_file1()
+  local file_path, file_data = common.create_file1()
   local doc = document:new()
   local params = {
     file_path = file_path,
     content_type = text_file_content_type,
-    file_name = file_name,
+    file_name = attachment_file_name,
   }
   local att = attachment:new(params)
   local return_document = doc:add_attachment(att)
@@ -91,11 +92,11 @@ function tests.test_core_document_add_attachment_valid_att()
   assert_equal(1, common.table_length(doc), "doc length")
   assert_table(doc.document._attachments, "doc.document._attachments")
   assert_equal(1, common.table_length(doc.document), "doc.document length")
-  assert_table(doc.document._attachments[file_name], "doc.document._attachments[file_name]")
+  assert_table(doc.document._attachments[attachment_file_name], "doc.document._attachments[file_name]")
   assert_equal(1, common.table_length(doc.document._attachments), "doc.document._attachments length")
-  assert_equal(text_file_content_type, doc.document._attachments[file_name].content_type, "doc.document._attachments[file_name].content_type")
-  assert_equal(mime.b64(file_data), doc.document._attachments[file_name].data, "doc.document._attachments[file_name].data")
-  assert_equal(2, common.table_length(doc.document._attachments[file_name]), "doc.document._attachments[file_name] length")
+  assert_equal(text_file_content_type, doc.document._attachments[attachment_file_name].content_type, "doc.document._attachments[file_name].content_type")
+  assert_equal(mime.b64(file_data), doc.document._attachments[attachment_file_name].data, "doc.document._attachments[file_name].data")
+  assert_equal(2, common.table_length(doc.document._attachments[attachment_file_name]), "doc.document._attachments[file_name] length")
   assert_equal(doc.document, return_document, "return doc.document")
 end
 
