@@ -42,6 +42,9 @@ module("luchia.core.attachment")
 --   "text/plain"
 -- @field file_name Optional. The name of the attachment as stored in CouchDB.
 --   If not provided, then the base name of file_path will be used.
+-- @field custom_loader_function Optional. By default, files are loaded via
+--   the 'load_file' method in this class. Use this to specify an alternate
+--   loader function.
 -- @class table
 -- @name new_params
 -- @see new
@@ -77,7 +80,8 @@ function new(self, params)
       attachment.file_name = string.match(attachment.file_path, ".+/([^/%s]+)$")
     end
     if attachment.file_name then
-      local file_data = load_file(attachment)
+      attachment.loader = params.custom_loader_function or load_file
+      local file_data = attachment.loader(attachment)
       if file_data then
         attachment.file_data = file_data
         setmetatable(attachment, self)
