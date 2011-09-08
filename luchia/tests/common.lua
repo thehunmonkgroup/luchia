@@ -21,15 +21,13 @@ module("luchia.tests.common")
 function create_file1()
   local file1_data = "foo"
   file1_path = os.tmpname()
-  -- Grab filename from the full path.
-  local file_name = string.match(file1_path, ".+/([^/%s]+)$")
   local file = io.open(file1_path, "w")
   file:write(file1_data)
   file:close()
   file = io.open(file1_path)
   local file_data = file:read("*a")
   file:close()
-  return file1_path, file_name, file_data
+  return file1_path, file_data
 end
 
 function remove_file1()
