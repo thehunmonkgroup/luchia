@@ -7,6 +7,7 @@ local string = require "string"
 local pairs = pairs
 local require = require
 local tonumber = tonumber
+local type = type
 
 local assert_table = assert_table
 local assert_equal = assert_equal
@@ -37,11 +38,13 @@ function remove_file1()
 end
 
 function table_length(t)
-  local count = 0
-  for _, _ in pairs(t)
-    do count = count + 1
+  if type(t) == "table" then
+    local count = 0
+    for _, _ in pairs(t)
+      do count = count + 1
+    end
+    return count
   end
-  return count
 end
 
 function conf_valid_default_server_table()
