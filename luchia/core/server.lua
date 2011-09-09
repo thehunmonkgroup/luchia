@@ -214,7 +214,7 @@ end
 -- method, so it should generally not need to be implemented.
 -- @see request
 function prepare_request_data(self)
-  -- Start with fresh content_type and values.
+  -- Start with fresh content_type and request_data.
   self.content_type = nil
   self.request_data = nil
   if self.data and self.data.prepare_request_data then
