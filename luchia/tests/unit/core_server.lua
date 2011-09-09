@@ -26,12 +26,24 @@ local bad_port_high = "70000"
 local bad_port_low = "0"
 local bad_port_nan = "foo"
 
+local default_method = "GET"
+local custom_method = "PUT"
 local path = "example/foo"
 local query_parameters = {
   include_docs = "true",
   limit = "3",
 }
+local query_parameter_key_1 = "include_docs"
+local query_parameter_value_1 = "true"
+local query_parameter_key_2 = "limit"
+local query_parameter_value_2 = "3"
 local query_string = "include_docs=true&limit=3"
+local custom_headers = { destination = "foo" }
+local custom_headers_key = "destination"
+local custom_headers_value = "foo"
+local custom_data = {foo = "bar"}
+local custom_data_key = "foo"
+local custom_data_value = "bar"
 
 local content_type = "application/json"
 local json_good = '{"foo":"bar"}'
@@ -220,6 +232,131 @@ end
 function tests.test_new_all_params_returns_valid_connection_table_length()
   local srv = new_server_all_params()
   assert_equal(5, common.table_length(srv.connection), "srv.connection length")
+end
+
+local function prepare_request_no_params()
+  local srv = custom_request_server()
+  srv:prepare_request()
+  return srv
+end
+
+function tests.test_prepare_request_no_params_sets_default_method()
+  local srv = prepare_request_no_params()
+  assert_equal(default_method, srv.method)
+end
+
+function tests.test_prepare_request_no_params_sets_empty_path()
+  local srv = prepare_request_no_params()
+  assert_equal("", srv.path)
+end
+
+function tests.test_prepare_request_no_params_sets_query_parameters()
+  local srv = prepare_request_no_params()
+  assert_table(srv.query_parameters)
+end
+
+function tests.test_prepare_request_no_params_sets_empty_query_parameters()
+  local srv = prepare_request_no_params()
+  assert_equal(0, common.table_length(srv.query_parameters), "srv.query_parameters length")
+end
+
+function tests.test_prepare_request_no_params_sets_headers()
+  local srv = prepare_request_no_params()
+  assert_table(srv.headers)
+end
+
+function tests.test_prepare_request_no_params_sets_empty_headers()
+  local srv = prepare_request_no_params()
+  assert_equal(0, common.table_length(srv.headers), "srv.headers length")
+end
+
+function tests.test_prepare_request_no_params_sets_parse_json_response_true()
+  local srv = prepare_request_no_params()
+  assert_true(srv.parse_json_response)
+end
+
+function tests.test_prepare_request_no_params_sets_data_nil()
+  local srv = prepare_request_no_params()
+  assert_equal(nil, srv.data)
+end
+
+local function prepare_request_all_params()
+  local srv = custom_request_server()
+  local params = {
+    method = custom_method,
+    path = path,
+    query_parameters = query_parameters,
+    headers = custom_headers,
+    parse_json_response = false,
+    data = custom_data,
+  }
+  srv:prepare_request(params)
+  return srv
+end
+
+function tests.test_prepare_request_all_params_sets_custom_method()
+  local srv = prepare_request_all_params()
+  assert_equal(custom_method, srv.method)
+end
+
+function tests.test_prepare_request_all_params_sets_custom_path()
+  local srv = prepare_request_all_params()
+  assert_equal(path, srv.path)
+end
+
+function tests.test_prepare_request_all_params_sets_query_parameters()
+  local srv = prepare_request_all_params()
+  assert_table(srv.query_parameters)
+end
+
+function tests.test_prepare_request_all_params_sets_custom_query_parameter_key_value_1()
+  local srv = prepare_request_all_params()
+  assert_equal(query_parameter_value_1, srv.query_parameters[query_parameter_key_1])
+end
+
+function tests.test_prepare_request_all_params_sets_custom_query_parameter_key_value_2()
+  local srv = prepare_request_all_params()
+  assert_equal(query_parameter_value_2, srv.query_parameters[query_parameter_key_2])
+end
+
+function tests.test_prepare_request_all_params_sets_two_custom_query_parameters()
+  local srv = prepare_request_all_params()
+  assert_equal(2, common.table_length(srv.query_parameters), "srv.query_parameters length")
+end
+
+function tests.test_prepare_request_all_params_sets_headers()
+  local srv = prepare_request_all_params()
+  assert_table(srv.headers)
+end
+
+function tests.test_prepare_request_all_params_sets_custom_header_key_value()
+  local srv = prepare_request_all_params()
+  assert_equal(custom_header_value, srv.headers[custom_header_key])
+end
+
+function tests.test_prepare_request_all_params_sets_one_header()
+  local srv = prepare_request_all_params()
+  assert_equal(1, common.table_length(srv.headers), "srv.headers length")
+end
+
+function tests.test_prepare_request_all_params_sets_parse_json_response_false()
+  local srv = prepare_request_all_params()
+  assert_false(srv.parse_json_response)
+end
+
+function tests.test_prepare_request_all_params_sets_data()
+  local srv = prepare_request_all_params()
+  assert_table(srv.data)
+end
+
+function tests.test_prepare_request_all_params_sets_custom_data_key_value()
+  local srv = prepare_request_all_params()
+  assert_equal(custom_data_value, srv.data[custom_data_key])
+end
+
+function tests.test_prepare_request_all_params_sets_one_custom_data_key_value()
+  local srv = prepare_request_all_params()
+  assert_equal(1, common.table_length(srv.data), "srv.data length")
 end
 
 function tests.test_prepare_request_data_no_content_type_resets_content_type()
