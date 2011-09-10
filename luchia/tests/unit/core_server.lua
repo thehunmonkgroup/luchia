@@ -645,6 +645,38 @@ function tests.test_http_request_valid_document_with_data_returns_valid_status()
   assert_equal(status_ok, status)
 end
 
+function tests.test_parse_response_data_with_parse_json_response_false_returns_raw_data()
+  local srv = custom_request_server()
+  local params = {
+    parse_json_response = false,
+  }
+  srv:prepare_request(params)
+  local data = srv:parse_response_data(json_good)
+  assert_equal(json_good, data)
+end
+
+local function parse_response_data_with_no_parse_json_response_set()
+  local srv = custom_request_server()
+  srv:prepare_request()
+  local data = srv:parse_response_data(json_good)
+  return data
+end
+
+function tests.test_parse_response_data_with_no_parse_json_response_set_returns_parsed_data()
+  local data = parse_response_data_with_no_parse_json_response_set()
+  assert_table(data)
+end
+
+function tests.test_parse_response_data_with_no_parse_json_response_set_returns_parsed_data_with_key_value()
+  local data = parse_response_data_with_no_parse_json_response_set()
+  assert_equal(json_good_value, data[json_good_key])
+end
+
+function tests.test_parse_response_data_with_no_parse_json_response_set_returns_parsed_data_with_only_key_value()
+  local data = parse_response_data_with_no_parse_json_response_set()
+  assert_equal(1, common.table_length(data), "parsed data length")
+end
+
 local function get_parsed_json(json_string)
   local srv = custom_request_server()
   local result = srv:parse_json(json_string)
