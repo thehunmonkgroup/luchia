@@ -48,7 +48,6 @@ local custom_data_value = "bar"
 local response_code_ok = "200"
 local response_code_not_found = "404"
 local response_code_service_error = "error"
-local empty_headers = {}
 local status_ok = "HTTP/1.1 200 OK"
 local status_not_found = "HTTP/1.1 404 Object Not Found"
 
@@ -82,7 +81,7 @@ local function request_function(request)
   local response = 1
   local response_data = ""
   local response_code = response_code_ok
-  local headers = empty_headers
+  local headers = request.headers
   local status = status_ok
 
   local uuids = url_string .. "/_uuids?"
@@ -521,6 +520,122 @@ end
 
 function tests.test_execute_request_valid_document_returns_valid_status()
   local response_data, response_code, headers, status = execute_request_valid_document()
+  assert_equal(status_ok, status)
+end
+
+local function http_request_service_error()
+  local srv = custom_request_server()
+  local params = {
+    path = "service-error",
+  }
+  srv:prepare_request(params)
+  local response_data, response_code, headers, status = srv:http_request()
+  return response_data, response_code, headers, status
+end
+
+function tests.test_http_request_service_error_returns_response_data_nil()
+  local response_data = http_request_service_error()
+  assert_equal(nil, response_data)
+end
+
+function tests.test_http_request_service_error_returns_valid_response_code()
+  local response_data, response_code = http_request_service_error()
+  assert_equal(response_code_service_error, response_code)
+end
+
+function tests.test_http_request_service_error_returns_headers_nil()
+  local response_data, response_code, headers = http_request_service_error()
+  assert_equal(nil, headers)
+end
+
+function tests.test_http_request_service_error_returns_status_nil()
+  local response_data, response_code, headers, status = http_request_service_error()
+  assert_equal(nil, status)
+end
+
+local function http_request_valid_document_no_data()
+  local srv = custom_request_server()
+  local params = {
+    path = "valid-document",
+  }
+  srv:prepare_request(params)
+  local response_data, response_code, headers, status = srv:http_request()
+  return response_data, response_code, headers, status
+end
+
+function tests.test_http_request_valid_document_no_data_returns_response_data_as_json()
+  local response_data = http_request_valid_document_no_data()
+  assert_equal(json_good, response_data)
+end
+
+function tests.test_http_request_valid_document_no_data_returns_valid_response_code()
+  local response_data, response_code = http_request_valid_document_no_data()
+  assert_equal(response_code_ok, response_code)
+end
+
+function tests.test_http_request_valid_document_no_data_returns_headers()
+  local response_data, response_code, headers = http_request_valid_document_no_data()
+  assert_table(headers)
+end
+
+function tests.test_http_request_valid_document_no_data_returns_empty_headers()
+  local response_data, response_code, headers = http_request_valid_document_no_data()
+  assert_equal(0, common.table_length(headers), "headers length")
+end
+
+function tests.test_http_request_valid_document_no_data_returns_valid_status()
+  local response_data, response_code, headers, status = http_request_valid_document_no_data()
+  assert_equal(status_ok, status)
+end
+
+local function http_request_valid_document_with_data()
+  local srv = custom_request_server()
+  local params = {
+    path = "valid-document",
+    data = {
+      prepare_request_data = prepare_request_data,
+    },
+  }
+  srv:prepare_request(params)
+  srv:prepare_request_data()
+  local response_data, response_code, headers, status = srv:http_request()
+  return response_data, response_code, headers, status
+end
+
+function tests.test_http_request_valid_document_with_data_returns_response_data_as_json()
+  local response_data = http_request_valid_document_with_data()
+  -- http_request is pre-JSON parsing.
+  assert_equal(json_good, response_data)
+end
+
+function tests.test_http_request_valid_document_with_data_returns_valid_response_code()
+  local response_data, response_code = http_request_valid_document_with_data()
+  assert_equal(response_code_ok, response_code)
+end
+
+function tests.test_http_request_valid_document_with_data_returns_headers()
+  local response_data, response_code, headers = http_request_valid_document_with_data()
+  assert_table(headers)
+end
+
+function tests.test_http_request_valid_document_with_data_returns_content_type_header()
+  local response_data, response_code, headers = http_request_valid_document_with_data()
+  assert_equal(content_type, headers["content-type"])
+end
+
+function tests.test_http_request_valid_document_with_data_returns_content_length_header()
+  local response_data, response_code, headers = http_request_valid_document_with_data()
+  local json_good_length = json_good:len()
+  assert_equal(json_good_length, headers["content-length"])
+end
+
+function tests.test_http_request_valid_document_with_data_returns_only_content_type_content_length_headers()
+  local response_data, response_code, headers = http_request_valid_document_with_data()
+  assert_equal(2, common.table_length(headers), "headers length")
+end
+
+function tests.test_http_request_valid_document_with_data_returns_valid_status()
+  local response_data, response_code, headers, status = http_request_valid_document_with_data()
   assert_equal(status_ok, status)
 end
 
