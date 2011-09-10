@@ -312,7 +312,7 @@ function http_request(self)
   end
 
   local result = {}
-  local _, response_code, headers, status = self.request_function {
+  local response, response_code, headers, status = self.request_function {
     method = self.method,
     url = self:build_url(),
     sink = ltn12.sink.table(result),
@@ -320,7 +320,12 @@ function http_request(self)
     headers = headers
   }
 
-  return table.concat(result), response_code, headers, status
+  local response_data
+  if response then
+    response_data = table.concat(result)
+  end
+
+  return response_data, response_code, headers, status
 end
 
 --- Builds a URL based on the server connection object, the request path,
