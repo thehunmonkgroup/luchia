@@ -397,18 +397,24 @@ end
 
 function tests.test_prepare_request_data_set_content_type_sets_content_type()
   local srv = custom_request_server()
-  srv.data = {
-    prepare_request_data = prepare_request_data,
+  local params = {
+    data = {
+      prepare_request_data = prepare_request_data,
+    },
   }
+  srv:prepare_request(params)
   srv:prepare_request_data()
   assert_equal(content_type, srv.content_type)
 end
 
 function tests.test_prepare_request_data_set_request_data_sets_server_request_data()
   local srv = custom_request_server()
-  srv.data = {
-    prepare_request_data = prepare_request_data,
+  local params = {
+    data = {
+      prepare_request_data = prepare_request_data,
+    },
   }
+  srv:prepare_request(params)
   srv:prepare_request_data()
   assert_equal(json_good, srv.request_data)
 end
