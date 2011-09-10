@@ -45,6 +45,13 @@ local custom_data = {foo = "bar"}
 local custom_data_key = "foo"
 local custom_data_value = "bar"
 
+local response_code_ok = "200"
+local response_code_not_found = "404"
+local response_code_service_error = "error"
+local empty_headers = {}
+local status_ok = "HTTP/1.1 200 OK"
+local status_not_found = "HTTP/1.1 404 Object Not Found"
+
 local content_type = "application/json"
 local json_good = '{"foo":"bar"}'
 local json_good_key = "foo"
@@ -72,14 +79,18 @@ end
 
 local function request_function(request)
   local url_string = string.format([[%s://%s:%s]], good_protocol, good_host, good_port)
+  local response = 1
   local response_data = ""
-  local response_code = "200"
-  local headers = {}
-  local status = "HTTP/1.1 200 OK"
+  local response_code = response_code_ok
+  local headers = empty_headers
+  local status = status_ok
 
   local uuids = url_string .. "/_uuids?"
   local uuids_with_count = url_string .. "/_uuids?count=2"
   local uuids_bad = url_string .. "/_uuids?count=bad"
+  local service_error = url_string .. "/service-error?"
+  local not_found = url_string .. "/not-found?"
+  local valid_document_response = url_string .. "/valid-document?"
 
   if request.url == uuids then
     response_data = '{"uuids":["' .. uuid1 .. '"]}'
@@ -87,12 +98,24 @@ local function request_function(request)
     response_data = '{"uuids":["' .. uuid1 .. '","' .. uuid2 .. '"]}'
   elseif request.url == uuids_bad then
     response_data = '{}'
+  elseif request.url == service_error then
+    response = nil
+    response_code = response_code_service_error
+    headers = nil
+    status = nil
+    response_data = nil
+  elseif request.url == not_found then
+    response_code = response_code_not_found
+    status = status_not_found
+  elseif request.url == valid_document_response then
+    response_data = json_good
   end
 
-  local source = ltn12.source.string(response_data)
-  ltn12.pump.all(source, request.sink)
-
-  return 1, response_code, headers, status
+  if response_data then
+    local source = ltn12.source.string(response_data)
+    ltn12.pump.all(source, request.sink)
+  end
+  return response, response_code, headers, status
 end
 
 local function custom_request_server(params)
@@ -389,6 +412,116 @@ function tests.test_prepare_request_data_set_request_data_sets_server_request_da
   }
   srv:prepare_request_data()
   assert_equal(json_good, srv.request_data)
+end
+
+local function execute_request_service_error()
+  local srv = custom_request_server()
+  local params = {
+    path = "service-error",
+  }
+  srv:prepare_request(params)
+  local response_data, response_code, headers, status = srv:execute_request()
+  return response_data, response_code, headers, status
+end
+
+function tests.test_execute_request_service_error_returns_response_data_nil()
+  local response_data = execute_request_service_error()
+  assert_equal(nil, response_data)
+end
+
+function tests.test_execute_request_service_error_returns_valid_response_code()
+  local response_data, response_code = execute_request_service_error()
+  assert_equal(response_code_service_error, response_code)
+end
+
+function tests.test_execute_request_service_error_returns_headers_nil()
+  local response_data, response_code, headers = execute_request_service_error()
+  assert_equal(nil, headers)
+end
+
+function tests.test_execute_request_service_error_returns_status_nil()
+  local response_data, response_code, headers, status = execute_request_service_error()
+  assert_equal(nil, status)
+end
+
+local function execute_request_not_found()
+  local srv = custom_request_server()
+  local params = {
+    path = "not-found",
+  }
+  srv:prepare_request(params)
+  local response_data, response_code, headers, status = srv:execute_request()
+  return response_data, response_code, headers, status
+end
+
+function tests.test_execute_request_not_found_returns_response_data_nil()
+  local response_data = execute_request_not_found()
+  assert_equal(nil, response_data)
+end
+
+function tests.test_execute_request_not_found_returns_valid_response_code()
+  local response_data, response_code = execute_request_not_found()
+  assert_equal(response_code_not_found, response_code)
+end
+
+function tests.test_execute_request_not_found_returns_headers()
+  local response_data, response_code, headers = execute_request_not_found()
+  assert_table(headers)
+end
+
+function tests.test_execute_request_not_found_returns_empty_headers()
+  local response_data, response_code, headers = execute_request_not_found()
+  assert_equal(0, common.table_length(headers), "headers length")
+end
+
+function tests.test_execute_request_not_found_returns_valid_status()
+  local response_data, response_code, headers, status = execute_request_not_found()
+  assert_equal(status_not_found, status)
+end
+
+local function execute_request_valid_document()
+  local srv = custom_request_server()
+  local params = {
+    path = "valid-document",
+  }
+  srv:prepare_request(params)
+  local response_data, response_code, headers, status = srv:execute_request()
+  return response_data, response_code, headers, status
+end
+
+function tests.test_execute_request_valid_document_returns_response_data()
+  local response_data = execute_request_valid_document()
+  assert_table(response_data)
+end
+
+function tests.test_execute_request_valid_document_returns_response_data_valid_key_value()
+  local response_data = execute_request_valid_document()
+  assert_equal(json_good_value, response_data[json_good_key])
+end
+
+function tests.test_execute_request_valid_document_returns_response_data_only_valid_key_value()
+  local response_data = execute_request_valid_document()
+  assert_equal(1, common.table_length(response_data), "response_data length")
+end
+
+function tests.test_execute_request_valid_document_returns_valid_response_code()
+  local response_data, response_code = execute_request_valid_document()
+  assert_equal(response_code_ok, response_code)
+end
+
+function tests.test_execute_request_valid_document_returns_headers()
+  local response_data, response_code, headers = execute_request_valid_document()
+  assert_table(headers)
+end
+
+function tests.test_execute_request_valid_document_returns_empty_headers()
+  local response_data, response_code, headers = execute_request_valid_document()
+  assert_equal(0, common.table_length(headers), "headers length")
+end
+
+function tests.test_execute_request_valid_document_returns_valid_status()
+  local response_data, response_code, headers, status = execute_request_valid_document()
+  assert_equal(status_ok, status)
 end
 
 local function get_parsed_json(json_string)
