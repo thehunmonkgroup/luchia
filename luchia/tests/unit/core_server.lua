@@ -256,6 +256,50 @@ function tests.test_new_all_params_returns_valid_connection_table_length()
   assert_equal(5, common.table_length(srv.connection), "srv.connection length")
 end
 
+local function request_valid_document()
+  local srv = custom_request_server()
+  local params = {
+    path = "valid-document",
+  }
+  local response_data, response_code, headers, status = srv:request(params)
+  return response_data, response_code, headers, status
+end
+
+function tests.test_request_valid_document_returns_response_data()
+  local response_data = request_valid_document()
+  assert_table(response_data)
+end
+
+function tests.test_request_valid_document_returns_response_data_valid_key_value()
+  local response_data = request_valid_document()
+  assert_equal(json_good_value, response_data[json_good_key])
+end
+
+function tests.test_request_valid_document_returns_response_data_only_valid_key_value()
+  local response_data = request_valid_document()
+  assert_equal(1, common.table_length(response_data), "response_data length")
+end
+
+function tests.test_request_valid_document_returns_valid_response_code()
+  local response_data, response_code = request_valid_document()
+  assert_equal(response_code_ok, response_code)
+end
+
+function tests.test_request_valid_document_returns_headers()
+  local response_data, response_code, headers = request_valid_document()
+  assert_table(headers)
+end
+
+function tests.test_request_valid_document_returns_empty_headers()
+  local response_data, response_code, headers = request_valid_document()
+  assert_equal(0, common.table_length(headers), "headers length")
+end
+
+function tests.test_request_valid_document_returns_valid_status()
+  local response_data, response_code, headers, status = request_valid_document()
+  assert_equal(status_ok, status)
+end
+
 local function prepare_request_no_params()
   local srv = custom_request_server()
   srv:prepare_request()
