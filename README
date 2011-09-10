@@ -12,8 +12,10 @@ method.  Here are the dependencies:
     luasocket
 
   Optional
-    luadoc
-    stdlib
+    stdlib (prettier output for request.lua)
+    luadoc (to generate local documentation)
+    lunatest (to run unit tests)
+    luacov (to view unit test coverage)
 
 Future plans are to add luchia to the main LuaRocks repository, but until
 then copy luchia.lua and the luchia directory from the base luchia directory,
@@ -21,7 +23,9 @@ and put them somewhere in your Lua package path.
 
 DOCUMENTATION:
 
-All documentation is inline, but is luadoc
+Available online at http://thehunmonkgroup.github.com/luchia
+
+For local documentation, all documentation is inline, but is luadoc
 (http://keplerproject.github.com/luadoc) compatible. To generate HTML
 documentation, install luadoc, enter the base luchia directory, then
 run:
@@ -30,3 +34,9 @@ run:
 
 If you don't want to go this route, then at least start with the inline
 documentation in luchia.lua.
+
+UNIT TESTS:
+
+luchia core classes have full unit test coverage. They can be run with:
+  lua /path/to/luchia/tests/run_unit_tests.lua -v
+
