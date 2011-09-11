@@ -30,7 +30,7 @@ end
 
 function tests.test_database_info()
   local info = db:info(database_name)
-  assert_true(database_name, info.db_name, "Unable to find database name via info() method")
+  assert_equal(database_name, info.db_name, "Unable to find database name via info() method")
 end
 
 return tests
