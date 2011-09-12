@@ -209,6 +209,9 @@ end
 function info(self, id)
   if id then
     local response, response_code, headers = document_call(self, "HEAD", id)
+    -- For some reason, the etag comes back with escaped quotes, strip them
+    -- out.
+    headers.etag = string.gsub(headers.etag, '\"', "")
     return headers
   else
     log:error([[id is required]])
