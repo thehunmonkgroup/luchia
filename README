@@ -23,7 +23,8 @@ and put them somewhere in your Lua package path.
 
 DOCUMENTATION:
 
-Available online at http://thehunmonkgroup.github.com/luchia
+Available online at:
+  http://thehunmonkgroup.github.com/luchia/modules/luchia.html
 
 For local documentation, all documentation is inline, but is luadoc
 (http://keplerproject.github.com/luadoc) compatible. To generate HTML
@@ -39,4 +40,12 @@ UNIT TESTS:
 
 luchia core classes have full unit test coverage. They can be run with:
   lua /path/to/luchia/tests/run_unit_tests.lua -v
+
+INTEGRATION TESTS:
+
+The higher-level luchia classes (luchia.database, luchia.document,
+luchia.utilities) have a full integration test suite, to run it, make sure
+that the default server settings in luchia.conf point to a valid, running
+CouchDB instance with full administrative access, and run:
+  lua /path/to/luchia/tests/run_integration_tests.lua -v
 
