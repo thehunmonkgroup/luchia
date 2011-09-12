@@ -103,5 +103,11 @@ function tests.test_info()
   assert_equal(initial_doc.rev, info.etag, "etag not present for info method")
 end
 
+function tests.test_current_revision()
+  local initial_doc = create_document()
+  local current_revision = doc:current_revision(initial_doc.id)
+  assert_equal(initial_doc.rev, current_revision, "current_revision does not match")
+end
+
 return tests
 
