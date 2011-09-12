@@ -1,3 +1,4 @@
+local common = require "luchia.tests.common"
 local database = require "luchia.database"
 local document = require "luchia.document"
 
@@ -10,10 +11,15 @@ local response_code_ok = 200
 local response_code_created = 201
 local status_ok = "HTTP/1.1 200 OK"
 local status_created = "HTTP/1.1 201 Created"
+
 local data_key = "foo"
 local data_value = "bar"
+local file_path, file_data
+local test_file_name = "attachment.txt"
+local content_type = "text/plain"
 
 function tests.setup()
+  file_path, file_data = common.create_file1()
   database_name = "test_" .. tostring(math.random(1000000))
   db = database:new()
   local resp = db:create(database_name)
@@ -23,6 +29,7 @@ function tests.setup()
 end
 
 function tests.teardown()
+  common.remove_file1()
   local resp = db:delete(database_name)
   assert_true(db:response_ok(resp), "Unable to delete database")
 end
@@ -107,6 +114,21 @@ function tests.test_current_revision()
   local initial_doc = create_document()
   local current_revision = doc:current_revision(initial_doc.id)
   assert_equal(initial_doc.rev, current_revision, "current_revision does not match")
+end
+
+function tests.test_add_inline_attachment_to_existing_document_then_retrieve()
+  local initial_doc = create_document()
+  local document_data, code = doc:retrieve(initial_doc.id)
+  assert_equal(response_code_ok, code, "Document retrieval response_code is incorrect")
+  local added_attachment = doc:add_inline_attachment(file_path, content_type, test_file_name, document_data, initial_doc.id, initial_doc.rev)
+  assert_true(doc:response_ok(added_attachment), "Adding attachment failed")
+  assert_equal(initial_doc.id, added_attachment.id, "Document id mismatch")
+  assert_not_equal(initial_doc.rev, added_attachment.rev, "Document rev was not updated")
+  local document_data = doc:retrieve(initial_doc.id)
+  assert_equal(data_value, document_data[data_key], "Document data mismatch")
+  local retrieved_attachment, code = doc:retrieve_attachment(test_file_name, initial_doc.id)
+  assert_equal(file_data, retrieved_attachment)
+  assert_equal(response_code_ok, code, "Attachment retrieval response_code is incorrect")
 end
 
 return tests
