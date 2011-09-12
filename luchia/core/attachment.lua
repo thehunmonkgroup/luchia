@@ -35,16 +35,18 @@ module("luchia.core.attachment")
 --- Parameters table for creating new attachment objects.
 -- This is the required table to pass when calling the 'new' method to create
 -- new attachment objects.
--- @field file_path Required. The path to the file to add as an attachment.
---   Relative paths can be used, but must have a path component, eg.
---   "./myfile" or "/tmp/attachment.txt".
--- @field content_type Required. The mime content type of the attachment, eg.
---   "text/plain"
--- @field file_name Optional. The name of the attachment as stored in CouchDB.
---   If not provided, then the base name of file_path will be used.
--- @field custom_loader_function Optional. By default, files are loaded via
---   the 'load_file' method in this class. Use this to specify an alternate
---   loader function.
+-- @field file_path
+--   Required. The path to the file to add as an attachment. Relative paths
+--   can be used, but must have a path component, eg. "./myfile" or
+--   "/tmp/attachment.txt".
+-- @field content_type
+--   Required. The mime content type of the attachment, eg. "text/plain".
+-- @field file_name
+--   Optional. The name of the attachment as stored in CouchDB. If not
+--   provided, then the base name of file_path will be used.
+-- @field custom_loader_function
+--   Optional. By default, files are loaded via the 'load_file' method in this
+--   class. Use this to specify an alternate loader function.
 -- @class table
 -- @name new_params
 -- @see new
@@ -58,8 +60,9 @@ module("luchia.core.attachment")
 -- In order to send a standalone attachment via the core server methods, an
 -- attachment object must be created, and passed to the 'data' parameter of
 -- luchia.core.server:request().
--- @param params Required. A table with the metadata necessary to create a new
---   attachment object.
+-- @param params
+--   Required. A table with the metadata necessary to create a new attachment
+--   object.
 -- @return A new attachment object.
 -- @usage attachment = luchia.core.attachment:new(params)
 -- @see new_params
@@ -128,7 +131,8 @@ end
 --- Prepare attachment for a server request.
 -- This method is called by luchia.core.server:prepare_request_data() to allow
 -- the attachment object to properly prepare the data for a server request.
--- @param server Required. The server object to prepare the request for.
+-- @param server
+--   Required. The server object to prepare the request for.
 function prepare_request_data(self, server)
   log:debug([[Preparing attachment request data]])
   server.content_type = self.content_type

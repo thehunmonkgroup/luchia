@@ -4,7 +4,8 @@
 
 --- Log a message at the debug level.
 -- @param self
--- @param message The message to log.
+-- @param message
+--   The message to log.
 --   Note that for all logging methods listed, a function signature like
 --   that of string.format() can be used, eg. <code>log:debug("hello world")
 --   </code> and <code>log:debug("hello %s", "world")</code> are both valid
@@ -15,28 +16,32 @@
 
 --- Log a message at the info level.
 -- @param self
--- @param message The message to log.
+-- @param message
+--   The message to log.
 -- @usage luchia.core.log:info("info message")
 -- @class function
 -- @name info
 
 --- Log a message at the warn level.
 -- @param self
--- @param message The message to log.
+-- @param message
+--   The message to log.
 -- @usage luchia.core.log:warn("warn message")
 -- @class function
 -- @name warn
 
 --- Log a message at the error level.
 -- @param self
--- @param message The message to log.
+-- @param message
+--   The message to log.
 -- @usage luchia.core.log:error("error message")
 -- @class function
 -- @name error
 
 --- Log a message at the fatal level.
 -- @param self
--- @param message The message to log.
+-- @param message
+--   The message to log.
 -- @usage luchia.core.log:fatal("fatal message")
 -- @class function
 -- @name fatal

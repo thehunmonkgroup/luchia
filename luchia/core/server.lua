@@ -84,19 +84,28 @@ local function valid_port(self)
 end
 
 --- Parameters table for creating new server objects.
--- This is the optional table to pass when calling the 'new' method to create
+-- This is the optional table to pass when calling the 'new' method to create.
+-- All parameters are optional, values will default to the the default server
+-- settings specified in luchia.conf if not specified.
 -- new server objects.
--- @field protocol The protocol to use, currently only "http" is allowed.
--- @field host The host name, eg. "localhost" or "www.example.com".
--- @field port The port to use, eg. "5984".
--- @field user For authentication scenarios, the user to authenticate as.
--- @field password For authentication scenarios, the user's password.
--- @field custom_request_function A custom request function can be substituted
---   for the default http.request function available from luasocket. The
---   testing framework uses this to mock for unit tests.
--- @field custom_default_server A custom default server table can be
---   substituted for the default one available from luchia.conf. The testing
---   framework uses this to mock for unit tests.
+-- @field protocol
+--   The protocol to use, currently only "http" is allowed.
+-- @field host
+--   The host name, eg. "localhost" or "www.example.com".
+-- @field port
+--   The port to use, eg. "5984".
+-- @field user
+--   For authentication scenarios, the user to authenticate as.
+-- @field password
+--   For authentication scenarios, the user's password.
+-- @field custom_request_function
+--   A custom request function can be substituted for the default http.request
+--   function available from luasocket. The testing framework uses this to
+--   mock for unit tests.
+-- @field custom_default_server
+--   A custom default server table can be substituted for the default one
+--   available from luchia.conf. The testing framework uses this to mock for
+--   unit tests.
 -- @class table
 -- @name new_params
 -- @see new
@@ -104,10 +113,11 @@ end
 --- Creates a new core server handler.
 -- In order to talk to CouchDB, a server object must be created with the
 -- proper connection parameters.
--- @param params Optional. A table with the metadata necessary to create a new
---   server object. If a needed connection parameter is not passed here, the
---   default server setting configuration will be used instead to build the
---   server object.
+-- @param params
+--   Optional. A table with the metadata necessary to create a new server
+--   object. If a needed connection parameter is not passed here, the default
+--   server setting configuration will be used instead to build the server
+--   object.
 -- @return A new server object.
 -- @usage srv = luchia.core.server:new(params)
 -- @see new_params
@@ -143,18 +153,23 @@ end
 --- Parameters table for sending server requests.
 -- This is the optional table to pass when calling the 'request' method on
 -- server objects.
--- @field method Optional. The server method, must be one of "GET", "POST",
---   "PUT", "DELETE", "HEAD", "COPY". Default is "GET".
--- @field path Optional. The path on the server to access.
--- @field query_parameters Optional. A table of query parameters to pass to
---   the server, key is parameter name, value is parameter value, eg.
+-- @field method
+--   Optional. The server method, must be one of "GET", "POST", "PUT",
+--   "DELETE", "HEAD", "COPY". Default is "GET".
+-- @field path
+--   Optional. The path on the server to access.
+-- @field query_parameters
+--   Optional. A table of query parameters to pass to the server, key is
+--   parameter name, value is parameter value, eg.
 --   '{ include_docs = "true", limit = "3" }'.
--- @field headers Optional. A table of headers to pass to the server, eg.
+-- @field headers
+--   Optional. A table of headers to pass to the server, eg.
 --   '{ destination = "doc_id" }'.
--- @field parse_json_response Optional. Boolean. Set to false to disable
---   automatic parsing of the JSON response from the server into a Lua table.
---   Default is true.
--- @field data Optional. A data object containing data to pass to the server.
+-- @field parse_json_response
+--   Optional. Boolean. Set to false to disable automatic parsing of the JSON
+--   response from the server into a Lua table. Default is true.
+-- @field data
+--   Optional. A data object containing data to pass to the server.
 -- @class table
 -- @name request_params
 -- @see request
@@ -164,7 +179,8 @@ end
 --- Send a request to the CouchDB server.
 -- In order to talk to CouchDB, a server object must be created with the
 -- proper connection parameters.
--- @param params Optional. A table with the request metadata.
+-- @param params
+--   Optional. A table with the request metadata.
 -- @return The following four values, in this order: response_data,
 --   response_code, headers, status_code.
 -- @usage response_data, response_code, headers, status_code =
@@ -188,7 +204,8 @@ end
 -- This method is invoked by the request method to set up the necessary
 -- parameters before making a request to the CouchDB server. It should not
 -- generally need to be called separately.
--- @param params Optional. A table with the request metadata.
+-- @param params
+--   Optional. A table with the request metadata.
 -- @usage srv:prepare_request(params)
 -- @see request_params
 -- @see request
@@ -251,7 +268,8 @@ function execute_request(self)
 end
 
 --- Parse the response data from the CouchDB server if necessary.
--- @param data Required. The data to parse.
+-- @param data
+--   Required. The data to parse.
 -- @usage parsed_data = srv:parse_response_data(data)
 -- @return The parsed data.
 -- @see execute_request
@@ -267,7 +285,8 @@ function parse_response_data(self, data)
 end
 
 --- Parse a JSON string.
--- @param json_string Required. The JSON string to parse.
+-- @param json_string
+--   Required. The JSON string to parse.
 -- @return The parsed JSON string, converted to a Lua table.
 -- @usage srv:parse_json('{"key": "value"}')
 -- @see parse_response_data
@@ -351,9 +370,10 @@ function build_url(self)
 end
 
 --- Builds a query string from a Lua table of query parameters.
--- @param params Optional. A table of query parameters, key is parameter name,
---   value is parameter value. If not provided, the query_parameters attribute
---   on the server object is used.
+-- @param params
+--   Optional. A table of query parameters, key is parameter name, value is
+--   parameter value. If not provided, the query_parameters attribute on the
+--   server object is used.
 -- @return The query string.
 -- @usage srv:stringify_parameters({ include_docs = "true", limit = "3" })
 -- @see build_url
@@ -373,7 +393,8 @@ end
 --- Retrieve uuids from the CouchDB server.
 -- This provides a convenient way to get random unique identifiers from the
 -- server itself if no other facility is available to generate them.
--- @param count Optional. The number of uuids to generate, default is 1.
+-- @param count
+--   Optional. The number of uuids to generate, default is 1.
 -- @return A list of uuids.
 -- @usage srv:uuids(10)
 function uuids(self, count)
@@ -392,8 +413,8 @@ end
 
 --- Check the response for success.
 -- A convenience method to ensure a successful request.
--- @param response Required. The response object returned from the server
---   request.
+-- @param response
+--   Required. The response object returned from the server request.
 -- @return true if the server responsed with an ok:true, false otherwise.
 -- @usage operation_succeeded = srv:response_ok(response)
 function response_ok(self, response)

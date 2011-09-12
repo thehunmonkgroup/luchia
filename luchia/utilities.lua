@@ -24,9 +24,10 @@ local setmetatable = setmetatable
 module("luchia.utilities")
 
 --- Create a new utilities handler object.
--- @param utilities_server Optional. The server object to use for the server
---   connection. If not provided, a server object will be generated from the
---   default server configuration.
+-- @param utilities_server
+--   Optional. The server object to use for the server connection. If not
+--   provided, a server object will be generated from the default server
+--   configuration.
 -- @return A utilities handler object.
 -- @usage util = luchia.utilities:new(server)
 function new(self, utilities_server)
@@ -40,7 +41,8 @@ end
 
 --- Make a utilities-related request to the server.
 -- This is an internal method only.
--- @param path The server path.
+-- @param path
+--   Optional. The server path.
 -- @return The following four values, in this order: response_data,
 --   response_code, headers, status_code.
 local function utilities_get_call(self, path)
