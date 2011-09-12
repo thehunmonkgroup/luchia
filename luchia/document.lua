@@ -175,8 +175,8 @@ function copy(self, id, destination)
         destination = destination
       },
     }
-    local response = self.server:request(params)
-    return response
+    local response, response_code, headers, status = self.server:request(params)
+    return response, response_code, headers, status
   end
 end
 
