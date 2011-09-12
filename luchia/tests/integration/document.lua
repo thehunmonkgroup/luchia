@@ -14,12 +14,12 @@ local data_key = "foo"
 local data_value = "bar"
 
 function tests.setup()
- database_name = "test_" .. tostring(math.random(1000000))
- db = database:new()
- local resp = db:create(database_name)
- assert_true(db:response_ok(resp), "Unable to create database")
- doc = document:new(database_name)
- assert_table(doc, "Unable to create valid document handler")
+  database_name = "test_" .. tostring(math.random(1000000))
+  db = database:new()
+  local resp = db:create(database_name)
+  assert_true(db:response_ok(resp), "Unable to create database")
+  doc = document:new(database_name)
+  assert_table(doc, "Unable to create valid document handler")
 end
 
 function tests.teardown()
@@ -80,6 +80,27 @@ function tests.test_update()
   assert_equal(initial_doc.id, updated_doc.id, "Document id mismatch")
   assert_not_equal(initial_doc.rev, updated_doc.rev, "Document rev was not updated")
   assert_equal(updated_data_value, data[data_key], "Document data not updated")
+end
+
+function tests.test_copy()
+  local initial_doc = create_document()
+  local copy_name = "copy"
+  local copied_doc = doc:copy(initial_doc.id, copy_name)
+  assert_equal(copy_name, copied_doc.id, "Document id mismatch")
+end
+
+function tests.test_delete()
+  local initial_doc = create_document()
+  local deleted_doc = doc:delete(initial_doc.id, initial_doc.rev)
+  assert_true(doc:response_ok(deleted_doc), "Deletion failed")
+  assert_equal(initial_doc.id, deleted_doc.id, "Document id mismatch")
+  assert_not_equal(initial_doc.rev, deleted_doc.rev, "Document rev was not updated")
+end
+
+function tests.test_info()
+  local initial_doc = create_document()
+  local info = doc:info(initial_doc.id)
+  assert_equal(initial_doc.rev, info.etag, "etag not present for info method")
 end
 
 return tests
