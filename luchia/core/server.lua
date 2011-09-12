@@ -154,7 +154,7 @@ end
 -- @field parse_json_response Optional. Boolean. Set to false to disable
 --   automatic parsing of the JSON response from the server into a Lua table.
 --   Default is true.
--- @field data A data object containing data to pass to the server.
+-- @field data Optional. A data object containing data to pass to the server.
 -- @class table
 -- @name request_params
 -- @see request
@@ -251,7 +251,7 @@ function execute_request(self)
 end
 
 --- Parse the response data from the CouchDB server if necessary.
--- @param data The data to parse.
+-- @param data Required. The data to parse.
 -- @usage parsed_data = srv:parse_response_data(data)
 -- @return The parsed data.
 -- @see execute_request
@@ -267,7 +267,7 @@ function parse_response_data(self, data)
 end
 
 --- Parse a JSON string.
--- @param json_string The JSON string to parse.
+-- @param json_string Required. The JSON string to parse.
 -- @return The parsed JSON string, converted to a Lua table.
 -- @usage srv:parse_json('{"key": "value"}')
 -- @see parse_response_data
@@ -373,7 +373,7 @@ end
 --- Retrieve uuids from the CouchDB server.
 -- This provides a convenient way to get random unique identifiers from the
 -- server itself if no other facility is available to generate them.
--- @param count The number of uuids to generate, default is 1.
+-- @param count Optional. The number of uuids to generate, default is 1.
 -- @return A list of uuids.
 -- @usage srv:uuids(10)
 function uuids(self, count)
@@ -392,7 +392,8 @@ end
 
 --- Check the response for success.
 -- A convenience method to ensure a successful request.
--- @param response The response object returned from the server request.
+-- @param response Required. The response object returned from the server
+--   request.
 -- @return true if the server responsed with an ok:true, false otherwise.
 -- @usage operation_succeeded = srv:response_ok(response)
 function response_ok(self, response)

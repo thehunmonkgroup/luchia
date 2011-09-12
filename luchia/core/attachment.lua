@@ -128,7 +128,7 @@ end
 --- Prepare attachment for a server request.
 -- This method is called by luchia.core.server:prepare_request_data() to allow
 -- the attachment object to properly prepare the data for a server request.
--- @param server The server object to prepare the request for.
+-- @param server Required. The server object to prepare the request for.
 function prepare_request_data(self, server)
   log:debug([[Preparing attachment request data]])
   server.content_type = self.content_type

@@ -27,7 +27,7 @@ module("luchia.document")
 
 
 --- Create a new document handler object.
--- @param database The database to connect to.
+-- @param database Required. The database to connect to.
 -- @param document_server Optional. The server object to use for the server
 --   connection. If not provided, a server object will be generated from the
 --   default server configuration.
@@ -49,8 +49,8 @@ end
 
 --- Make a document-related request to the server.
 -- This is an internal method only.
--- @param method The HTTP method.
--- @param path The server path.
+-- @param method Required. The HTTP method.
+-- @param path Required. The server path.
 -- @param query_parameters Optional. A table of query parameters to pass to
 --   the server, key is parameter name, value is parameter value, eg.
 --   '{ include_docs = "true", limit = "3" }'.
@@ -74,9 +74,9 @@ end
 
 --- Make a document object.
 -- This is an internal method only.
--- @param data A table of data representing the document.
--- @param id The document ID.
--- @param rev The document revision.
+-- @param data Optional. A table of data representing the document.
+-- @param id Optional. The document ID.
+-- @param rev Optional. The document revision.
 -- @return The new document object.
 local function make_document(self, data, id, rev)
   local params = {
@@ -89,7 +89,7 @@ local function make_document(self, data, id, rev)
 end
 
 --- List all documents.
--- @param query_parameters Same as the document_call method.
+-- @param query_parameters Optional. Same as the document_call method.
 -- @return Same values as document_call, response_data is a list of documents.
 -- @usage response = doc:list()
 -- @see document_call
@@ -98,8 +98,8 @@ function list(self, query_parameters)
 end
 
 --- Retrieve a document.
--- @param id The document ID.
--- @param query_parameters Same as the document_call method.
+-- @param id Required. The document ID.
+-- @param query_parameters Optional. Same as the document_call method.
 -- @return Same values as document_call, response_data is a table representing
 --   the document.
 -- @usage response = doc:retrieve("document-id")
@@ -109,7 +109,8 @@ function retrieve(self, id, query_parameters)
 end
 
 --- Create a document.
--- @param document A table representing the document.
+-- @param document Optional. A table representing the document. If none is
+--   provided, an empty document will be created by default.
 -- @param id Optional. The document ID. If not provided, a server-generated
 --   uuid will be used instead.
 -- @return Same values as document_call, response_data is a table of the
@@ -133,9 +134,9 @@ function create(self, document, id)
 end
 
 --- Update a document.
--- @param document A table representing the updated document.
--- @param id The document ID.
--- @param rev The document revision.
+-- @param document Required. A table representing the updated document.
+-- @param id Required. The document ID.
+-- @param rev Required. The document revision.
 -- @return Same values as document_call, response_data is a table of the
 --   request result.
 -- @usage response = doc:update({hello = "another world"}, "document-id",
@@ -156,8 +157,8 @@ function update(self, document, id, rev)
 end
 
 --- Copy a document.
--- @param id The document ID.
--- @param destination The ID of the destination document.
+-- @param id Required. The document ID.
+-- @param destination Required. The ID of the destination document.
 -- @return Same values as document_call, response_data is a table of the
 --   request result.
 -- @usage response = doc:copy("document-id", "document-copy")
@@ -181,8 +182,8 @@ function copy(self, id, destination)
 end
 
 --- Delete a document.
--- @param id The document ID.
--- @param rev The document revision.
+-- @param id Required. The document ID.
+-- @param rev Required. The document revision.
 -- @return Same values as document_call, response_data is a table of the
 --   request result.
 -- @usage response = doc:delete("document-id",
@@ -203,7 +204,7 @@ end
 
 --- Get basic information on a document.
 -- This method makes a HEAD request.
--- @param id The document ID.
+-- @param id Required. The document ID.
 -- @return A table of the returned headers.
 -- @usage response = doc:info("document-id")
 function info(self, id)
@@ -219,7 +220,7 @@ function info(self, id)
 end
 
 --- Get the current revision for a document.
--- @param id The document ID.
+-- @param id Required. The document ID.
 -- @return The current revision.
 -- @usage response = doc:current_revision("document-id")
 function current_revision(self, id)
@@ -233,10 +234,10 @@ end
 
 --- Make an attachment object.
 -- This is an internal method only.
--- @param file_path The path to the file to add as an attachment. Relative
---   paths can be used, but must have a path component, eg. "./myfile" or
---   "/tmp/attachment.txt".
--- @param content_type The mime content type of the attachment, eg.
+-- @param file_path Required. The path to the file to add as an attachment.
+--   Relative paths can be used, but must have a path component, eg.
+--   "./myfile" or "/tmp/attachment.txt".
+-- @param content_type Required. The mime content type of the attachment, eg.
 --   "text/plain"
 -- @param file_name Optional. The name of the attachment as stored in CouchDB.
 --   If not provided, then the base name of file_path will be used.
@@ -258,9 +259,9 @@ local function make_attachment(self, file_path, content_type, file_name)
 end
 
 --- Add a standalone attachment to a document.
--- @param file_path Same as make_attachment.
--- @param content_type Same as make_attachment.
--- @param file_name Same as make_attachment.
+-- @param file_path Required. Same as make_attachment.
+-- @param content_type Required. Same as make_attachment.
+-- @param file_name Optional. Same as make_attachment.
 -- @param id Optional. The document ID to attach the file to. If no document
 --   exists, one will be created for the attachment.
 -- @param rev The document revision. This is only required if attaching to an
@@ -295,9 +296,9 @@ function add_standalone_attachment(self, file_path, content_type, file_name, id,
 end
 
 --- Add an inline attachment to a document.
--- @param file_path Same as make_attachment.
--- @param content_type Same as make_attachment.
--- @param file_name Same as make_attachment.
+-- @param file_path Required. Same as make_attachment.
+-- @param content_type Required. Same as make_attachment.
+-- @param file_name Optional. Same as make_attachment.
 -- @param document Optional. A table representing the document to add the
 --   attachment to. If none is provided, an empty document will be used.
 -- @param id Optional. The document ID to attach the file to. If no document
@@ -330,8 +331,8 @@ function add_inline_attachment(self, file_path, content_type, file_name, documen
 end
 
 --- Retrieve an attachment.
--- @param attachment The attachment name.
--- @param id The document ID.
+-- @param attachment Required. The attachment name.
+-- @param id Required. The document ID.
 -- @return Same values as document_call, response_data is the attachment data.
 -- @usage response = doc:retrieve_attachment("afile", "document-id")
 -- @see document_call
@@ -353,9 +354,9 @@ function retrieve_attachment(self, attachment, id)
 end
 
 --- Delete an attachment.
--- @param attachment The attachment name.
--- @param id The document ID.
--- @param rev The document revision.
+-- @param attachment Required. The attachment name.
+-- @param id Required. The document ID.
+-- @param rev Required. The document revision.
 -- @return Same values as document_call, response_data is a table of the
 --   request result.
 -- @usage response = doc:delete_attachment("afile", "document-id",
@@ -379,7 +380,8 @@ end
 
 --- Check the response for success.
 -- A convenience method to ensure a successful request.
--- @param response The response object returned from the server request.
+-- @param response Required. The response object returned from the server
+-- request.
 -- @return true if the server responsed with an ok:true, false otherwise.
 -- @usage operation_succeeded = doc:response_ok(response)
 function response_ok(self, response)
