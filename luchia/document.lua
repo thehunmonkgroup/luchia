@@ -319,9 +319,9 @@ function add_inline_attachment(self, file_path, content_type, file_name, documen
       -- Use update/create methods from this class. They expect a raw document
       -- table instead of a document object, so extract it out.
       if rev then
-        self:update(doc.document, id, rev)
+        return self:update(doc.document, id, rev)
       else
-        self:create(doc.document, id)
+        return self:create(doc.document, id)
       end
     else
       log:error([[Error adding attachment]])
