@@ -12,7 +12,7 @@ method.  Here are the dependencies:
     luasocket
 
   Optional
-    stdlib (prettier output for request.lua)
+    stdlib (prettier output for luchia_get)
     luadoc (to generate local documentation)
     lunatest (to run unit tests)
     luacov (to view unit test coverage)
@@ -29,7 +29,6 @@ Available online at:
 For local documentation, all documentation is inline, but is luadoc
 (http://keplerproject.github.com/luadoc) compatible. To generate HTML
 documentation, install luadoc, enter the source directory, then run:
-  mkdir doc
   /path/to/luadoc -d doc *.lua luchia/*.lua luchia/core/*.lua
 
 If you don't want to go this route, then at least start with the inline

@@ -28,7 +28,7 @@ require "luchia.utilities"
 -- </ul></p>
 -- <p>Low-level access is provided by the 'core' modules, while higher-level
 -- access is provided by the database, document, and utilities modules.</p>
--- <p>The package also includes request.lua, a command-line script that can be
+-- <p>The package also includes luchia_get, a command-line script that can be
 -- used to perform simple GET requests to the default server.</p>
 -- <h3>Configuration</h3>
 -- <p>See <a href="luchia.conf.html">luchia.conf</a> for configuration

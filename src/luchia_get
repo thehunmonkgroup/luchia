@@ -5,9 +5,9 @@
 -- @copyright 2011 Chad Phillips
 
 --- Shell script to make simple GET requests to the default server.
--- @usage Run request.lua without any arguments for help/usage.
+-- @usage Run luchia_get without any arguments for help/usage.
 -- @class function
--- @name request.lua
+-- @name luchia_get
 
 require "luchia"
 
@@ -17,7 +17,7 @@ local server = luchia.core.server
 local function usage()
   print [[
 
-Usage: ./request.lua <path> [arg1=value] [arg2=value]...
+Usage: ./luchia_get <path> [arg1=value] [arg2=value]...
 
 Easy way to run GET requests against the default configured CouchDB database in
 luchia.
