@@ -38,13 +38,15 @@ documentation in luchia.lua.
 UNIT TESTS:
 
 Luchia core classes have full unit test coverage. They can be run with:
-  lua /path/to/luchia/tests/run_unit_tests.lua -v
+  cd /path/to/luchia/tests
+  lua run_unit_tests.lua -v
 
 INTEGRATION TESTS:
 
 The higher-level Luchia classes (luchia.database, luchia.document,
-luchia.utilities) have a full integration test suite, to run it, make sure
+luchia.utilities) have a full integration test suite. To run it, make sure
 that the default server settings in luchia.conf point to a valid, running
 CouchDB instance with full administrative access, and run:
-  lua /path/to/luchia/tests/run_integration_tests.lua -v
+  cd /path/to/luchia/tests
+  lua run_integration_tests.lua -v
 
