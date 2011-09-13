@@ -17,9 +17,9 @@ method.  Here are the dependencies:
     lunatest (to run unit tests)
     luacov (to view unit test coverage)
 
-Future plans are to add luchia to the main LuaRocks repository, but until
-then copy luchia.lua and the luchia directory from the base luchia directory,
-and put them somewhere in your Lua package path.
+Future plans are to add Luchia to the main LuaRocks repository, but until
+then copy luchia.lua and the luchia directory from the source directory, and
+put them somewhere in your Lua package path.
 
 DOCUMENTATION:
 
@@ -28,8 +28,7 @@ Available online at:
 
 For local documentation, all documentation is inline, but is luadoc
 (http://keplerproject.github.com/luadoc) compatible. To generate HTML
-documentation, install luadoc, enter the base luchia directory, then
-run:
+documentation, install luadoc, enter the source directory, then run:
   mkdir doc
   /path/to/luadoc -d doc *.lua luchia/*.lua luchia/core/*.lua
 
@@ -38,12 +37,12 @@ documentation in luchia.lua.
 
 UNIT TESTS:
 
-luchia core classes have full unit test coverage. They can be run with:
+Luchia core classes have full unit test coverage. They can be run with:
   lua /path/to/luchia/tests/run_unit_tests.lua -v
 
 INTEGRATION TESTS:
 
-The higher-level luchia classes (luchia.database, luchia.document,
+The higher-level Luchia classes (luchia.database, luchia.document,
 luchia.utilities) have a full integration test suite, to run it, make sure
 that the default server settings in luchia.conf point to a valid, running
 CouchDB instance with full administrative access, and run:
