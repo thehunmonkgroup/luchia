@@ -7,7 +7,7 @@ manager, as all required and optional dependencies are easy install via this
 method.  Here are the dependencies:
 
   Requires:
-    cjson
+    lua-cjson
     lualogging
     luasocket
 
@@ -17,9 +17,11 @@ method.  Here are the dependencies:
     lunatest (to run unit tests)
     luacov (to view unit test coverage)
 
-Future plans are to add Luchia to the main LuaRocks repository, but until
-then copy luchia.lua and the luchia directory from the source directory, and
-put them somewhere in your Lua package path.
+With LuaRocks, simply run:
+  luarocks install luchia
+
+For manual installation, copy luchia.lua and the luchia directory from the
+source directory, and put them somewhere in your Lua package path.
 
 DOCUMENTATION:
 
