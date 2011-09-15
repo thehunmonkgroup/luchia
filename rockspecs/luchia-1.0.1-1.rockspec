@@ -2,7 +2,7 @@ package = "Luchia"
 version = "1.0.1-1"
 source = {
    url = "git://github.com/thehunmonkgroup/luchia.git",
-   tag = "v1.0.1",
+   branch = "v1.0.1",
 }
 description = {
   summary = "Lua API for CouchDB.",
