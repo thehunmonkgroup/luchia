@@ -1,5 +1,5 @@
 package = "Luchia"
-version = "1.0.0-1"
+version = "1.0.0-2"
 source = {
    url = "git://github.com/thehunmonkgroup/luchia.git",
    branch = "v1.0.0",
