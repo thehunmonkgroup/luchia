@@ -156,7 +156,7 @@ end
 
 local function new_server_default_params()
   local params = {
-    custom_default_server = conf,
+    custom_configuration = conf,
   }
   local srv = server:new(params)
   valid_server_table(srv)
@@ -196,7 +196,7 @@ end
 function tests.test_new_default_request_function_returns_default_request_function()
   local http = require "socket.http"
   local params = {
-    custom_default_server = conf,
+    custom_configuration = conf,
   }
   local srv = server:new(params)
   valid_server_table(srv)
@@ -205,7 +205,7 @@ end
 
 function tests.test_new_custom_request_function_returns_custom_request_function()
   local params = {
-    custom_default_server = conf,
+    custom_configuration = conf,
     custom_request_function = request_function,
   }
   local srv = server:new(params)

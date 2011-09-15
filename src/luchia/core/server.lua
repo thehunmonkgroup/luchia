@@ -102,8 +102,8 @@ end
 --   A custom request function can be substituted for the default http.request
 --   function available from luasocket. The testing framework uses this to
 --   mock for unit tests.
--- @field custom_default_server
---   A custom default server table can be substituted for the default one
+-- @field custom_configuration
+--   A custom configuration table can be substituted for the default one
 --   available from luchia.conf. The testing framework uses this to mock for
 --   unit tests.
 -- @class table
@@ -123,7 +123,7 @@ end
 -- @see new_params
 function new(self, params)
   local params = params or {}
-  local settings = params.custom_default_server or conf
+  local settings = params.custom_configuration or conf
   local server = {}
   -- Build the connection parameters, fall back to the default server value if
   -- none is provided.
