@@ -39,7 +39,7 @@ function new(self, database, document_server)
   if database then
     local document = {}
     document.database = database
-    document.server = document_server or server:new()
+    document.server = server:new(document_server)
     setmetatable(document, self)
     self.__index = self
     log:debug(string.format(string.format([[New document handler to database '%s']], document.database)))

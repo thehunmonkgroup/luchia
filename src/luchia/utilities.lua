@@ -32,7 +32,7 @@ module("luchia.utilities")
 -- @usage util = luchia.utilities:new(server)
 function new(self, utilities_server)
   local utilities = {}
-  utilities.server = utilities_server or server:new()
+  utilities.server = server:new(utilities_server)
   setmetatable(utilities, self)
   self.__index = self
   log:debug(string.format([[New utilities handler]]))

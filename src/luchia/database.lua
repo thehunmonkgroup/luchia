@@ -32,7 +32,7 @@ module("luchia.database")
 -- @usage db = luchia.database:new(server)
 function new(self, database_server)
   local database = {}
-  database.server = database_server or server:new()
+  database.server = server:new(database_server)
   setmetatable(database, self)
   self.__index = self
   log:debug(string.format([[New database handler]]))
