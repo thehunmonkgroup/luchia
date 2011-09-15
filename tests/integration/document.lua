@@ -34,11 +34,6 @@ function tests.teardown()
   assert_true(db:response_ok(resp), "Unable to delete database")
 end
 
-function tests.test_new_document_no_database_returns_nil()
-  local bad_doc = document:new()
-  assert_equal(nil, bad_doc, "Document should not have been created without database name")
-end
-
 function tests.test_create_retrieve()
   local data = {
     [data_key] = data_value,
