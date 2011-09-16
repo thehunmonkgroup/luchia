@@ -24,15 +24,16 @@ local setmetatable = setmetatable
 module("luchia.database")
 
 --- Create a new database handler object.
--- @param database_server
---   Optional. The server object to use for the server connection. If not
+-- @param server_params
+--   Optional. A table of server connection parameters (identical to
+--   default.server in <a href="luchia.conf.html">luchia.conf</a>). If not
 --   provided, a server object will be generated from the default server
 --   configuration.
 -- @return A database handler object.
 -- @usage db = luchia.database:new(server)
-function new(self, database_server)
+function new(self, server_params)
   local database = {}
-  database.server = server:new(database_server)
+  database.server = server:new(server_params)
   setmetatable(database, self)
   self.__index = self
   log:debug(string.format([[New database handler]]))
