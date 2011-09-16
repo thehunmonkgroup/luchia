@@ -35,7 +35,7 @@ module("luchia.document")
 --   provided, a server object will be generated from the default server
 --   configuration.
 -- @return A document handler object.
--- @usage doc = luchia.document:new("example_database", server)
+-- @usage doc = luchia.document:new("example_database", server_params)
 function new(self, database, server_params)
   if database then
     local document = {}

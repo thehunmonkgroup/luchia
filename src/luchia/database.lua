@@ -30,7 +30,7 @@ module("luchia.database")
 --   provided, a server object will be generated from the default server
 --   configuration.
 -- @return A database handler object.
--- @usage db = luchia.database:new(server)
+-- @usage db = luchia.database:new(server_params)
 function new(self, server_params)
   local database = {}
   database.server = server:new(server_params)

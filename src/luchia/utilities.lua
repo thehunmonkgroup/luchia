@@ -30,7 +30,7 @@ module("luchia.utilities")
 --   provided, a server object will be generated from the default server
 --   configuration.
 -- @return A utilities handler object.
--- @usage util = luchia.utilities:new(server)
+-- @usage util = luchia.utilities:new(server_params)
 function new(self, server_params)
   local utilities = {}
   utilities.server = server:new(server_params)
