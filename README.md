@@ -36,14 +36,14 @@ documentation, install luadoc, enter the source directory, then run:
 
     /path/to/luadoc -d doc *.lua luchia/*.lua luchia/core/*.lua
 
+If you don't want to go this route, then at least start with the inline
+documentation in luchia.lua.
+
 ## Support
 The issue tracker for this project is provided to file bug reports, feature
 requests, and project tasks -- support requests are not accepted via the issue
 tracker. For all support-related issues, including configuration, usage, and
 training, consider hiring a competent consultant.
-
-If you don't want to go this route, then at least start with the inline
-documentation in luchia.lua.
 
 ## Unit tests
 
