@@ -58,11 +58,13 @@ end
 
 --- Checks for a valid server host.
 -- This is an internal only method.
--- TODO: Research RFC on valid hostnames.
+-- NOTE: This regex is a best effort to follow the hostname specification in
+--       RFC 1123, but it's not perfect: some labels beginning and ending with
+--       a dash are allowed through, but are not permitted by the RFC.
 -- @return true on a valid host, nil otherwise.
 -- @usage srv:valid_host()
 local function valid_host(self)
-  if string.match(self.connection.host, "^[%a%.-_]+$") then
+  if string.match(self.connection.host, "^%w[%w%.-]+%w$") then
     return true
   else
     log:error([[Invalid host]])

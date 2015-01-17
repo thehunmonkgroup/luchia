@@ -66,6 +66,16 @@ local function valid_server_table(srv)
   assert_equal(2, common.table_length(srv), "srv length")
 end
 
+local function good_host_param(host)
+  params = {
+    protocol = good_protocol,
+    host = host,
+    port = good_port,
+  }
+  local srv = server:new(params)
+  valid_server_table(srv)
+end
+
 local function bad_server_param(protocol, host, port)
   local params = {
     protocol = protocol,
@@ -132,6 +142,14 @@ end
 local function prepare_request_data(self, server)
   server.content_type = content_type
   server.request_data = json_good
+end
+
+function tests.test_new_host_localhost_returns_valid_server_table()
+  good_host_param("localhost")
+end
+
+function tests.test_new_host_four_parts_returns_valid_server_table()
+  good_host_param("one.two.three.com")
 end
 
 function tests.test_new_bad_protocol_returns_nil()
