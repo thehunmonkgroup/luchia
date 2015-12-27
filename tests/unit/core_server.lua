@@ -8,11 +8,11 @@ local server = require "luchia.core.server"
 
 local tests = {}
 
-local good_protocol = "http"
-local good_host = "www.example.com"
-local good_port = "5984"
-local user = "user"
-local password = "password"
+local good_protocol = common.server_good_protocol
+local good_host = common.server_good_host
+local good_port = common.server_good_port
+local user = common.server_user
+local password = common.server_password
 local conf = {
   default = {
     server = {
@@ -50,26 +50,24 @@ local custom_data = {foo = "bar"}
 local custom_data_key = "foo"
 local custom_data_value = "bar"
 
-local response_code_ok = "200"
-local response_code_not_found = "404"
-local response_code_service_error = "error"
-local status_ok = "HTTP/1.1 200 OK"
-local status_not_found = "HTTP/1.1 404 Object Not Found"
+local response_code_ok = common.server_response_code_ok
+local response_code_not_found = common.server_response_code_not_found
+local response_code_service_error = common.server_response_code_service_error
+local status_ok = common.server_status_ok
+local status_not_found = common.server_status_not_found
 
-local content_type = "application/json"
-local json_good = '{"foo":"bar"}'
-local json_good_key = "foo"
-local json_good_value = "bar"
-local json_bad = 'foo'
+local content_type = common.server_content_type
+local json_good = common.server_json_good
+local json_good_key = common.server_json_good_key
+local json_good_value = common.server_json_good_value
+local json_bad = common.server_json_bad
 
-local uuid1 = "1c10da9e7736fc84bbb380fd1f002554"
-local uuid2 = "1c10da9e7736fc84bbb380fd1f0026b8"
+local uuid1 = common.server_uuid1
+local uuid2 = common.server_uuid2
 
-local function valid_server_table(srv)
-  assert_table(srv, "srv")
-  assert_table(srv.connection, "srv.connection")
-  assert_equal(2, common.table_length(srv), "srv length")
-end
+local valid_server_table = common.server_valid_server_table
+local request_function = common.server_request
+local custom_request_server = common.server_custom_request_server
 
 local function good_host_param(host)
   params = {
@@ -89,59 +87,6 @@ local function bad_server_param(protocol, host, port)
   }
   local srv = server:new(params)
   assert_equal(nil, srv, "srv")
-end
-
-local function request_function(request)
-  local url_string = string.format([[%s://%s:%s]], good_protocol, good_host, good_port)
-  local response = 1
-  local response_data = ""
-  local response_code = response_code_ok
-  local headers = request.headers
-  local status = status_ok
-
-  local uuids = url_string .. "/_uuids?"
-  local uuids_with_count = url_string .. "/_uuids?count=2"
-  local uuids_bad = url_string .. "/_uuids?count=bad"
-  local service_error = url_string .. "/service-error?"
-  local not_found = url_string .. "/not-found?"
-  local valid_document_response = url_string .. "/valid-document?"
-
-  if request.url == uuids then
-    response_data = '{"uuids":["' .. uuid1 .. '"]}'
-  elseif request.url == uuids_with_count then
-    response_data = '{"uuids":["' .. uuid1 .. '","' .. uuid2 .. '"]}'
-  elseif request.url == uuids_bad then
-    response_data = '{}'
-  elseif request.url == service_error then
-    response = nil
-    response_code = response_code_service_error
-    headers = nil
-    status = nil
-    response_data = nil
-  elseif request.url == not_found then
-    response_code = response_code_not_found
-    status = status_not_found
-  elseif request.url == valid_document_response then
-    response_data = json_good
-  end
-
-  if response_data then
-    local source = ltn12.source.string(response_data)
-    ltn12.pump.all(source, request.sink)
-  end
-  return response, response_code, headers, status
-end
-
-local function custom_request_server(params)
-  params = params or {
-    protocol = good_protocol,
-    host = good_host,
-    port = good_port,
-  }
-  params.custom_request_function = request_function
-  local srv = server:new(params)
-  valid_server_table(srv)
-  return srv
 end
 
 local function prepare_request_data(self, server)
