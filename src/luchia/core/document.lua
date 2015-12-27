@@ -32,7 +32,8 @@ local type = type
 -- <br />
 -- </p></code>
 -- @see luchia.document
-module("luchia.core.document")
+
+local _M = {}
 
 --- Parameters table for creating new document objects.
 -- This is the optional table to pass when calling the 'new' method to create
@@ -61,7 +62,7 @@ module("luchia.core.document")
 -- @return A new document object.
 -- @usage document = luchia.core.document:new(params)
 -- @see new_params
-function new(self, params)
+function _M.new(self, params)
   local params = params or {}
   local document = {}
   document.id = params.id
@@ -89,7 +90,7 @@ end
 -- @return The document table with the attachment added. Note that this does
 --   not return the full document object.
 -- @usage document_table = document:add_attachment(attachment)
-function add_attachment(self, attachment)
+function _M.add_attachment(self, attachment)
   if attachment and type(attachment.base64_encode_file) == "function" then
     local file_data = attachment:base64_encode_file()
     if file_data then
@@ -115,9 +116,10 @@ end
 -- the document object to properly prepare the data for a server request.
 -- @param server
 --   Required. The server object to prepare the request for.
-function prepare_request_data(self, server)
+function _M.prepare_request_data(self, server)
   log:debug([[Preparing document request data]])
   server.content_type = "application/json"
   server.request_data = json.encode(self.document)
 end
 
+return _M

@@ -42,7 +42,8 @@ local type = type
 -- @see luchia.database
 -- @see luchia.document
 -- @see luchia.utilities
-module("luchia.core.server")
+
+local _M = {}
 
 --- Checks for a valid server protocol.
 -- This is an internal only method.
@@ -123,7 +124,7 @@ end
 -- @return A new server object.
 -- @usage srv = luchia.core.server:new(params)
 -- @see new_params
-function new(self, params)
+function _M.new(self, params)
   local params = params or {}
   local settings = params.custom_configuration or conf
   local server = {}
@@ -191,7 +192,7 @@ end
 -- @see prepare_request
 -- @see prepare_request_data
 -- @see execute_request
-function request(self, params)
+function _M.request(self, params)
   self:prepare_request(params)
   self:prepare_request_data()
 
@@ -211,7 +212,7 @@ end
 -- @usage srv:prepare_request(params)
 -- @see request_params
 -- @see request
-function prepare_request(self, params)
+function _M.prepare_request(self, params)
   params = params or {}
   self.method = params.method or "GET"
   self.path = params.path or ""
@@ -232,7 +233,7 @@ end
 -- Note that the core document and attachment classes already implement this
 -- method, so it should generally not need to be implemented.
 -- @see request
-function prepare_request_data(self)
+function _M.prepare_request_data(self)
   -- Start with fresh content_type and request_data.
   self.content_type = nil
   self.request_data = nil
@@ -252,7 +253,7 @@ end
 -- @see request
 -- @see http_request
 -- @see parse_response_data
-function execute_request(self)
+function _M.execute_request(self)
   local response_body, response_code, headers, status = self:http_request()
   local response_data
   if response_body then
@@ -276,7 +277,7 @@ end
 -- @return The parsed data.
 -- @see execute_request
 -- @see parse_json
-function parse_response_data(self, data)
+function _M.parse_response_data(self, data)
   local parsed_data
   if self.parse_json_response then
     parsed_data = self:parse_json(data)
@@ -292,7 +293,7 @@ end
 -- @return The parsed JSON string, converted to a Lua table.
 -- @usage srv:parse_json('{"key": "value"}')
 -- @see parse_response_data
-function parse_json(self, json_string)
+function _M.parse_json(self, json_string)
   if json_string and json_string ~= "" then
     log:debug(string.format([[JSON to parse: %s]], json_string))
     -- Invalid JSON causes an error, so wrap the parsing in a protected call.
@@ -322,7 +323,7 @@ end
 --   srv:http_request()
 -- @see execute_request
 -- @see build_url
-function http_request(self)
+function _M.http_request(self)
   local source = nil
   local headers = self.headers
 
@@ -354,7 +355,7 @@ end
 -- @return A URL string.
 -- @see http_request
 -- @see stringify_parameters
-function build_url(self)
+function _M.build_url(self)
 
   local url_parts = {
     scheme = self.connection.protocol,
@@ -379,7 +380,7 @@ end
 -- @return The query string.
 -- @usage srv:stringify_parameters({ include_docs = "true", limit = "3" })
 -- @see build_url
-function stringify_parameters(self, params)
+function _M.stringify_parameters(self, params)
   params = params or self.query_parameters or {}
   local parameter_string = ""
   for name, value in pairs(params) do
@@ -399,7 +400,7 @@ end
 --   Optional. The number of uuids to generate, default is 1.
 -- @return A list of uuids.
 -- @usage srv:uuids(10)
-function uuids(self, count)
+function _M.uuids(self, count)
   local params = {
     path = "_uuids",
   }
@@ -419,7 +420,8 @@ end
 --   Required. The response object returned from the server request.
 -- @return true if the server responsed with an ok:true, false otherwise.
 -- @usage operation_succeeded = srv:response_ok(response)
-function response_ok(self, response)
+function _M.response_ok(self, response)
   return response and response.ok and response.ok == true
 end
 
+return _M

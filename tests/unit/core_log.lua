@@ -1,11 +1,13 @@
+local lunatest = require "lunatest"
+local assert_function = lunatest.assert_function
+local assert_table = lunatest.assert_table
+
 local log = require "luchia.core.log"
 
 local tests = {}
 
 function tests.setup()
-   assert_table(luchia, "luchia")
-   assert_table(luchia.core, "luchia.core")
-   assert_table(luchia.core.log, "luchia.core.log")
+   assert_table(log, "luchia.core.log")
 end
 
 function tests.test_log_log_function()

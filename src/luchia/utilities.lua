@@ -21,7 +21,8 @@ local setmetatable = setmetatable
 -- -- Grab server version.<br />
 -- local response = util:version()<br />
 -- </p></code>
-module("luchia.utilities")
+
+local _M = {}
 
 --- Create a new utilities handler object.
 -- @param server_params
@@ -31,7 +32,7 @@ module("luchia.utilities")
 --   configuration.
 -- @return A utilities handler object.
 -- @usage util = luchia.utilities:new(server_params)
-function new(self, server_params)
+function _M.new(self, server_params)
   local utilities = {}
   utilities.server = server:new(server_params)
   setmetatable(utilities, self)
@@ -57,7 +58,7 @@ end
 --- Get the database server version.
 -- @return The database server version string.
 -- @usage util:version()
-function version(self)
+function _M.version(self)
   local response = utilities_get_call(self, "")
   if response and response.version then
     return response.version
@@ -69,7 +70,7 @@ end
 --   database server configuration information.
 -- @usage util:config()
 -- @see utilities_get_call
-function config(self)
+function _M.config(self)
   return utilities_get_call(self, "_config")
 end
 
@@ -78,7 +79,7 @@ end
 --   database server statistics information.
 -- @usage util:stats()
 -- @see utilities_get_call
-function stats(self)
+function _M.stats(self)
   return utilities_get_call(self, "_stats")
 end
 
@@ -87,7 +88,8 @@ end
 --   database server active tasks.
 -- @usage util:active_tasks()
 -- @see utilities_get_call
-function active_tasks(self)
+function _M.active_tasks(self)
   return utilities_get_call(self, "_active_tasks")
 end
 
+return _M

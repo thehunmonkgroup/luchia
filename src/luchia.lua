@@ -54,5 +54,4 @@ require "luchia.utilities"
 -- &nbsp;&nbsp;doc:update(contents, resp.id, resp.rev)<br />
 -- end
 -- </code></p>
-module("luchia")
 

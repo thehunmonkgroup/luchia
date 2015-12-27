@@ -1,4 +1,9 @@
-local common = require "luchia.tests.common"
+local lunatest = require "lunatest"
+local assert_equal = lunatest.assert_equal
+local assert_function = lunatest.assert_function
+local assert_table = lunatest.assert_table
+
+local common = require "common_test_functions"
 local document = require "luchia.document"
 
 local database_name = "example"

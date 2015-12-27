@@ -30,7 +30,8 @@ local setmetatable = setmetatable
 -- local encoded_data = att:base64_encode_file()<br />
 -- </p></code>
 -- @see luchia.document
-module("luchia.core.attachment")
+
+local _M = {}
 
 --- Parameters table for creating new attachment objects.
 -- This is the required table to pass when calling the 'new' method to create
@@ -66,7 +67,7 @@ module("luchia.core.attachment")
 -- @return A new attachment object.
 -- @usage attachment = luchia.core.attachment:new(params)
 -- @see new_params
-function new(self, params)
+function _M.new(self, params)
   local params = params or {}
   if not params.file_path then
     log:error([[file_path is required]])
@@ -83,7 +84,7 @@ function new(self, params)
       attachment.file_name = string.match(attachment.file_path, ".+/([^/%s]+)$")
     end
     if attachment.file_name then
-      attachment.loader = params.custom_loader_function or load_file
+      attachment.loader = params.custom_loader_function or _M.load_file
       local file_data = attachment.loader(attachment)
       if file_data then
         attachment.file_data = file_data
@@ -101,7 +102,7 @@ end
 --- Base64 encode the attachment file data.
 -- @return The encoded data.
 -- @usage encoded_data = attachment:base64_encode_file()
-function base64_encode_file(self)
+function _M.base64_encode_file(self)
   if self.file_data then
     local base64_data = mime.b64(self.file_data)
     log:debug(string.format([[Base64 encoded file ' %s']], self.file_path))
@@ -112,7 +113,7 @@ end
 --- Load the attachment file data.
 -- @return The file data.
 -- @usage data = attachment:load_file()
-function load_file(self)
+function _M.load_file(self)
   local file = io.open(self.file_path)
   if file then
     local data = file:read("*a")
@@ -133,9 +134,10 @@ end
 -- the attachment object to properly prepare the data for a server request.
 -- @param server
 --   Required. The server object to prepare the request for.
-function prepare_request_data(self, server)
+function _M.prepare_request_data(self, server)
   log:debug([[Preparing attachment request data]])
   server.content_type = self.content_type
   server.request_data = self.file_data
 end
 
+return _M

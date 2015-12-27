@@ -9,7 +9,7 @@
 -- @class function
 -- @name luchia_get
 
-require "luchia"
+local luchia = require "luchia"
 
 local log = luchia.core.log
 local server = luchia.core.server

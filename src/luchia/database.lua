@@ -21,7 +21,8 @@ local setmetatable = setmetatable
 -- -- Create a new database.<br />
 -- local response = db:create("example_database")<br />
 -- </p></code>
-module("luchia.database")
+
+local _M = {}
 
 --- Create a new database handler object.
 -- @param server_params
@@ -31,7 +32,7 @@ module("luchia.database")
 --   configuration.
 -- @return A database handler object.
 -- @usage db = luchia.database:new(server_params)
-function new(self, server_params)
+function _M.new(self, server_params)
   local database = {}
   database.server = server:new(server_params)
   setmetatable(database, self)
@@ -65,7 +66,7 @@ end
 -- @return Same values as database_call, response_data is a list of databases.
 -- @usage db:list()
 -- @see database_call
-function list(self)
+function _M.list(self)
   return self:info("_all_dbs")
 end
 
@@ -76,7 +77,7 @@ end
 --   information.
 -- @usage db:info("example_database")
 -- @see database_call
-function info(self, database_name)
+function _M.info(self, database_name)
   return database_call(self, "GET", database_name)
 end
 
@@ -87,7 +88,7 @@ end
 --   request result.
 -- @usage db:create("example_database")
 -- @see database_call
-function create(self, database_name)
+function _M.create(self, database_name)
   return database_call(self, "PUT", database_name)
 end
 
@@ -98,7 +99,7 @@ end
 --   request result.
 -- @usage db:delete("example_database")
 -- @see database_call
-function delete(self, database_name)
+function _M.delete(self, database_name)
   return database_call(self, "DELETE", database_name)
 end
 
@@ -108,7 +109,8 @@ end
 --   Required. The response object returned from the server request.
 -- @return true if the server responsed with an ok:true, false otherwise.
 -- @usage operation_succeeded = db:response_ok(response)
-function response_ok(self, response)
+function _M.response_ok(self, response)
   return self.server:response_ok(response)
 end
 
+return _M

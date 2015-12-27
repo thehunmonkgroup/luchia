@@ -1,4 +1,7 @@
-local common = require "luchia.tests.common"
+local lunatest = require "lunatest"
+local fail = lunatest.fail
+
+local common = require "common_test_functions"
 local conf = require "luchia.conf"
 local tests = {}
 

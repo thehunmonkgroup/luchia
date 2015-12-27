@@ -1,3 +1,7 @@
+local lunatest = require "lunatest"
+local assert_equal = lunatest.assert_equal
+local assert_true = lunatest.assert_true
+
 local database = require "luchia.database"
 
 local tests = {}

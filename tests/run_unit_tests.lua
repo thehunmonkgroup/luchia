@@ -1,7 +1,6 @@
 --measure code coverage, if luacov is present
 pcall(require, "luacov")
-require "lunatest"
-require "common_test_functions"
+local lunatest = require "lunatest"
 
 lunatest.suite("unit.core_log")
 lunatest.suite("unit.core_server")

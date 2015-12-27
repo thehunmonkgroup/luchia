@@ -46,21 +46,20 @@
 -- @class function
 -- @name fatal
 
-require("logging")
+local logging = require("logging")
 local conf = require "luchia.conf"
 local log = conf.log
 
-luchia.core = luchia.core or {}
-luchia.core.log = {}
+local _M
 
 if log.appender == "file" then
-  require("logging.file")
-  luchia.core.log = logging.file(log.file, nil, log.format)
+  local file = require("logging.file")
+  _M = file(log.file, nil, log.format)
 else
-  require("logging.console")
-  luchia.core.log = logging.console(log.format)
+  local console = require("logging.console")
+  _M = console(log.format)
 end
-luchia.core.log:setLevel(logging[log.level])
+_M:setLevel(logging[log.level])
 
-return luchia.core.log
+return _M
 

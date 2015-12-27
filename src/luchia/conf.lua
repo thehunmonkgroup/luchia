@@ -3,9 +3,10 @@
 -- @copyright 2011 Chad Phillips
 
 --- Global configuration file.
-module("luchia.conf")
 
-default = {}
+local _M = {}
+
+_M.default = {}
 
 --- The default server.
 -- When no server object is created specifically, the default server is used.
@@ -21,12 +22,12 @@ default = {}
 --   Optional. For authentication scenarios, the user's password.
 -- @class table
 -- @name default.server
-default.server = {}
-default.server.protocol = "http"
-default.server.host = "localhost"
-default.server.port = "5984"
-default.server.user = nil
-default.server.password = nil
+_M.default.server = {}
+_M.default.server.protocol = "http"
+_M.default.server.host = "localhost"
+_M.default.server.port = "5984"
+_M.default.server.user = nil
+_M.default.server.password = nil
 
 
 --- Logging options.
@@ -44,9 +45,10 @@ default.server.password = nil
 --   "/tmp/luchia.log".
 -- @class table
 -- @name log
-log = {}
-log.appender = "file"
-log.level = "DEBUG"
-log.format = "%level %message\n"
-log.file = "/tmp/luchia.log"
+_M.log = {}
+_M.log.appender = "file"
+_M.log.level = "DEBUG"
+_M.log.format = "%level %message\n"
+_M.log.file = "/tmp/luchia.log"
 
+return _M

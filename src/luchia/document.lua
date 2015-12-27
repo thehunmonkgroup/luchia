@@ -23,7 +23,8 @@ local setmetatable = setmetatable
 -- -- Create a new document.<br />
 -- local response = doc:create({hello = "world"})<br />
 -- </p></code>
-module("luchia.document")
+
+local _M = {}
 
 
 --- Create a new document handler object.
@@ -36,7 +37,7 @@ module("luchia.document")
 --   configuration.
 -- @return A document handler object.
 -- @usage doc = luchia.document:new("example_database", server_params)
-function new(self, database, server_params)
+function _M.new(self, database, server_params)
   if database then
     local document = {}
     document.database = database
@@ -104,7 +105,7 @@ end
 -- @return Same values as document_call, response_data is a list of documents.
 -- @usage response = doc:list()
 -- @see document_call
-function list(self, query_parameters)
+function _M.list(self, query_parameters)
   return document_call(self, "GET", "_all_docs", query_parameters)
 end
 
@@ -117,7 +118,7 @@ end
 --   the document.
 -- @usage response = doc:retrieve("document-id")
 -- @see document_call
-function retrieve(self, id, query_parameters)
+function _M.retrieve(self, id, query_parameters)
   return document_call(self, "GET", id, query_parameters)
 end
 
@@ -132,7 +133,7 @@ end
 --   request result.
 -- @usage response = doc:create({hello = "world"}, "document-id")
 -- @see document_call
-function create(self, document, id)
+function _M.create(self, document, id)
   if document then
     -- CouchDB documentation advises to not use POST if possible, instead
     -- to use PUT with a newly generated id.
@@ -160,7 +161,7 @@ end
 -- @usage response = doc:update({hello = "another world"}, "document-id",
 --   "1-15f65339921e497348be384867bb940f")
 -- @see document_call
-function update(self, document, id, rev)
+function _M.update(self, document, id, rev)
   if not document then
     log:error([[document is required]])
   elseif not id then
@@ -183,7 +184,7 @@ end
 --   request result.
 -- @usage response = doc:copy("document-id", "document-copy")
 -- @see document_call
-function copy(self, id, destination)
+function _M.copy(self, id, destination)
   if not id then
     log:error([[id is required]])
   elseif not destination then
@@ -211,7 +212,7 @@ end
 -- @usage response = doc:delete("document-id",
 --   "1-15f65339921e497348be384867bb940f")
 -- @see document_call
-function delete(self, id, rev)
+function _M.delete(self, id, rev)
   if not id then
     log:error([[id is required]])
   elseif not rev then
@@ -230,7 +231,7 @@ end
 --   Required. The document ID.
 -- @return A table of the returned headers.
 -- @usage response = doc:info("document-id")
-function info(self, id)
+function _M.info(self, id)
   if id then
     local response, response_code, headers = document_call(self, "HEAD", id)
     -- For some reason, the etag comes back with escaped quotes, strip them
@@ -247,7 +248,7 @@ end
 --   Required. The document ID.
 -- @return The current revision.
 -- @usage response = doc:current_revision("document-id")
-function current_revision(self, id)
+function _M.current_revision(self, id)
   if id then
     local headers = self:info(id)
     return headers.etag
@@ -304,7 +305,7 @@ end
 --   "1-15f65339921e497348be384867bb940f")
 -- @see make_attachment
 -- @see document_call
-function add_standalone_attachment(self, file_path, content_type, file_name, id, rev)
+function _M.add_standalone_attachment(self, file_path, content_type, file_name, id, rev)
   local att = make_attachment(self, file_path, content_type, file_name)
   if att then
     -- Name the document the same as the attachment if none was provided.
@@ -349,7 +350,7 @@ end
 --   "1-15f65339921e497348be384867bb940f")
 -- @see make_attachment
 -- @see document_call
-function add_inline_attachment(self, file_path, content_type, file_name, document, id, rev)
+function _M.add_inline_attachment(self, file_path, content_type, file_name, document, id, rev)
   local att = make_attachment(self, file_path, content_type, file_name)
   if att then
     local doc = make_document(self, document, id, rev)
@@ -375,7 +376,7 @@ end
 -- @return Same values as document_call, response_data is the attachment data.
 -- @usage response = doc:retrieve_attachment("afile", "document-id")
 -- @see document_call
-function retrieve_attachment(self, attachment, id)
+function _M.retrieve_attachment(self, attachment, id)
   if not attachment then
     log:error([[attachment is required]])
   elseif not id then
@@ -404,7 +405,7 @@ end
 -- @usage response = doc:delete_attachment("afile", "document-id",
 --   "1-15f65339921e497348be384867bb940f")
 -- @see document_call
-function delete_attachment(self, attachment, id, rev)
+function _M.delete_attachment(self, attachment, id, rev)
   if not attachment then
     log:error([[attachment is required]])
   elseif not id then
@@ -426,7 +427,8 @@ end
 --   Required. The response object returned from the server request.
 -- @return true if the server responsed with an ok:true, false otherwise.
 -- @usage operation_succeeded = doc:response_ok(response)
-function response_ok(self, response)
+function _M.response_ok(self, response)
   return self.server:response_ok(response)
 end
 
+return _M
