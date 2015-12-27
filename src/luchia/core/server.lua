@@ -383,8 +383,15 @@ end
 function _M.stringify_parameters(self, params)
   params = params or self.query_parameters or {}
   local parameter_string = ""
-  for name, value in pairs(params) do
-    parameter_string = string.format("%s&%s=%s", parameter_string, url.escape(name), url.escape(value))
+  -- It's not strictly necessary to sort query parameters, but doing so is
+  -- fast and allows for more simple and consistent tests.
+  local sorted = {}
+  for k in pairs(params) do
+    table.insert(sorted, k)
+  end
+  table.sort(sorted)
+  for i, name in ipairs(sorted) do
+    parameter_string = string.format("%s&%s=%s", parameter_string, url.escape(name), url.escape(params[name]))
   end
 
   -- Remove leading ampersand.
