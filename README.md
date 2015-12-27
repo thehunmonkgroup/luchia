@@ -1,25 +1,6 @@
 # Luchia
 Lua API for CouchDB (http://couchdb.apache.org).
 
-## Update 2015-01-17:
-
-Although I still fully intend to upgrade Luchia to Lua 5.2, I have not been
-able to do so yet. As of this writing, it only works with Lua 5.1, and some
-older versions of the dependencies. Using LuaRocks, the following will set
-up a working install on Lua 5.1:
-
-```
-luarocks install lua-cjson 2.1.0-1
-luarocks install luasocket 2.0.2-5
-luarocks install lualogging 1.3.0-1
-luarocks install lunatest 0.9.1-1
-luarocks install luacov 0.3-1
-luarocks install luchia
-```
-
-If you'd like to help me with the Lua 5.2 upgrade (either with a patch or
-funding/sponsorship), please file an issue!
-
 ## Installation:
 
 It is recommended to install the LuaRocks (http://luarocks.org) package
