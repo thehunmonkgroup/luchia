@@ -4,14 +4,19 @@
 -- @author Chad Phillips
 -- @copyright 2011 Chad Phillips
 
-require "luchia.conf"
-require "luchia.core.log"
-require "luchia.core.server"
-require "luchia.core.document"
-require "luchia.core.attachment"
-require "luchia.database"
-require "luchia.document"
-require "luchia.utilities"
+local _M = {}
+
+_M.conf = require "luchia.conf"
+_M.core = {}
+_M.core.log = require "luchia.core.log"
+_M.core.server = require "luchia.core.server"
+_M.core.document = require "luchia.core.document"
+_M.core.attachment = require "luchia.core.attachment"
+_M.database = require "luchia.database"
+_M.document = require "luchia.document"
+_M.utilities = require "luchia.utilities"
+
+return _M
 
 --- Summary of the project, start the documentation journey here.
 -- <h3>Overview</h3>
