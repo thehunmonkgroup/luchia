@@ -66,14 +66,18 @@ end
 -- @return The following four values, in this order: response_data,
 --   response_code, headers, status_code.
 local function document_call(self, method, path, query_parameters, data)
-  local params = {
-    method = method,
-    path = self.database .. "/" .. path,
-    query_parameters = query_parameters,
-    data = data,
-  }
-  local response, response_code, headers, status = self.server:request(params)
-  return response, response_code, headers, status
+  if path then
+    local params = {
+      method = method,
+      path = self.database .. "/" .. path,
+      query_parameters = query_parameters,
+      data = data,
+    }
+    local response, response_code, headers, status = self.server:request(params)
+    return response, response_code, headers, status
+  else
+    log:error([[Path is required]])
+  end
 end
 
 --- Make a document object.
