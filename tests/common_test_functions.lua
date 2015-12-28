@@ -3,6 +3,7 @@
 local io = require "io"
 local os = require "os"
 local string = require "string"
+local url = require "socket.url"
 
 local pairs = pairs
 local require = require
@@ -44,6 +45,8 @@ _M.server_uuid1 = "1c10da9e7736fc84bbb380fd1f002554"
 _M.server_uuid2 = "1c10da9e7736fc84bbb380fd1f0026b8"
 
 _M.server_example_database = "example"
+_M.server_example_document_id = "example"
+_M.server_example_document_rev = "1-b14c811bf485b30b70aab77810769d00"
 
 _M.server_valid_server_table = function (srv)
   assert_table(srv, "srv")
@@ -79,6 +82,14 @@ _M.server_request = function(request)
   local valid_document_response = url_string .. "/valid-document?"
   local database_list = url_string .. "/_all_dbs?"
   local database_name = url_string .. "/" .. _M.server_example_database .. "?"
+  local document_list = url_string .. "/" .. _M.server_example_database .. "/_all_docs?"
+  local document_list_limit = url_string .. "/" .. _M.server_example_database .. "/_all_docs?limit=3"
+  local document_retrieve = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "?"
+  local document_retrieve_limit = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "?limit=3"
+  local document_create_new = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_uuid1 .. "?"
+  local document_create_with_id = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_uuid2 .. "?"
+  local document_copy = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "?"
+  local document_delete = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "?rev=" .. url.escape(_M.server_example_document_rev)
 
   if request.method == "GET" then
     if request.url == uuids then
@@ -102,14 +113,32 @@ _M.server_request = function(request)
       response_data = '["_users"]'
     elseif request.url == database_name then
       response_data = '{"db_name":"' .. _M.server_example_database .. '"}'
+    elseif request.url == document_list or request.url == document_list_limit then
+      response_data = '{"total_rows":0,"offset":0,"rows":[]}'
+    elseif request.url == document_retrieve or request.url == document_retrieve_limit then
+      response_data = '{"_id":"' .. _M.server_example_document .. '"}'
     end
   elseif request.method == "PUT" then
     if request.url == database_name then
       response_data = '{"ok":true}'
     end
+    if request.url == document_create_new or request.url == document_create_with_id then
+      response_data = '{"ok":true}'
+    end
+  elseif request.method == "COPY" then
+    if request.url == document_copy then
+      response_data = '{"ok":true}'
+    end
   elseif request.method == "DELETE" then
     if request.url == database_name then
       response_data = '{"ok":true}'
+    end
+    if request.url == document_delete then
+      response_data = '{"ok":true}'
+    end
+  elseif request.method == "HEAD" then
+    if request.url == document_retrieve then
+      request.headers.etag = _M.server_example_document_id
     end
   end
 
