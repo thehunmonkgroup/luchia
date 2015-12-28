@@ -6,6 +6,7 @@ local assert_table = lunatest.assert_table
 local common = require "common_test_functions"
 local document = require "luchia.document"
 
+-- Server.
 local good_protocol = common.server_good_protocol
 local good_host = common.server_good_host
 local good_port = common.server_good_port
@@ -26,6 +27,12 @@ local conf = {
     },
   },
 }
+
+-- Attachment.
+local text_content_type = common.attachment.text_content_type
+local custom_file_name = common.attachment.custom_file_name
+local custom_loader_file_path = common.attachment.custom_loader_file_path
+local custom_loader_function = common.attachment.custom_loader
 
 local tests = {}
 
@@ -215,16 +222,61 @@ function tests.test_delete_document_no_rev_returns_nil()
   assert_equal(response, nil)
 end
 
-function tests.test_info_document_returns_success()
+function tests.test_document_info_returns_success()
   local doc = new_with_default_server_params()
   local headers = doc:info(document_id)
   assert_equal(headers.etag, document_rev)
 end
 
-function tests.test_info_document_no_id_returns_nil()
+function tests.test_document_info_no_id_returns_nil()
   local doc = new_with_default_server_params()
   local headers = doc:info()
   assert_equal(headers, nil)
+end
+
+function tests.test_document_current_revision_returns_success()
+  local doc = new_with_default_server_params()
+  local rev = doc:current_revision(document_id)
+  assert_equal(rev, document_rev)
+end
+
+function tests.test_document_current_revision_no_id_returns_nil()
+  local doc = new_with_default_server_params()
+  local rev = doc:current_revision()
+  assert_equal(rev, nil)
+end
+
+function tests.test_document_add_standalone_attachment_no_file_name_returns_success()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:add_standalone_attachment(custom_loader_file_path, text_content_type, nil, document_id, document_rev, custom_loader_function)
+  assert_table(response)
+  assert_equal(response.ok, true)
+end
+
+function tests.test_document_add_standalone_attachment_with_file_name_returns_success()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:add_standalone_attachment(custom_loader_file_path, text_content_type, custom_file_name, document_id, document_rev, custom_loader_function)
+  assert_table(response)
+  assert_equal(response.ok, true)
+end
+
+function tests.test_document_add_standalone_attachment_no_id_no_rev_returns_success()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:add_standalone_attachment(custom_loader_file_path, text_content_type, nil, nil, nil, custom_loader_function)
+  assert_table(response)
+  assert_equal(response.ok, true)
+end
+
+function tests.test_document_add_standalone_attachment_no_file_path_returns_nil()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:add_standalone_attachment(nil, text_content_type, nil, document_id, document_rev)
+  assert_equal(response, nil)
+end
+
+function tests.test_document_add_standalone_attachment_no_content_type_returns_nil()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:add_standalone_attachment(custom_loader_file_path, nil, nil, document_id, document_rev)
+  assert_equal(response, nil)
 end
 
 return tests

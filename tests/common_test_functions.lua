@@ -91,6 +91,9 @@ _M.server_request = function(request)
   local document_create_with_id = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_uuid2 .. "?"
   local document_copy = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "?"
   local document_delete = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "?rev=" .. url.escape(_M.server_example_document_rev)
+  local add_standalone_attachment = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "/" .. _M.attachment.custom_loader_default_file_name .. "?rev=" .. url.escape(_M.server_example_document_rev)
+  local add_standalone_attachment_no_id_no_rev = url_string .. "/" .. _M.server_example_database .. "/" .. _M.attachment.custom_loader_default_file_name .. "/" .. _M.attachment.custom_loader_default_file_name .. "?"
+  local add_standalone_attachment_custom_file_name = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "/" .. _M.attachment.custom_file_name .. "?rev=" .. url.escape(_M.server_example_document_rev)
 
   if request.method == "GET" then
     if request.url == uuids then
@@ -124,6 +127,9 @@ _M.server_request = function(request)
       response_data = '{"ok":true}'
     end
     if request.url == document_create_new or request.url == document_create_with_id then
+      response_data = '{"ok":true}'
+    end
+    if request.url == add_standalone_attachment or request.url == add_standalone_attachment_no_id_no_rev or request.url == add_standalone_attachment_custom_file_name then
       response_data = '{"ok":true}'
     end
   elseif request.method == "COPY" then
