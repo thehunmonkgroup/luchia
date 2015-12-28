@@ -19,6 +19,7 @@ local assert_lte = lunatest.assert_lte
 
 local file1_path
 local server = require "luchia.core.server"
+local attachment = require "luchia.core.attachment"
 
 local _M = {}
 
@@ -148,6 +149,35 @@ _M.server_request = function(request)
   end
   return response, response_code, headers, status
 end
+
+-- Attachment helpers.
+_M.attachment = {}
+_M.attachment.text_content_type = "text/plain"
+_M.attachment.custom_file_name = "custom_textfile1.txt"
+_M.attachment.bad_file = "badfile.txt"
+
+_M.attachment.custom_loader_file_path = "/tmp/textfile1.txt"
+_M.attachment.custom_loader_default_file_name = "textfile1.txt"
+_M.attachment.custom_loader_file_data = "foo."
+
+_M.attachment.custom_loader = function()
+  return _M.attachment.custom_loader_file_data
+end
+
+_M.attachment.build_new_attachment = function(file_name)
+  local params = {
+    file_path = _M.attachment.custom_loader_file_path,
+    content_type = _M.attachment.text_content_type,
+    custom_loader_function = _M.attachment.custom_loader,
+  }
+  if file_name then
+    params.file_name = file_name
+  end
+  local att = attachment:new(params)
+  return att
+end
+
+
 
 function _M.create_file1()
   local file1_data = "foo"

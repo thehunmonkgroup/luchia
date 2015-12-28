@@ -6,30 +6,16 @@ local attachment = require "luchia.core.attachment"
 
 local tests = {}
 
-local text_content_type = "text/plain"
-local custom_file_name = "custom_textfile1.txt"
-local bad_file = "badfile.txt"
+local text_content_type = common.attachment.text_content_type
+local custom_file_name = common.attachment.custom_file_name
+local bad_file = common.attachment.bad_file
 
-local custom_loader_file_path = "/tmp/textfile1.txt"
-local custom_loader_default_file_name = "textfile1.txt"
-local custom_loader_file_data = "foo."
+local custom_loader_file_path = common.attachment.custom_loader_file_path
+local custom_loader_default_file_name = common.attachment.custom_loader_default_file_name
+local custom_loader_file_data = common.attachment.custom_loader_file_data
 
-local function custom_loader_function()
-  return custom_loader_file_data
-end
-
-local function build_new_attachment(file_name)
-  local params = {
-    file_path = custom_loader_file_path,
-    content_type = text_content_type,
-    custom_loader_function = custom_loader_function,
-  }
-  if file_name then
-    params.file_name = file_name
-  end
-  local att = attachment:new(params)
-  return att
-end
+local custom_loader_function = common.attachment.custom_loader
+local build_new_attachment = common.attachment.build_new_attachment
 
 function tests.test_new_no_params_returns_nil()
   local att = attachment:new()
