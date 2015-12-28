@@ -119,7 +119,11 @@ end
 -- @usage response = doc:retrieve("document-id")
 -- @see document_call
 function _M.retrieve(self, id, query_parameters)
-  return document_call(self, "GET", id, query_parameters)
+  if id then
+    return document_call(self, "GET", id, query_parameters)
+  else
+    log:error([[id is required]])
+  end
 end
 
 --- Create a document.
