@@ -272,8 +272,10 @@ end
 -- @param file_name
 --   Optional. The name of the attachment as stored in CouchDB. If not
 --   provided, then the base name of file_path will be used.
+-- @param custom_loader_function
+--   Optional. Custom function to load the attachment.
 -- @return The new attachment object.
-local function make_attachment(self, file_path, content_type, file_name)
+local function make_attachment(self, file_path, content_type, file_name, custom_loader_function)
   if not file_path then
     log:error([[file_path is required]])
   elseif not content_type then
@@ -283,6 +285,7 @@ local function make_attachment(self, file_path, content_type, file_name)
       file_name = file_name,
       file_path = file_path,
       content_type = content_type,
+      custom_loader_function = custom_loader_function
     }
     local att = attachment:new(params)
     return att
@@ -302,6 +305,8 @@ end
 -- @param rev
 --   The document revision. This is only required if attaching to an existing
 --   document.
+-- @param custom_loader_function
+--   Optional. Custom function to load the attachment.
 -- @return Same values as document_call, response_data is a table of the
 --   request result.
 -- @usage response = doc:add_standalone_attachment("/tmp/file.txt",
@@ -309,8 +314,8 @@ end
 --   "1-15f65339921e497348be384867bb940f")
 -- @see make_attachment
 -- @see document_call
-function _M.add_standalone_attachment(self, file_path, content_type, file_name, id, rev)
-  local att = make_attachment(self, file_path, content_type, file_name)
+function _M.add_standalone_attachment(self, file_path, content_type, file_name, id, rev, custom_loader_function)
+  local att = make_attachment(self, file_path, content_type, file_name, custom_loader_function)
   if att then
     -- Name the document the same as the attachment if none was provided.
     if not id then
@@ -347,6 +352,8 @@ end
 -- @param rev
 --   The document revision. This is only required if attaching to an existing
 --   document.
+-- @param custom_loader_function
+--   Optional. Custom function to load the attachment.
 -- @return Same values as document_call, response_data is a table of the
 --   request result.
 -- @usage response = doc:add_inline_attachment("/tmp/file.txt",
@@ -354,8 +361,8 @@ end
 --   "1-15f65339921e497348be384867bb940f")
 -- @see make_attachment
 -- @see document_call
-function _M.add_inline_attachment(self, file_path, content_type, file_name, document, id, rev)
-  local att = make_attachment(self, file_path, content_type, file_name)
+function _M.add_inline_attachment(self, file_path, content_type, file_name, document, id, rev, custom_loader_function)
+  local att = make_attachment(self, file_path, content_type, file_name, custom_loader_function)
   if att then
     local doc = make_document(self, document, id, rev)
     if doc and doc:add_attachment(att) then
