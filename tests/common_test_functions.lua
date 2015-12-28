@@ -138,7 +138,7 @@ _M.server_request = function(request)
     end
   elseif request.method == "HEAD" then
     if request.url == document_retrieve then
-      request.headers.etag = _M.server_example_document_id
+      request.headers.etag = _M.server_example_document_rev
     end
   end
 

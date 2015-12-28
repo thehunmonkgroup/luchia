@@ -218,7 +218,7 @@ end
 function tests.test_info_document_returns_success()
   local doc = new_with_default_server_params()
   local headers = doc:info(document_id)
-  assert_equal(headers.etag, document_id)
+  assert_equal(headers.etag, document_rev)
 end
 
 function tests.test_info_document_no_id_returns_nil()
