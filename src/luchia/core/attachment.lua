@@ -116,14 +116,10 @@ end
 function _M.load_file(self)
   local file = io.open(self.file_path)
   if file then
+    log:debug(string.format([[Loaded file '%s']], self.file_path))
     local data = file:read("*a")
-    if data then
-      log:debug(string.format([[Loaded file '%s']], self.file_path))
-      return data
-    else
-      log:error(string.format([[Unable to read file '%s']], self.file_path))
-    end
     io.close(file)
+    return data
   else
     log:error(string.format([[Unable to open file '%s']], self.file_path))
   end
