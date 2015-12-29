@@ -1,6 +1,9 @@
 # Luchia
 Lua API for CouchDB (http://couchdb.apache.org).
 
+ * Compatible with Lua 5.1, 5.2, 5.3
+ * 100% unit test coverage
+
 ## Installation:
 
 It is recommended to install the LuaRocks (http://luarocks.org) package
@@ -47,7 +50,7 @@ training, consider hiring a competent consultant.
 
 ## Unit tests
 
-Luchia core classes have full unit test coverage. They can be run with:
+Luchia has full unit test coverage. They can be run with:
 
     cd /path/to/luchia/tests
     lua run_unit_tests.lua -v
