@@ -39,5 +39,26 @@ function tests.test_log_fatal_function()
   assert_function(log.fatal, "log:fatal")
 end
 
+function tests.test_set_logger_file_returns_file_logger()
+  local config = {
+    appender = "file",
+    level = "DEBUG",
+    format = "%level %message\n",
+    file = "/tmp/luchia.log",
+  }
+  logger:set_logger(config)
+  assert_table(log, "luchia.core.log")
+end
+
+function tests.test_set_logger_console_returns_console_logger()
+  local config = {
+    appender = "console",
+    level = "DEBUG",
+    format = "%level %message\n",
+  }
+  logger:set_logger(config)
+  assert_table(log, "luchia.core.log")
+end
+
 return tests
 
