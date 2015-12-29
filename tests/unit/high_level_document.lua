@@ -31,7 +31,9 @@ local conf = {
 -- Attachment.
 local text_content_type = common.attachment.text_content_type
 local custom_file_name = common.attachment.custom_file_name
+local custom_loader_default_file_name = common.attachment.custom_loader_default_file_name
 local custom_loader_file_path = common.attachment.custom_loader_file_path
+local custom_loader_file_data = common.attachment.custom_loader_file_data
 local custom_loader_function = common.attachment.custom_loader
 
 local tests = {}
@@ -154,8 +156,7 @@ end
 function tests.test_update_document_returns_success()
   local doc = new_with_default_server_params()
   local data = {}
-  local rev = document_rev
-  local response, response_code, headers, status = doc:update(data, document_id, rev)
+  local response, response_code, headers, status = doc:update(data, document_id, document_rev)
   assert_table(response)
   assert_equal(response.ok, true)
 end
@@ -277,6 +278,108 @@ function tests.test_document_add_standalone_attachment_no_content_type_returns_n
   local doc = new_with_default_server_params()
   local response, response_code, headers, status = doc:add_standalone_attachment(custom_loader_file_path, nil, nil, document_id, document_rev)
   assert_equal(response, nil)
+end
+
+function tests.test_document_add_inline_attachment_no_file_name_returns_success()
+  local doc = new_with_default_server_params()
+  local data = {}
+  local response, response_code, headers, status = doc:add_inline_attachment(custom_loader_file_path, text_content_type, nil, data, document_id, document_rev, custom_loader_function)
+  assert_table(response)
+  assert_equal(response.ok, true)
+end
+
+function tests.test_document_add_inline_attachment_with_file_name_returns_success()
+  local doc = new_with_default_server_params()
+  local data = {}
+  local response, response_code, headers, status = doc:add_inline_attachment(custom_loader_file_path, text_content_type, custom_file_name, data, document_id, document_rev, custom_loader_function)
+  assert_table(response)
+  assert_equal(response.ok, true)
+end
+
+function tests.test_document_add_inline_attachment_no_id_no_rev_returns_success()
+  local doc = new_with_default_server_params()
+  local data = {}
+  local response, response_code, headers, status = doc:add_inline_attachment(custom_loader_file_path, text_content_type, nil, data, nil, nil, custom_loader_function)
+  assert_table(response)
+  assert_equal(response.ok, true)
+end
+
+function tests.test_document_add_inline_attachment_no_id_with_rev_returns_nil()
+  local doc = new_with_default_server_params()
+  local data = {}
+  local response, response_code, headers, status = doc:add_inline_attachment(custom_loader_file_path, text_content_type, nil, data, nil, document_rev)
+  assert_equal(response, nil)
+end
+
+function tests.test_document_add_inline_attachment_no_file_path_returns_nil()
+  local doc = new_with_default_server_params()
+  local data = {}
+  local response, response_code, headers, status = doc:add_inline_attachment(nil, text_content_type, nil, data, document_id, document_rev)
+  assert_equal(response, nil)
+end
+
+function tests.test_document_add_inline_attachment_no_content_type_returns_nil()
+  local doc = new_with_default_server_params()
+  local data = {}
+  local response, response_code, headers, status = doc:add_inline_attachment(custom_loader_file_path, nil, nil, data, document_id, document_rev)
+  assert_equal(response, nil)
+end
+
+function tests.test_document_retrieve_attachment_returns_success()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:retrieve_attachment(custom_loader_default_file_name, document_id)
+  assert_equal(response, custom_loader_file_data)
+end
+
+function tests.test_document_retrieve_attachment_no_attachment_name_returns_nil()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:retrieve_attachment(nil, document_id)
+  assert_equal(response, nil)
+end
+
+function tests.test_document_retrieve_attachment_no_id_returns_nil()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:retrieve_attachment(custom_loader_default_file_name, nil)
+  assert_equal(response, nil)
+end
+
+function tests.test_document_delete_attachment_returns_success()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:delete_attachment(custom_loader_default_file_name, document_id, document_rev)
+  assert_table(response)
+  assert_equal(response.ok, true)
+end
+
+function tests.test_document_delete_attachment_no_attachment_name_returns_nil()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:delete_attachment(nil, document_id, document_rev)
+  assert_equal(response, nil)
+end
+
+function tests.test_document_delete_attachment_no_id_returns_nil()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:delete_attachment(custom_loader_default_file_name, nil, document_rev)
+  assert_equal(response, nil)
+end
+
+function tests.test_document_delete_attachment_no_rev_returns_nil()
+  local doc = new_with_default_server_params()
+  local response, response_code, headers, status = doc:delete_attachment(custom_loader_default_file_name, document_id, nil)
+  assert_equal(response, nil)
+end
+
+function tests.test_response_ok_with_ok_response_returns_true()
+  local doc = new_with_default_server_params()
+  local response = {ok = true}
+  local bool = doc:response_ok(response)
+  assert_equal(bool, true)
+end
+
+function tests.test_response_ok_with_not_ok_response_returns_false()
+  local doc = new_with_default_server_params()
+  local response = {ok = false}
+  local bool = doc:response_ok(response)
+  assert_equal(bool, false)
 end
 
 return tests

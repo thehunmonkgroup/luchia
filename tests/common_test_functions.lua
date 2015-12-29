@@ -89,11 +89,14 @@ _M.server_request = function(request)
   local document_retrieve_limit = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "?limit=3"
   local document_create_new = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_uuid1 .. "?"
   local document_create_with_id = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_uuid2 .. "?"
+  local document_update = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "?"
   local document_copy = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "?"
   local document_delete = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "?rev=" .. url.escape(_M.server_example_document_rev)
   local add_standalone_attachment = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "/" .. _M.attachment.custom_loader_default_file_name .. "?rev=" .. url.escape(_M.server_example_document_rev)
   local add_standalone_attachment_no_id_no_rev = url_string .. "/" .. _M.server_example_database .. "/" .. _M.attachment.custom_loader_default_file_name .. "/" .. _M.attachment.custom_loader_default_file_name .. "?"
   local add_standalone_attachment_custom_file_name = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "/" .. _M.attachment.custom_file_name .. "?rev=" .. url.escape(_M.server_example_document_rev)
+  local retrieve_attachment = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "/" .. _M.attachment.custom_loader_default_file_name .. "?"
+  local delete_attachment = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "/" .. _M.attachment.custom_loader_default_file_name .. "?rev=" .. url.escape(_M.server_example_document_rev)
 
   if request.method == "GET" then
     if request.url == uuids then
@@ -120,13 +123,19 @@ _M.server_request = function(request)
     elseif request.url == document_list or request.url == document_list_limit then
       response_data = '{"total_rows":0,"offset":0,"rows":[]}'
     elseif request.url == document_retrieve or request.url == document_retrieve_limit then
-      response_data = '{"_id":"' .. _M.server_example_document .. '"}'
+      response_data = '{"_id":"' .. _M.server_example_document_id .. '"}'
+    elseif request.url == retrieve_attachment then
+      response_data = _M.attachment.custom_loader_file_data
     end
   elseif request.method == "PUT" then
     if request.url == database_name then
       response_data = '{"ok":true}'
     end
+    -- This also handles inline attachments.
     if request.url == document_create_new or request.url == document_create_with_id then
+      response_data = '{"ok":true}'
+    end
+    if request.url == document_update then
       response_data = '{"ok":true}'
     end
     if request.url == add_standalone_attachment or request.url == add_standalone_attachment_no_id_no_rev or request.url == add_standalone_attachment_custom_file_name then
@@ -141,6 +150,9 @@ _M.server_request = function(request)
       response_data = '{"ok":true}'
     end
     if request.url == document_delete then
+      response_data = '{"ok":true}'
+    end
+    if request.url == delete_attachment then
       response_data = '{"ok":true}'
     end
   elseif request.method == "HEAD" then
