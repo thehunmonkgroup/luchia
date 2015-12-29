@@ -97,6 +97,10 @@ _M.server_request = function(request)
   local add_standalone_attachment_custom_file_name = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "/" .. _M.attachment.custom_file_name .. "?rev=" .. url.escape(_M.server_example_document_rev)
   local retrieve_attachment = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "/" .. _M.attachment.custom_loader_default_file_name .. "?"
   local delete_attachment = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "/" .. _M.attachment.custom_loader_default_file_name .. "?rev=" .. url.escape(_M.server_example_document_rev)
+  local root = url_string .. "/" .. "?"
+  local config = url_string .. "/_config" .. "?"
+  local stats = url_string .. "/_stats" .. "?"
+  local active_tasks = url_string .. "/_active_tasks" .. "?"
 
   if request.method == "GET" then
     if request.url == uuids then
@@ -126,6 +130,14 @@ _M.server_request = function(request)
       response_data = '{"_id":"' .. _M.server_example_document_id .. '"}'
     elseif request.url == retrieve_attachment then
       response_data = _M.attachment.custom_loader_file_data
+    elseif request.url == root then
+      response_data = '{"couchdb":"Welcome","version":"' .. _M.utility.version .. '"}'
+    elseif request.url == config then
+      response_data = '{"httpd":{"port":"' .. _M.server_good_port .. '"}}'
+    elseif request.url == stats then
+      response_data = '{"httpd_status_codes":{"404":{"description": "number of HTTP 404 Not Found responses"}}}'
+    elseif request.url == active_tasks then
+      response_data = '[]'
     end
   elseif request.method == "PUT" then
     if request.url == database_name then
@@ -195,6 +207,9 @@ _M.attachment.build_new_attachment = function(file_name)
   return att
 end
 
+-- Utility helpers.
+_M.utility = {}
+_M.utility.version = "1.6.1"
 
 
 function _M.create_file1()
