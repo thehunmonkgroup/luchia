@@ -3,7 +3,8 @@
 -- @copyright 2011 Chad Phillips
 
 require "luchia.conf"
-local log = require "luchia.core.log"
+local logger = require "luchia.core.log"
+local log = logger.logger
 local server = require "luchia.core.server"
 local document = require "luchia.core.document"
 local attachment = require "luchia.core.attachment"

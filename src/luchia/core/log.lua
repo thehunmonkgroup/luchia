@@ -48,18 +48,22 @@
 
 local logging = require("logging")
 local conf = require "luchia.conf"
-local log = conf.log
 
-local _M
+local _M = {}
 
-if log.appender == "file" then
-  local file = require("logging.file")
-  _M = file(log.file, nil, log.format)
-else
-  local console = require("logging.console")
-  _M = console(log.format)
+_M.set_logger = function(self, config)
+  config = config or conf.log
+  if config.appender == "file" then
+    local file = require("logging.file")
+    _M.logger = file(config.file, nil, config.format)
+  else
+    local console = require("logging.console")
+    _M.logger = console(config.format)
+  end
+  _M.logger:setLevel(logging[config.level])
 end
-_M:setLevel(logging[log.level])
+
+_M:set_logger()
 
 return _M
 
