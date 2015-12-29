@@ -307,7 +307,7 @@ end
 function tests.test_document_add_inline_attachment_no_id_with_rev_returns_nil()
   local doc = new_with_default_server_params()
   local data = {}
-  local response, response_code, headers, status = doc:add_inline_attachment(custom_loader_file_path, text_content_type, nil, data, nil, document_rev)
+  local response, response_code, headers, status = doc:add_inline_attachment(custom_loader_file_path, text_content_type, nil, data, nil, document_rev, custom_loader_function)
   assert_equal(response, nil)
 end
 
