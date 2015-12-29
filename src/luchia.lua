@@ -44,7 +44,7 @@ return _M
 -- here's a quick primer:<p/>
 -- <p><code>
 -- -- Load all modules.<br />
--- require "luchia"<br />
+-- local luchia = require "luchia"<br />
 -- -- Create new document handler for the 'example' database.<br />
 -- local doc = luchia.document:new("example")<br />
 -- -- Simple document.<br />
