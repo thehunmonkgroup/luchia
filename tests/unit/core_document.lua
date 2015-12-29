@@ -236,6 +236,14 @@ function tests.test_add_attachment_invalid_att_empty_document_returns_nil_return
   assert_equal(nil, return_document, "return doc.document")
 end
 
+function tests.test_add_attachment_invalid_file_data_returns_nil()
+  local att = build_new_attachment()
+  att.file_data = nil
+  local doc = document:new()
+  local return_document = doc:add_attachment(att)
+  assert_equal(nil, return_document, "return doc.document")
+end
+
 function tests.test_add_attachment_no_att_empty_document_returns_nil_return_document()
   local doc = document:new()
   local return_document = document:add_attachment()
