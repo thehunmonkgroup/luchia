@@ -1,6 +1,15 @@
 --- Core attachment handler class.
+--
+-- Implements the methods necessary to handle attachments. Note that for most
+-- cases, the attachment handling methods in @{luchia.document} should be used;
+-- this module provides the core functionality that those higher-level methods
+-- use.
+--
+-- See the @{core.attachment.lua} example for more detail.
+--
+-- @module luchia.core.attachment
 -- @author Chad Phillips
--- @copyright 2011 Chad Phillips
+-- @copyright 2011-2015 Chad Phillips
 
 require "luchia.conf"
 
@@ -12,31 +21,14 @@ local log = logger.logger
 
 local setmetatable = setmetatable
 
---- Core attachment handler class.
--- <p>Implements the methods necessary to handle attachments. Note that for most
--- cases, the attachment handling methods in luchia.document should be used;
--- this module provides the core functionality that those higher-level methods
--- use.
--- See the method documentation for more detail, here is a quick primer:</p>
--- <p><code>
--- -- Require the class.<br />
--- local attachment = require "luchia.core.attachment"<br />
--- -- Build a new attachment object.<br />
--- local att = attachment:new({<br />
--- &nbsp;&nbsp;file_path = "/tmp/attachment.txt",<br />
--- &nbsp;&nbsp;content_type = "text/plain",<br />
--- &nbsp;&nbsp;file_name = "afile",<br />
--- })<br />
--- -- Base64 encode the file data.<br />
--- local encoded_data = att:base64_encode_file()<br />
--- </p></code>
--- @see luchia.document
 
 local _M = {}
 
 --- Parameters table for creating new attachment objects.
--- This is the required table to pass when calling the 'new' method to create
+--
+-- This is the required table to pass when calling the @{new} method to create
 -- new attachment objects.
+--
 -- @field file_path
 --   Required. The path to the file to add as an attachment. Relative paths
 --   can be used, but must have a path component, eg. "./myfile" or
@@ -54,20 +46,22 @@ local _M = {}
 -- @see new
 
 --- Creates a new core attachment handler.
+--
 -- In order to add an attachment to a document, an attachment object must be
 -- created, then attached to the document, as seen in
--- luchia.core.document:add_attachment(),
--- luchia.document:add_standalone_attachment(),
--- and luchia.document:add_inline_attachment().
+-- @{luchia.core.document:add_attachment},
+-- @{luchia.document:add_standalone_attachment},
+-- and @{luchia.document:add_inline_attachment}.
+--
 -- In order to send a standalone attachment via the core server methods, an
 -- attachment object must be created, and passed to the 'data' parameter of
--- luchia.core.server:request().
+-- @{luchia.core.server:request}.
+--
 -- @param params
 --   Required. A table with the metadata necessary to create a new attachment
---   object.
+--   object. See @{new_params}.
 -- @return A new attachment object.
 -- @usage attachment = luchia.core.attachment:new(params)
--- @see new_params
 function _M.new(self, params)
   local params = params or {}
   if not params.file_path then
@@ -101,9 +95,10 @@ function _M.new(self, params)
 end
 
 --- Base64 encode the attachment file data.
+--
 -- @return The encoded data.
 -- @usage encoded_data = attachment:base64_encode_file()
-function _M.base64_encode_file(self)
+function _M:base64_encode_file()
   if self.file_data then
     local base64_data = mime.b64(self.file_data)
     log:debug(string.format([[Base64 encoded file ' %s']], self.file_path))
@@ -112,9 +107,10 @@ function _M.base64_encode_file(self)
 end
 
 --- Load the attachment file data.
+--
 -- @return The file data.
 -- @usage data = attachment:load_file()
-function _M.load_file(self)
+function _M:load_file()
   local file = io.open(self.file_path)
   if file then
     log:debug(string.format([[Loaded file '%s']], self.file_path))
@@ -127,11 +123,14 @@ function _M.load_file(self)
 end
 
 --- Prepare attachment for a server request.
--- This method is called by luchia.core.server:prepare_request_data() to allow
+--
+-- This method is called by @{luchia.core.server:prepare_request_data} to allow
 -- the attachment object to properly prepare the data for a server request.
+--
 -- @param server
 --   Required. The server object to prepare the request for.
-function _M.prepare_request_data(self, server)
+-- @usage attachment:prepare_request_data(server)
+function _M:prepare_request_data(server)
   log:debug([[Preparing attachment request data]])
   server.content_type = self.content_type
   server.request_data = self.file_data
