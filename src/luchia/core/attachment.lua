@@ -5,7 +5,7 @@
 -- this module provides the core functionality that those higher-level methods
 -- use.
 --
--- see the @{core.attachment.lua} example for more detail.
+-- See the @{core.attachment.lua} example for more detail.
 --
 -- @classmod luchia.core.attachment
 -- @author Chad Phillips
