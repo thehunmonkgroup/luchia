@@ -17,7 +17,7 @@ method.
 
 #### Optional
  * stdlib (prettier output for luchia_get)
- * luadoc (to generate local documentation)
+ * ldoc (to generate local documentation)
  * lunatest (to run unit tests)
  * luacov (to view unit test coverage)
 
@@ -30,17 +30,18 @@ source directory, and put them somewhere in your Lua package path.
 
 ## Documentation
 
-Available online at:
-  http://thehunmonkgroup.github.com/luchia/modules/luchia.html
+See the [online manual](http://thehunmonkgroup.github.com/luchia/topics/INTRODUCTION.md.html).
 
-For local documentation, all documentation is inline, but is luadoc
-(http://keplerproject.github.com/luadoc) compatible. To generate HTML
-documentation, install luadoc, enter the source directory, then run:
+For local documentation, all documentation is inline, but is
+[ldoc](https://github.com/stevedonovan/LDoc) compatible.
 
-    /path/to/luadoc -d doc *.lua luchia/*.lua luchia/core/*.lua
+#### To generate HTML documentation locally
 
-If you don't want to go this route, then at least start with the inline
-documentation in luchia.lua.
+ * Checkout this repository
+ * Install ldoc <code>luarocks install ldoc</code>
+ * In the root directory of the repository, run:
+
+    ldoc .
 
 ## Support
 The issue tracker for this project is provided to file bug reports, feature
