@@ -24,25 +24,6 @@ local type = type
 
 local _M = {}
 
---- Parameters table for creating new document objects.
---
--- This is the optional table to pass when calling the @{new} method to create
--- new document objects.
---
--- @field id
---   Optional. The document ID. If provided, this is copied into the document
---   itself.
--- @field rev
---   Optional. The document revision. If provided, this is copied into the
---   document itself.
--- @field document
---   Optional. A table representing the document to be stored in CouchDB. This
---   table is converted to proper JSON format before being sent to the
---   database.
--- @class table
--- @name new_params
--- @see new
-
 --- Creates a new core document handler.
 --
 -- In order to send a document via the core server methods, a document object
@@ -51,7 +32,17 @@ local _M = {}
 --
 -- @param params
 --   Optional. A table with the metadata necessary to create a new document
---   object. See @{new_params}.
+--   object.
+-- @param params.id
+--   Optional. The document ID. If provided, this is copied into the document
+--   itself.
+-- @param params.rev
+--   Optional. The document revision. If provided, this is copied into the
+--   document itself.
+-- @param params.document
+--   Optional. A table representing the document to be stored in CouchDB. This
+--   table is converted to proper JSON format before being sent to the
+--   database.
 -- @return A new document object.
 -- @usage document = luchia.core.document:new(params)
 function _M.new(self, params)

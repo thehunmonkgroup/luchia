@@ -1,11 +1,11 @@
---- Core attachment handler class.
+--- core attachment handler class.
 --
--- Implements the methods necessary to handle attachments. Note that for most
+-- implements the methods necessary to handle attachments. note that for most
 -- cases, the attachment handling methods in @{luchia.document} should be used;
 -- this module provides the core functionality that those higher-level methods
 -- use.
 --
--- See the @{core.attachment.lua} example for more detail.
+-- see the @{core.attachment.lua} example for more detail.
 --
 -- @module luchia.core.attachment
 -- @author Chad Phillips
@@ -24,27 +24,6 @@ local setmetatable = setmetatable
 
 local _M = {}
 
---- Parameters table for creating new attachment objects.
---
--- This is the required table to pass when calling the @{new} method to create
--- new attachment objects.
---
--- @field file_path
---   Required. The path to the file to add as an attachment. Relative paths
---   can be used, but must have a path component, eg. "./myfile" or
---   "/tmp/attachment.txt".
--- @field content_type
---   Required. The mime content type of the attachment, eg. "text/plain".
--- @field file_name
---   Optional. The name of the attachment as stored in CouchDB. If not
---   provided, then the base name of file_path will be used.
--- @field custom_loader_function
---   Optional. By default, files are loaded via the 'load_file' method in this
---   class. Use this to specify an alternate loader function.
--- @class table
--- @name new_params
--- @see new
-
 --- Creates a new core attachment handler.
 --
 -- In order to add an attachment to a document, an attachment object must be
@@ -59,7 +38,19 @@ local _M = {}
 --
 -- @param params
 --   Required. A table with the metadata necessary to create a new attachment
---   object. See @{new_params}.
+--   object.
+-- @param params.file_path
+--   Required. The path to the file to add as an attachment. Relative paths
+--   can be used, but must have a path component, eg. "./myfile" or
+--   "/tmp/attachment.txt".
+-- @param params.content_type
+--   Required. The mime content type of the attachment, eg. "text/plain".
+-- @param params.file_name
+--   Optional. The name of the attachment as stored in couchdb. If not
+--   provided, then the base name of file_path will be used.
+-- @param params.custom_loader_function
+--   Optional. By default, files are loaded via the @{load_file} method in this
+--   class. Use this to specify an alternate loader function.
 -- @return A new attachment object.
 -- @usage attachment = luchia.core.attachment:new(params)
 function _M.new(self, params)
