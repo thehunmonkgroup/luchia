@@ -7,7 +7,7 @@
 --
 -- See the @{core.document.lua} example for more detail.
 --
--- @module luchia.core.document
+-- @classmod luchia.core.document
 -- @author Chad Phillips
 -- @copyright 2011-2015 Chad Phillips
 

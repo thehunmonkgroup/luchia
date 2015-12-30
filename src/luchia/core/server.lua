@@ -7,7 +7,7 @@
 --
 -- See the @{core.server.lua} example for more detail.
 --
--- @module luchia.core.server
+-- @classmod luchia.core.server
 -- @author Chad Phillips
 -- @copyright 2011-2015 Chad Phillips
 

@@ -1,13 +1,13 @@
---- core attachment handler class.
+--- Core attachment handler class.
 --
--- implements the methods necessary to handle attachments. note that for most
+-- Implements the methods necessary to handle attachments. Note that for most
 -- cases, the attachment handling methods in @{luchia.document} should be used;
 -- this module provides the core functionality that those higher-level methods
 -- use.
 --
 -- see the @{core.attachment.lua} example for more detail.
 --
--- @module luchia.core.attachment
+-- @classmod luchia.core.attachment
 -- @author Chad Phillips
 -- @copyright 2011-2015 Chad Phillips
 

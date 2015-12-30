@@ -2,7 +2,7 @@
 --
 -- See the @{core.log.lua} example for more detail.
 --
--- @module luchia.core.log
+-- @classmod luchia.core.log
 -- @author Chad Phillips
 -- @copyright 2011-2015 Chad Phillips
 
