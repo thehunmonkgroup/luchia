@@ -2,7 +2,7 @@
 
 --- Shell script to make simple GET requests to the default server.
 -- @author Chad Phillips
--- @copyright 2011 Chad Phillips
+-- @copyright 2011-2015 Chad Phillips
 
 --- Shell script to make simple GET requests to the default server.
 -- @usage Run luchia_get without any arguments for help/usage.
