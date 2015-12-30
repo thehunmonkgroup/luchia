@@ -1,21 +1,24 @@
 # Luchia
-Lua API for CouchDB (http://couchdb.apache.org).
+
+Lua API for [CouchDB](http://couchdb.apache.org).
 
  * Compatible with Lua 5.1, 5.2, 5.3
  * 100% unit test coverage
 
 ## Installation:
 
-It is recommended to install the LuaRocks (http://luarocks.org) package
+It is recommended to install the [LuaRocks](http://luarocks.org) package
 manager, as all required and optional dependencies are easy to install via this
 method.
 
 ####  Requires
+
  * lua-cjson
  * lualogging
  * luasocket
 
 #### Optional
+
  * stdlib (prettier output for luchia_get)
  * ldoc (to generate local documentation)
  * lunatest (to run unit tests)
