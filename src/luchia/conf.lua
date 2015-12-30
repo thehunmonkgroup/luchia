@@ -1,4 +1,5 @@
 --- Global configuration file.
+--
 -- @module luchia.conf
 -- @author Chad Phillips
 -- @copyright 2011-2015 Chad Phillips
@@ -8,6 +9,7 @@ local _M = {}
 _M.default = {}
 
 --- The default server.
+--
 -- When no server object is created specifically, the default server is used.
 -- @field protocol
 --   Required. The protocol to use, currently only "http" is allowed.
@@ -30,6 +32,7 @@ _M.default.server.password = nil
 
 
 --- Logging options.
+--
 -- @field appender
 --   Where to log messages. Must be one of "console", "file", false (disables
 --   logging).
