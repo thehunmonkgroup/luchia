@@ -30,7 +30,7 @@ source directory, and put them somewhere in your Lua package path.
 
 ## Documentation
 
-See the [online manual](http://thehunmonkgroup.github.com/luchia/topics/INTRODUCTION.md.html).
+See the [online manual](http://thehunmonkgroup.github.com/luchia/doc/topics/INTRODUCTION.md.html).
 
 For local documentation, all documentation is inline, but is
 [ldoc](https://github.com/stevedonovan/LDoc) compatible.
