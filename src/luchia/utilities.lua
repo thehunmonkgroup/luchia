@@ -56,7 +56,7 @@ end
 --
 -- @return The database server version string.
 -- @usage util:version()
-function _M:version(self)
+function _M:version()
   local response = utilities_get_call(self, "")
   if response and response.version then
     return response.version
@@ -69,7 +69,7 @@ end
 --   database server configuration information.
 -- @usage util:config()
 -- @see utilities_get_call
-function _M:config(self)
+function _M:config()
   return utilities_get_call(self, "_config")
 end
 
@@ -79,7 +79,7 @@ end
 --   database server statistics information.
 -- @usage util:stats()
 -- @see utilities_get_call
-function _M:stats(self)
+function _M:stats()
   return utilities_get_call(self, "_stats")
 end
 
@@ -89,7 +89,7 @@ end
 --   database server active tasks.
 -- @usage util:active_tasks()
 -- @see utilities_get_call
-function _M:active_tasks(self)
+function _M:active_tasks()
   return utilities_get_call(self, "_active_tasks")
 end
 
