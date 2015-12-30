@@ -183,7 +183,6 @@ end
 -- @param params
 --   Optional. A table with the request metadata.
 -- @usage srv:prepare_request(params)
--- @see request_params
 -- @see request
 function _M:prepare_request(params)
   params = params or {}
