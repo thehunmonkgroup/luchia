@@ -1,8 +1,7 @@
 --- Global configuration file.
+-- @module luchia.conf
 -- @author Chad Phillips
--- @copyright 2011 Chad Phillips
-
---- Global configuration file.
+-- @copyright 2011-2015 Chad Phillips
 
 local _M = {}
 
