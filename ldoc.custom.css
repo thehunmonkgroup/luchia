@@ -16,6 +16,11 @@ body {
 #navigation {
   background: #fffae5;
 }
+#navigation h2 {
+  margin-right: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
 #content {
   background: #fffae5;
   height: 100%;
@@ -23,8 +28,12 @@ body {
 #about {
   display: none;
 }
-table.module_list td.name, table.function_list td.name {
+table.module_list td.name,
+table.module_list td.summary,
+table.function_list td.name,
+table.function_list td.summary {
   background: #fffae5;
+  border-color: gray;
 }
 a:link, a:visited {
   color: #800000;
