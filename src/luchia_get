@@ -10,10 +10,8 @@
 -- @name luchia_get
 
 local luchia = require "luchia"
-local logger = require "luchia.core.log"
-local log = logger.logger
+local log = luchia.core.log.logger
 
-local log = luchia.core.log
 local server = luchia.core.server
 
 local function usage()
