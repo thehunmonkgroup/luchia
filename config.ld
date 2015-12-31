@@ -15,3 +15,4 @@ examples = "./examples"
 wrap = true
 no_space_before_args = true
 style = "!fixed"
+custom_css = "ldoc.custom.css"

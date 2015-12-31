@@ -1,0 +1,31 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+body {
+  background: #fffae5;
+}
+#container {
+  background: #fffae5;
+}
+#main {
+  background: #fffae5;
+}
+#navigation {
+  background: #fffae5;
+}
+#content {
+  background: #fffae5;
+  height: 100%;
+}
+#about {
+  display: none;
+}
+table.module_list td.name, table.function_list td.name {
+  background: #fffae5;
+}
+a:link, a:visited {
+  color: #800000;
+}
