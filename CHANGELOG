@@ -1,3 +1,5 @@
+1.1.1 & 1.1.2:
+ - Fix crashes in luchia_get
 1.1.0:
  - Finally, fully compatible with Lua 5.2 and 5.3!
  - Lots more unit tests, now 100% coverage
