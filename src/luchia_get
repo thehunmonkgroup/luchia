@@ -9,6 +9,7 @@
 -- @class function
 -- @name luchia_get
 
+local logging = require "logging"
 local luchia = require "luchia"
 local log = luchia.core.log.logger
 
