@@ -21,6 +21,7 @@ local data_key = "foo"
 local data_value = "bar"
 local file_path, file_data
 local test_file_name = "attachment.txt"
+local test_bad_file_path = "/tmp/54186B92-7496-49E9-8568-EBCBBC636E70.txt"
 local content_type = "text/plain"
 
 function tests.setup()
@@ -193,6 +194,11 @@ function tests.test_add_standalone_attachment_to_new_document_then_delete_attach
   document_data = doc:retrieve(added_attachment.id)
   assert_not_table(document_data._attachments, "_attachments key present after attachment deletion")
   assert_equal(2, common.table_length(document_data), "Bad number of keys in document")
+end
+
+function tests.test_add_standalone_attachment_with_bad_filename_returns_nil()
+  local added_attachment = doc:add_standalone_attachment(test_bad_file_path, content_type)
+  assert_equal(added_attachment, nil, "Attachement object created from non-existant file")
 end
 
 return tests
