@@ -4,25 +4,28 @@ html, body {
   padding: 0;
   margin: 0;
 }
-body {
-  background: #fffae5;
+
+body,
+#container,
+#main,
+#navigation,
+#content {
+  background: #ffffff;
 }
-#container {
-  background: #fffae5;
+
+#content {
+  background: no-repeat;
+  background-image: url('../images/luchia-logo.png');
+  background-position: right top;
+  background-origin: content-box;
 }
-#main {
-  background: #fffae5;
-}
-#navigation {
-  background: #fffae5;
-}
+
 #navigation h2 {
   margin-right: 10px;
   border: 1px solid gray;
   border-radius: 5px;
 }
 #content {
-  background: #fffae5;
   height: 100%;
 }
 #about {
@@ -32,7 +35,7 @@ table.module_list td.name,
 table.module_list td.summary,
 table.function_list td.name,
 table.function_list td.summary {
-  background: #fffae5;
+  background: #ffffff;
   border-color: gray;
 }
 a:link, a:visited {
