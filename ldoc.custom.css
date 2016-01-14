@@ -21,8 +21,9 @@ body,
 }
 
 #navigation h2 {
+  background: #cccccc;
   margin-right: 10px;
-  border: 1px solid gray;
+  border: 1px solid #cccccc;
   border-radius: 5px;
 }
 #content {
