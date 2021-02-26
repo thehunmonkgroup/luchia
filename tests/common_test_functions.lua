@@ -4,6 +4,7 @@ local io = require "io"
 local os = require "os"
 local string = require "string"
 local url = require "socket.url"
+local ltn12 = require "ltn12"
 
 local pairs = pairs
 local require = require
