@@ -2,8 +2,10 @@
 
 Lua API for [CouchDB](http://couchdb.apache.org).
 
- * Compatible with Lua 5.1, 5.2, 5.3
+ * Compatible with Lua 5.1, 5.2, 5.3, 5.4
  * 100% unit test coverage
+
+*NOTE: 1.x branch is no longer maintained. It is compatible with CouchDb 2.x and earlier.*
 
 ## Installation:
 
