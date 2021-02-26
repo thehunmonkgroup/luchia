@@ -29,6 +29,7 @@ _M.server_good_host = "www.example.com"
 _M.server_good_port = "5984"
 _M.server_user = "user"
 _M.server_password = "password"
+_M.server_node = "couchdb@127.0.0.1"
 
 _M.server_response_code_ok = "200"
 _M.server_response_code_not_found = "404"
@@ -98,8 +99,9 @@ _M.server_request = function(request)
   local retrieve_attachment = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "/" .. _M.attachment.custom_loader_default_file_name .. "?"
   local delete_attachment = url_string .. "/" .. _M.server_example_database .. "/" .. _M.server_example_document_id .. "/" .. _M.attachment.custom_loader_default_file_name .. "?rev=" .. url.escape(_M.server_example_document_rev)
   local root = url_string .. "/" .. "?"
-  local config = url_string .. "/_config" .. "?"
-  local stats = url_string .. "/_stats" .. "?"
+  local membership = url_string .. "/_membership" .. "?"
+  local config = url_string .. "/_node/" .. _M.server_node .. "/_config" .. "?"
+  local stats = url_string .. "/_node/" .. _M.server_node .. "/_stats" .. "?"
   local active_tasks = url_string .. "/_active_tasks" .. "?"
 
   if request.method == "GET" then
@@ -132,6 +134,8 @@ _M.server_request = function(request)
       response_data = _M.attachment.custom_loader_file_data
     elseif request.url == root then
       response_data = '{"couchdb":"Welcome","version":"' .. _M.utility.version .. '"}'
+    elseif request.url == membership then
+      response_data = '{"all_nodes":["' .. _M.server_node .. '"], "cluster_nodes":["' .. _M.server_node .. '"]}'
     elseif request.url == config then
       response_data = '{"httpd":{"port":"' .. _M.server_good_port .. '"}}'
     elseif request.url == stats then

@@ -69,15 +69,27 @@ function tests.test_version_returns_version()
   assert_equal(response, version)
 end
 
-function tests.test_config_returns_config()
+function tests.test_config_default_node_returns_config()
   local util = new_with_default_server_params()
   local response, response_code, headers, status = util:config()
   assert_equal(response.httpd.port, good_port)
 end
 
-function tests.test_stats_returns_stats()
+function tests.test_config_passed_node_returns_config()
+  local util = new_with_default_server_params()
+  local response, response_code, headers, status = util:config(common.server_node)
+  assert_equal(response.httpd.port, good_port)
+end
+
+function tests.test_stats_default_node_returns_stats()
   local util = new_with_default_server_params()
   local response, response_code, headers, status = util:stats()
+  assert_equal(response.httpd_status_codes["404"].description, "number of HTTP 404 Not Found responses")
+end
+
+function tests.test_stats_passed_node_returns_stats()
+  local util = new_with_default_server_params()
+  local response, response_code, headers, status = util:stats(common.server_node)
   assert_equal(response.httpd_status_codes["404"].description, "number of HTTP 404 Not Found responses")
 end
 

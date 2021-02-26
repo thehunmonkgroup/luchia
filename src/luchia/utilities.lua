@@ -63,14 +63,34 @@ function _M:version()
   end
 end
 
+--- Get the database node membership list.
+--
+-- @return Same values as @{utilities_get_call}, response_data is a table of
+--   node membership information.
+-- @usage util:membership()
+-- @see utilities_get_call
+function _M:membership()
+  return utilities_get_call(self, "_membership")
+end
+
+--- Get the default cluster node.
+--
+-- @return The default cluster node.
+-- @usage util:get_default_cluster_node()
+function _M:get_default_cluster_node()
+  local membership = self:membership()
+  return membership.cluster_nodes[1]
+end
+
 --- Get the database server configuration.
 --
 -- @return Same values as @{utilities_get_call}, response_data is a table of
 --   database server configuration information.
 -- @usage util:config()
 -- @see utilities_get_call
-function _M:config()
-  return utilities_get_call(self, "_config")
+function _M:config(node)
+  node = node or self:get_default_cluster_node()
+  return utilities_get_call(self, string.format("_node/%s/_config", node))
 end
 
 --- Get the database server statistics.
@@ -79,8 +99,9 @@ end
 --   database server statistics information.
 -- @usage util:stats()
 -- @see utilities_get_call
-function _M:stats()
-  return utilities_get_call(self, "_stats")
+function _M:stats(node)
+  node = node or self:get_default_cluster_node()
+  return utilities_get_call(self, string.format("_node/%s/_stats", node))
 end
 
 --- Get the database server active tasks.
