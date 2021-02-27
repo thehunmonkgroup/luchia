@@ -1,0 +1,850 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Luchia documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Luchia</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Local_Functions">Local Functions</a></li>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/luchia.core.attachment.html">luchia.core.attachment</a></li>
+  <li><a href="../classes/luchia.core.document.html">luchia.core.document</a></li>
+  <li><a href="../classes/luchia.core.log.html">luchia.core.log</a></li>
+  <li><a href="../classes/luchia.core.server.html">luchia.core.server</a></li>
+  <li><a href="../classes/luchia.database.html">luchia.database</a></li>
+  <li><strong>luchia.document</strong></li>
+  <li><a href="../classes/luchia.utilities.html">luchia.utilities</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/luchia.html">luchia</a></li>
+  <li><a href="../modules/luchia.conf.html">luchia.conf</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/INTRODUCTION.md.html">INTRODUCTION</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/core.attachment.lua.html">core.attachment.lua</a></li>
+  <li><a href="../examples/core.document.lua.html">core.document.lua</a></li>
+  <li><a href="../examples/core.log.lua.html">core.log.lua</a></li>
+  <li><a href="../examples/core.server.lua.html">core.server.lua</a></li>
+  <li><a href="../examples/database.lua.html">database.lua</a></li>
+  <li><a href="../examples/document.lua.html">document.lua</a></li>
+  <li><a href="../examples/luchia.lua.html">luchia.lua</a></li>
+  <li><a href="../examples/utilities.lua.html">utilities.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>luchia.document</code></h1>
+<p>High-level document class.</p>
+<p> Contains all of the high-level methods to manage documents and attachments.
+ This module should be used instead of the core modules when possible.</p>
+
+<p> See the <a href="../examples/document.lua.html#">document.lua</a> example for more detail.</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2011-2015 Chad Phillips</li>
+        <li><strong>Author</strong>: Chad Phillips</li>
+    </ul>
+
+
+<h2><a href="#Local_Functions">Local Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#luchia.document.document_call">luchia.document.document_call(self, method, path, query_parameters, data)</a></td>
+	<td class="summary">Make a document-related request to the server.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document.make_document">luchia.document.make_document(self, data, id, rev)</a></td>
+	<td class="summary">Make a document object.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document.make_attachment">luchia.document.make_attachment(self, file_path, content_type, file_name, custom_loader_function)</a></td>
+	<td class="summary">Make an attachment object.</td>
+	</tr>
+</table>
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#luchia.document:new">luchia.document:new(self, database, server_params)</a></td>
+	<td class="summary">Create a new document handler object.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:list">luchia.document:list(query_parameters)</a></td>
+	<td class="summary">List all documents.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:retrieve">luchia.document:retrieve(id, query_parameters)</a></td>
+	<td class="summary">Retrieve a document.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:create">luchia.document:create(document, id)</a></td>
+	<td class="summary">Create a document.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:update">luchia.document:update(document, id, rev)</a></td>
+	<td class="summary">Update a document.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:copy">luchia.document:copy(id, destination)</a></td>
+	<td class="summary">Copy a document.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:delete">luchia.document:delete(id, rev)</a></td>
+	<td class="summary">Delete a document.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:info">luchia.document:info(id)</a></td>
+	<td class="summary">Get basic information on a document.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:current_revision">luchia.document:current_revision(id)</a></td>
+	<td class="summary">Get the current revision for a document.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:add_standalone_attachment">luchia.document:add_standalone_attachment(file_path, content_type, file_name, id, rev, custom_loader_function)</a></td>
+	<td class="summary">Add a standalone attachment to a document.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:add_inline_attachment">luchia.document:add_inline_attachment(file_path, content_type, file_name, document, id, rev, custom_loader_function)</a></td>
+	<td class="summary">Add an inline attachment to a document.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:retrieve_attachment">luchia.document:retrieve_attachment(attachment, id)</a></td>
+	<td class="summary">Retrieve an attachment.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:delete_attachment">luchia.document:delete_attachment(attachment, id, rev)</a></td>
+	<td class="summary">Delete an attachment.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.document:response_ok">luchia.document:response_ok(response)</a></td>
+	<td class="summary">Check the response for success.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Local_Functions"></a>Local Functions</h2>
+    Methods
+    <dl class="function">
+    <dt>
+    <a name = "luchia.document.document_call"></a>
+    <strong>luchia.document.document_call(self, method, path, query_parameters, data)</strong>
+    </dt>
+    <dd>
+    Make a document-related request to the server.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">method</span>
+           Required. The HTTP method.
+        </li>
+        <li><span class="parameter">path</span>
+           Required. The server path.
+        </li>
+        <li><span class="parameter">query_parameters</span>
+           Optional. A table of query parameters to pass to the server, key is
+   parameter name, value is parameter value, eg.
+   '{ include_docs = "true", limit = "3" }'.
+        </li>
+        <li><span class="parameter">data</span>
+           Optional. A data object.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The following four values, in this order: response<em>data,
+   response</em>code, headers, status_code.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luchia.document.make_document"></a>
+    <strong>luchia.document.make_document(self, data, id, rev)</strong>
+    </dt>
+    <dd>
+    Make a document object.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">data</span>
+           Optional. A table of data representing the document.
+        </li>
+        <li><span class="parameter">id</span>
+           Optional. The document ID.
+        </li>
+        <li><span class="parameter">rev</span>
+           Optional. The document revision.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The new document object.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "luchia.document.make_attachment"></a>
+    <strong>luchia.document.make_attachment(self, file_path, content_type, file_name, custom_loader_function)</strong>
+    </dt>
+    <dd>
+    Make an attachment object.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">file_path</span>
+           Required. The path to the file to add as an attachment. Relative paths
+   can be used, but must have a path component, eg.
+   "./myfile" or "/tmp/attachment.txt".
+        </li>
+        <li><span class="parameter">content_type</span>
+           Required. The mime content type of the attachment, eg. "text/plain"
+        </li>
+        <li><span class="parameter">file_name</span>
+           Optional. The name of the attachment as stored in CouchDB. If not
+   provided, then the base name of file_path will be used.
+        </li>
+        <li><span class="parameter">custom_loader_function</span>
+           Optional. Custom function to load the attachment.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The new attachment object.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "luchia.document:new"></a>
+    <strong>luchia.document:new(self, database, server_params)</strong>
+    </dt>
+    <dd>
+    Create a new document handler object.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">database</span>
+           Required. The database to connect to.
+        </li>
+        <li><span class="parameter">server_params</span>
+           Optional. A table of server connection parameters (identical to
+   <code>default.server</code> in <a href="../modules/luchia.conf.html#">luchia.conf</a>. If not provided,
+   a server object will be generated from the default server
+   configuration.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A document handler object.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">doc = luchia.document:new(<span class="string">"example_database"</span>, server_params)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:list"></a>
+    <strong>luchia.document:list(query_parameters)</strong>
+    </dt>
+    <dd>
+    List all documents.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">query_parameters</span>
+           Optional. Same as the <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a> method.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>, response_data is a list of documents.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:list()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:retrieve"></a>
+    <strong>luchia.document:retrieve(id, query_parameters)</strong>
+    </dt>
+    <dd>
+    Retrieve a document.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+           Required. The document ID.
+        </li>
+        <li><span class="parameter">query_parameters</span>
+           Optional. Same as the <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a> method.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>, response_data is a table representing
+   the document.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:retrieve(<span class="string">"document-id"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:create"></a>
+    <strong>luchia.document:create(document, id)</strong>
+    </dt>
+    <dd>
+    Create a document.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">document</span>
+           Optional. A table representing the document. If none is provided, an
+   empty document will be created by default.
+        </li>
+        <li><span class="parameter">id</span>
+           Optional. The document ID. If not provided, a server-generated uuid will
+   be used instead.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>, response_data is a table of the
+   request result.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:create({hello = <span class="string">"world"</span>}, <span class="string">"document-id"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:update"></a>
+    <strong>luchia.document:update(document, id, rev)</strong>
+    </dt>
+    <dd>
+    Update a document.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">document</span>
+           Required. A table representing the updated document.
+        </li>
+        <li><span class="parameter">id</span>
+           Required. The document ID.
+        </li>
+        <li><span class="parameter">rev</span>
+           Required. The document revision.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>, response_data is a table of the
+   request result.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:update({hello = <span class="string">"another world"</span>}, <span class="string">"document-id"</span>,
+   <span class="string">"1-15f65339921e497348be384867bb940f"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:copy"></a>
+    <strong>luchia.document:copy(id, destination)</strong>
+    </dt>
+    <dd>
+    Copy a document.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+           Required. The document ID.
+        </li>
+        <li><span class="parameter">destination</span>
+           Required. The ID of the destination document.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>, response_data is a table of the
+   request result.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:copy(<span class="string">"document-id"</span>, <span class="string">"document-copy"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:delete"></a>
+    <strong>luchia.document:delete(id, rev)</strong>
+    </dt>
+    <dd>
+    Delete a document.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+           Required. The document ID.
+        </li>
+        <li><span class="parameter">rev</span>
+           Required. The document revision.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>, response_data is a table of the
+   request result.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:delete(<span class="string">"document-id"</span>,
+   <span class="string">"1-15f65339921e497348be384867bb940f"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:info"></a>
+    <strong>luchia.document:info(id)</strong>
+    </dt>
+    <dd>
+    Get basic information on a document. </p>
+
+<p> This method makes a HEAD request.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+           Required. The document ID.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A table of the returned headers.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:info(<span class="string">"document-id"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:current_revision"></a>
+    <strong>luchia.document:current_revision(id)</strong>
+    </dt>
+    <dd>
+    Get the current revision for a document.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">id</span>
+           Required. The document ID.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The current revision.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:current_revision(<span class="string">"document-id"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:add_standalone_attachment"></a>
+    <strong>luchia.document:add_standalone_attachment(file_path, content_type, file_name, id, rev, custom_loader_function)</strong>
+    </dt>
+    <dd>
+    Add a standalone attachment to a document.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">file_path</span>
+           Required. Same as make_attachment.
+        </li>
+        <li><span class="parameter">content_type</span>
+           Required. Same as make_attachment.
+        </li>
+        <li><span class="parameter">file_name</span>
+           Optional. Same as make_attachment.
+        </li>
+        <li><span class="parameter">id</span>
+           Optional. The document ID to attach the file to. If no document exists,
+   one will be created for the attachment.
+        </li>
+        <li><span class="parameter">rev</span>
+           The document revision. This is only required if attaching to an existing
+   document.
+        </li>
+        <li><span class="parameter">custom_loader_function</span>
+           Optional. Custom function to load the attachment.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>, response_data is a table of the
+   request result.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../classes/luchia.document.html#luchia.document.make_attachment">make_attachment</a></li>
+         <li><a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:add_standalone_attachment(<span class="string">"/tmp/file.txt"</span>,
+  <span class="string">"text/plain"</span>, <span class="string">"afile"</span>, <span class="string">"document-id"</span>,
+  <span class="string">"1-15f65339921e497348be384867bb940f"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:add_inline_attachment"></a>
+    <strong>luchia.document:add_inline_attachment(file_path, content_type, file_name, document, id, rev, custom_loader_function)</strong>
+    </dt>
+    <dd>
+    Add an inline attachment to a document.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">file_path</span>
+           Required. Same as make_attachment.
+        </li>
+        <li><span class="parameter">content_type</span>
+           Required. Same as make_attachment.
+        </li>
+        <li><span class="parameter">file_name</span>
+           Optional. Same as make_attachment.
+        </li>
+        <li><span class="parameter">document</span>
+           Optional. A table representing the document to add the attachment to. If
+   none is provided, an empty document will be used.
+        </li>
+        <li><span class="parameter">id</span>
+           Optional. The document ID to attach the file to. If no document exists,
+   one will be created for the attachment.
+        </li>
+        <li><span class="parameter">rev</span>
+           The document revision. This is only required if attaching to an existing
+   document.
+        </li>
+        <li><span class="parameter">custom_loader_function</span>
+           Optional. Custom function to load the attachment.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>, response_data is a table of the
+   request result.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../classes/luchia.document.html#luchia.document.make_attachment">make_attachment</a></li>
+         <li><a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:add_inline_attachment(<span class="string">"/tmp/file.txt"</span>,
+  <span class="string">"text/plain"</span>, <span class="string">"afile"</span>, {hello = <span class="string">"world"</span>}, <span class="string">"document-id"</span>,
+  <span class="string">"1-15f65339921e497348be384867bb940f"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:retrieve_attachment"></a>
+    <strong>luchia.document:retrieve_attachment(attachment, id)</strong>
+    </dt>
+    <dd>
+    Retrieve an attachment.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attachment</span>
+           Required. The attachment name.
+        </li>
+        <li><span class="parameter">id</span>
+           Required. The document ID.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>, response_data is the attachment data.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:retrieve_attachment(<span class="string">"afile"</span>, <span class="string">"document-id"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:delete_attachment"></a>
+    <strong>luchia.document:delete_attachment(attachment, id, rev)</strong>
+    </dt>
+    <dd>
+    Delete an attachment.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attachment</span>
+           Required. The attachment name.
+        </li>
+        <li><span class="parameter">id</span>
+           Required. The document ID.
+        </li>
+        <li><span class="parameter">rev</span>
+           Required. The document revision.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>, response_data is a table of the
+   request result.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.document.html#luchia.document.document_call">document_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response = doc:delete_attachment(<span class="string">"afile"</span>, <span class="string">"document-id"</span>,
+   <span class="string">"1-15f65339921e497348be384867bb940f"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.document:response_ok"></a>
+    <strong>luchia.document:response_ok(response)</strong>
+    </dt>
+    <dd>
+    Check the response for success. </p>
+
+<p> A convenience method to ensure a successful request.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">response</span>
+           Required. The response object returned from the server request.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if the server responsed with an ok:true, false otherwise.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">operation_succeeded = doc:response_ok(response)</pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2021-02-26 22:17:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

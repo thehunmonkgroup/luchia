@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Luchia documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Luchia</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><strong>luchia.core.attachment</strong></li>
+  <li><a href="../classes/luchia.core.document.html">luchia.core.document</a></li>
+  <li><a href="../classes/luchia.core.log.html">luchia.core.log</a></li>
+  <li><a href="../classes/luchia.core.server.html">luchia.core.server</a></li>
+  <li><a href="../classes/luchia.database.html">luchia.database</a></li>
+  <li><a href="../classes/luchia.document.html">luchia.document</a></li>
+  <li><a href="../classes/luchia.utilities.html">luchia.utilities</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/luchia.html">luchia</a></li>
+  <li><a href="../modules/luchia.conf.html">luchia.conf</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/INTRODUCTION.md.html">INTRODUCTION</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/core.attachment.lua.html">core.attachment.lua</a></li>
+  <li><a href="../examples/core.document.lua.html">core.document.lua</a></li>
+  <li><a href="../examples/core.log.lua.html">core.log.lua</a></li>
+  <li><a href="../examples/core.server.lua.html">core.server.lua</a></li>
+  <li><a href="../examples/database.lua.html">database.lua</a></li>
+  <li><a href="../examples/document.lua.html">document.lua</a></li>
+  <li><a href="../examples/luchia.lua.html">luchia.lua</a></li>
+  <li><a href="../examples/utilities.lua.html">utilities.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>luchia.core.attachment</code></h1>
+<p>Core attachment handler class.</p>
+<p> Implements the methods necessary to handle attachments. Note that for most
+ cases, the attachment handling methods in <a href="../classes/luchia.document.html#">luchia.document</a> should be used;
+ this module provides the core functionality that those higher-level methods
+ use.</p>
+
+<p> See the <a href="../examples/core.attachment.lua.html#">core.attachment.lua</a> example for more detail.</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2011-2015 Chad Phillips</li>
+        <li><strong>Author</strong>: Chad Phillips</li>
+    </ul>
+
+
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#luchia.core.attachment:new">luchia.core.attachment:new(self, params)</a></td>
+	<td class="summary">Creates a new core attachment handler.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.attachment:base64_encode_file">luchia.core.attachment:base64_encode_file()</a></td>
+	<td class="summary">Base64 encode the attachment file data.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.attachment:load_file">luchia.core.attachment:load_file()</a></td>
+	<td class="summary">Load the attachment file data.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.attachment:prepare_request_data">luchia.core.attachment:prepare_request_data(server)</a></td>
+	<td class="summary">Prepare attachment for a server request.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "luchia.core.attachment:new"></a>
+    <strong>luchia.core.attachment:new(self, params)</strong>
+    </dt>
+    <dd>
+    Creates a new core attachment handler. </p>
+
+<p> In order to add an attachment to a document, an attachment object must be
+ created, then attached to the document, as seen in
+ <a href="../classes/luchia.core.document.html#luchia.core.document:add_attachment">luchia.core.document:add_attachment</a>,
+ <a href="../classes/luchia.document.html#luchia.document:add_standalone_attachment">luchia.document:add_standalone_attachment</a>,
+ and <a href="../classes/luchia.document.html#luchia.document:add_inline_attachment">luchia.document:add_inline_attachment</a>.</p>
+
+<p> In order to send a standalone attachment via the core server methods, an
+ attachment object must be created, and passed to the 'data' parameter of
+ <a href="../classes/luchia.core.server.html#luchia.core.server:request">luchia.core.server:request</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">params</span>   Required. A table with the metadata necessary to create a new attachment
+   object.
+        <ul>
+        <li><span class="parameter">file_path</span>
+           Required. The path to the file to add as an attachment. Relative paths
+   can be used, but must have a path component, eg. "./myfile" or
+   "/tmp/attachment.txt".
+        </li>
+        <li><span class="parameter">content_type</span>
+           Required. The mime content type of the attachment, eg. "text/plain".
+        </li>
+        <li><span class="parameter">file_name</span>
+           Optional. The name of the attachment as stored in couchdb. If not
+   provided, then the base name of file_path will be used.
+        </li>
+        <li><span class="parameter">custom_loader_function</span>
+           Optional. By default, files are loaded via the <a href="../classes/luchia.core.attachment.html#luchia.core.attachment:load_file">load_file</a> method in this
+   class. Use this to specify an alternate loader function.
+        </li>
+        </li></ul>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A new attachment object.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">attachment = luchia.core.attachment:new(params)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.attachment:base64_encode_file"></a>
+    <strong>luchia.core.attachment:base64_encode_file()</strong>
+    </dt>
+    <dd>
+    Base64 encode the attachment file data.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The encoded data.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">encoded_data = attachment:base64_encode_file()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.attachment:load_file"></a>
+    <strong>luchia.core.attachment:load_file()</strong>
+    </dt>
+    <dd>
+    Load the attachment file data.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The file data.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">data = attachment:load_file()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.attachment:prepare_request_data"></a>
+    <strong>luchia.core.attachment:prepare_request_data(server)</strong>
+    </dt>
+    <dd>
+    Prepare attachment for a server request. </p>
+
+<p> This method is called by <a href="../classes/luchia.core.server.html#luchia.core.server:prepare_request_data">luchia.core.server:prepare_request_data</a> to allow
+ the attachment object to properly prepare the data for a server request.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">server</span>
+           Required. The server object to prepare the request for.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">attachment:prepare_request_data(server)</pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2021-02-26 22:17:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

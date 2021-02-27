@@ -1,0 +1,727 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Luchia documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Luchia</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Local_Functions">Local Functions</a></li>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/luchia.core.attachment.html">luchia.core.attachment</a></li>
+  <li><a href="../classes/luchia.core.document.html">luchia.core.document</a></li>
+  <li><a href="../classes/luchia.core.log.html">luchia.core.log</a></li>
+  <li><strong>luchia.core.server</strong></li>
+  <li><a href="../classes/luchia.database.html">luchia.database</a></li>
+  <li><a href="../classes/luchia.document.html">luchia.document</a></li>
+  <li><a href="../classes/luchia.utilities.html">luchia.utilities</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/luchia.html">luchia</a></li>
+  <li><a href="../modules/luchia.conf.html">luchia.conf</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/INTRODUCTION.md.html">INTRODUCTION</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/core.attachment.lua.html">core.attachment.lua</a></li>
+  <li><a href="../examples/core.document.lua.html">core.document.lua</a></li>
+  <li><a href="../examples/core.log.lua.html">core.log.lua</a></li>
+  <li><a href="../examples/core.server.lua.html">core.server.lua</a></li>
+  <li><a href="../examples/database.lua.html">database.lua</a></li>
+  <li><a href="../examples/document.lua.html">document.lua</a></li>
+  <li><a href="../examples/luchia.lua.html">luchia.lua</a></li>
+  <li><a href="../examples/utilities.lua.html">utilities.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>luchia.core.server</code></h1>
+<p>Core server handler class.</p>
+<p> Note that for most cases, the methods in the higher-level <a href="../classes/luchia.database.html#">luchia.database</a>,
+ <a href="../classes/luchia.document.html#">luchia.document</a>, and <a href="../classes/luchia.utilities.html#">luchia.utilities</a> modules should be used; this module
+ provides the core server functionality that those higher-level modules use,
+ but can be used directly for more complex server requests.</p>
+
+<p> See the <a href="../examples/core.server.lua.html#">core.server.lua</a> example for more detail.</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2011-2015 Chad Phillips</li>
+        <li><strong>Author</strong>: Chad Phillips</li>
+    </ul>
+
+
+<h2><a href="#Local_Functions">Local Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#luchia.core.server.valid_protocol">luchia.core.server.valid_protocol(server)</a></td>
+	<td class="summary">Checks for a valid server protocol.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server.valid_host">luchia.core.server.valid_host(server)</a></td>
+	<td class="summary">Checks for a valid server host.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server.valid_port">luchia.core.server.valid_port(server)</a></td>
+	<td class="summary">Checks for a valid server port.</td>
+	</tr>
+</table>
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:new">luchia.core.server:new(self, params)</a></td>
+	<td class="summary">Creates a new core server handler.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:request">luchia.core.server:request(params)</a></td>
+	<td class="summary">Send a request to the CouchDB server.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:prepare_request">luchia.core.server:prepare_request(params)</a></td>
+	<td class="summary">Prepare a request to the CouchDB server.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:prepare_request_data">luchia.core.server:prepare_request_data()</a></td>
+	<td class="summary">Prepare request data before sending it to the server.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:execute_request">luchia.core.server:execute_request()</a></td>
+	<td class="summary">Execute a request to the CouchDB server.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:parse_response_data">luchia.core.server:parse_response_data(data)</a></td>
+	<td class="summary">Parse the response data from the CouchDB server if necessary.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:parse_json">luchia.core.server:parse_json(json_string)</a></td>
+	<td class="summary">Parse a JSON string.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:http_request">luchia.core.server:http_request()</a></td>
+	<td class="summary">Make an HTTP request to the server.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:build_url">luchia.core.server:build_url()</a></td>
+	<td class="summary">Builds a URL based on the server connection object, the request path,
+ and the request parameters.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:stringify_parameters">luchia.core.server:stringify_parameters(params)</a></td>
+	<td class="summary">Builds a query string from a Lua table of query parameters.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:uuids">luchia.core.server:uuids(count)</a></td>
+	<td class="summary">Retrieve uuids from the CouchDB server.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.server:response_ok">luchia.core.server:response_ok(response)</a></td>
+	<td class="summary">Check the response for success.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Local_Functions"></a>Local Functions</h2>
+    Methods
+    <dl class="function">
+    <dt>
+    <a name = "luchia.core.server.valid_protocol"></a>
+    <strong>luchia.core.server.valid_protocol(server)</strong>
+    </dt>
+    <dd>
+    Checks for a valid server protocol.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">server</span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true on a valid protocol, nil otherwise.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">valid_protocol(server)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server.valid_host"></a>
+    <strong>luchia.core.server.valid_host(server)</strong>
+    </dt>
+    <dd>
+
+<p>Checks for a valid server host. </p>
+
+<p> NOTE: This regex is a best effort to follow the hostname specification in</p>
+<pre><code>   RFC 1123, but it's not perfect: some labels beginning and ending with
+   a dash are allowed through, but are not permitted by the RFC.
+</code></pre>
+
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">server</span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true on a valid host, nil otherwise.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">valid_host(server)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server.valid_port"></a>
+    <strong>luchia.core.server.valid_port(server)</strong>
+    </dt>
+    <dd>
+    Checks for a valid server port.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">server</span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true on a valid port, nil otherwise.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">valid_port(server)</pre>
+    </ul>
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "luchia.core.server:new"></a>
+    <strong>luchia.core.server:new(self, params)</strong>
+    </dt>
+    <dd>
+    Creates a new core server handler. </p>
+
+<p> In order to talk to CouchDB, a server object must be created with the
+ proper connection parameters.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">params</span>   Optional. A table with the metadata necessary to create a new server
+   object. If a needed connection parameter is not passed
+   here, the default server setting configuration will be used instead to
+   build the server object.
+        <ul>
+        <li><span class="parameter">protocol</span>
+           The protocol to use, currently only "http" is allowed.
+        </li>
+        <li><span class="parameter">host</span>
+           The host name, eg. "localhost" or "www.example.com".
+        </li>
+        <li><span class="parameter">port</span>
+           The port to use, eg. "5984".
+        </li>
+        <li><span class="parameter">user</span>
+           For authentication scenarios, the user to authenticate as.
+        </li>
+        <li><span class="parameter">password</span>
+           For authentication scenarios, the user's password.
+        </li>
+        <li><span class="parameter">custom_request_function</span>
+           A custom request function can be substituted for the default http.request
+   function available from luasocket. The testing framework uses this to
+   mock for unit tests.
+        </li>
+        <li><span class="parameter">custom_configuration</span>
+           A custom configuration table can be substituted for the default one
+   available from <a href="../modules/luchia.conf.html#">luchia.conf</a>. The testing framework uses this to mock for
+   unit tests.
+        </li>
+        </li></ul>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A new server object.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">srv = luchia.core.server:new(params)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server:request"></a>
+    <strong>luchia.core.server:request(params)</strong>
+    </dt>
+    <dd>
+    Send a request to the CouchDB server. </p>
+
+<p> In order to talk to CouchDB, a server object must be created with the
+ proper connection parameters.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">params</span>   Optional. A table with the request metadata.
+        <ul>
+        <li><span class="parameter">method</span>
+           Optional. The server method, must be one of "GET", "POST", "PUT",
+   "DELETE", "HEAD", "COPY". Default is "GET".
+        </li>
+        <li><span class="parameter">path</span>
+           Optional. The path on the server to access.
+        </li>
+        <li><span class="parameter">query_parameters</span>
+           Optional. A table of query parameters to pass to the server, key is
+   parameter name, value is parameter value, eg.
+   '{ include_docs = "true", limit = "3" }'.
+        </li>
+        <li><span class="parameter">headers</span>
+           Optional. A table of headers to pass to the server, eg.
+   '{ destination = "doc_id" }'.
+        </li>
+        <li><span class="parameter">parse_json_response</span>
+           Optional. Boolean. Set to false to disable automatic parsing of the JSON
+   response from the server into a Lua table. Default is true.
+        </li>
+        <li><span class="parameter">data</span>
+           Optional. A data object containing data to pass to the server.
+        </li>
+        </li></ul>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The following four values, in this order: response<em>data,
+   response</em>code, headers, status_code.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:prepare_request">prepare_request</a></li>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:prepare_request_data">prepare_request_data</a></li>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:execute_request">execute_request</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response_data, response_code, headers, status_code =
+   srv:request(params)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server:prepare_request"></a>
+    <strong>luchia.core.server:prepare_request(params)</strong>
+    </dt>
+    <dd>
+    Prepare a request to the CouchDB server. </p>
+
+<p> This method is invoked by the request method to set up the necessary
+ parameters before making a request to the CouchDB server. It should not
+ generally need to be called separately.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">params</span>
+           Optional. A table with the request metadata.
+        </li>
+    </ul>
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.core.server.html#luchia.core.server:request">request</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">srv:prepare_request(params)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server:prepare_request_data"></a>
+    <strong>luchia.core.server:prepare_request_data()</strong>
+    </dt>
+    <dd>
+    Prepare request data before sending it to the server. </p>
+
+<p> The server object calls this method prior to sending a request to the
+ server. If a data object has been passed to the server, and it implements
+ the 'prepare<em>request</em>data' method, it will be called and passed the entire
+ server object, so that it may make any necessary adjustments prior to the
+ request.  In particular it should properly set the 'request<em>data' and
+ 'content</em>type' attributes on the server object to appropriate values for
+ the data being sent.</p>
+
+<p> Note that the core document and attachment classes already implement this
+ method, so it should generally not need to be implemented.
+
+
+
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.core.server.html#luchia.core.server:request">request</a>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server:execute_request"></a>
+    <strong>luchia.core.server:execute_request()</strong>
+    </dt>
+    <dd>
+    Execute a request to the CouchDB server. </p>
+
+<p> This method is invoked by the request method to send a request to the
+ CouchDB server, then collect and parse the response. It should not
+ generally need to be called separately.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The following four values, in this order: response<em>data,
+   response</em>code, headers, status_code.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:request">request</a></li>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:http_request">http_request</a></li>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:parse_response_data">parse_response_data</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response_data, response_code, headers, status_code =
+   srv:execute_request()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server:parse_response_data"></a>
+    <strong>luchia.core.server:parse_response_data(data)</strong>
+    </dt>
+    <dd>
+    Parse the response data from the CouchDB server if necessary.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">data</span>
+           Required. The data to parse.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The parsed data.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:execute_request">execute_request</a></li>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:parse_json">parse_json</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">parsed_data = srv:parse_response_data(data)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server:parse_json"></a>
+    <strong>luchia.core.server:parse_json(json_string)</strong>
+    </dt>
+    <dd>
+    Parse a JSON string.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">json_string</span>
+           Required. The JSON string to parse.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The parsed JSON string, converted to a Lua table.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.core.server.html#luchia.core.server:parse_response_data">parse_response_data</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">srv:parse_json(<span class="string">'{"key": "value"}'</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server:http_request"></a>
+    <strong>luchia.core.server:http_request()</strong>
+    </dt>
+    <dd>
+    Make an HTTP request to the server. </p>
+
+<p> This is the low level method to make a server request, and should generally
+ not be used.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The following four values, in this order: response<em>data,
+   response</em>code, headers, status_code.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:execute_request">execute_request</a></li>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:build_url">build_url</a></li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">response_data, response_code, headers, status_code =
+   srv:http_request()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server:build_url"></a>
+    <strong>luchia.core.server:build_url()</strong>
+    </dt>
+    <dd>
+    Builds a URL based on the server connection object, the request path,
+ and the request parameters.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A URL string.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:http_request">http_request</a></li>
+         <li><a href="../classes/luchia.core.server.html#luchia.core.server:stringify_parameters">stringify_parameters</a></li>
+    </ul>
+
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server:stringify_parameters"></a>
+    <strong>luchia.core.server:stringify_parameters(params)</strong>
+    </dt>
+    <dd>
+    Builds a query string from a Lua table of query parameters.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">params</span>
+           Optional. A table of query parameters, key is parameter name, value is
+   parameter value. If not provided, the query_parameters attribute on the
+   server object is used.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The query string.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.core.server.html#luchia.core.server:build_url">build_url</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">srv:stringify_parameters({ include_docs = <span class="string">"true"</span>, limit = <span class="string">"3"</span> })</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server:uuids"></a>
+    <strong>luchia.core.server:uuids(count)</strong>
+    </dt>
+    <dd>
+    Retrieve uuids from the CouchDB server. </p>
+
+<p> This provides a convenient way to get random unique identifiers from the
+ server itself if no other facility is available to generate them.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">count</span>
+           Optional. The number of uuids to generate, default is 1.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A list of uuids.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">srv:uuids(<span class="number">10</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.server:response_ok"></a>
+    <strong>luchia.core.server:response_ok(response)</strong>
+    </dt>
+    <dd>
+    Check the response for success. </p>
+
+<p> A convenience method to ensure a successful request.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">response</span>
+           Required. The response object returned from the server request.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if the server responsed with an ok:true, false otherwise.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">operation_succeeded = srv:response_ok(response)</pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2021-02-26 22:17:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

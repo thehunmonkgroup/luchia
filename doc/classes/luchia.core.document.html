@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Luchia documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Luchia</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/luchia.core.attachment.html">luchia.core.attachment</a></li>
+  <li><strong>luchia.core.document</strong></li>
+  <li><a href="../classes/luchia.core.log.html">luchia.core.log</a></li>
+  <li><a href="../classes/luchia.core.server.html">luchia.core.server</a></li>
+  <li><a href="../classes/luchia.database.html">luchia.database</a></li>
+  <li><a href="../classes/luchia.document.html">luchia.document</a></li>
+  <li><a href="../classes/luchia.utilities.html">luchia.utilities</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/luchia.html">luchia</a></li>
+  <li><a href="../modules/luchia.conf.html">luchia.conf</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/INTRODUCTION.md.html">INTRODUCTION</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/core.attachment.lua.html">core.attachment.lua</a></li>
+  <li><a href="../examples/core.document.lua.html">core.document.lua</a></li>
+  <li><a href="../examples/core.log.lua.html">core.log.lua</a></li>
+  <li><a href="../examples/core.server.lua.html">core.server.lua</a></li>
+  <li><a href="../examples/database.lua.html">database.lua</a></li>
+  <li><a href="../examples/document.lua.html">document.lua</a></li>
+  <li><a href="../examples/luchia.lua.html">luchia.lua</a></li>
+  <li><a href="../examples/utilities.lua.html">utilities.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>luchia.core.document</code></h1>
+<p>Core document handler class.</p>
+<p> Implements the methods necessary to handle documents. Note that for most
+ cases, the document handling methods in <a href="../classes/luchia.document.html#">luchia.document</a> should be used;
+ this module provides the core functionality that those higher-level methods
+ use.</p>
+
+<p> See the <a href="../examples/core.document.lua.html#">core.document.lua</a> example for more detail.</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2011-2015 Chad Phillips</li>
+        <li><strong>Author</strong>: Chad Phillips</li>
+    </ul>
+
+
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#luchia.core.document:new">luchia.core.document:new(self, params)</a></td>
+	<td class="summary">Creates a new core document handler.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.document:add_attachment">luchia.core.document:add_attachment(attachment)</a></td>
+	<td class="summary">Add an inline attachment to a document.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.core.document:prepare_request_data">luchia.core.document:prepare_request_data(server)</a></td>
+	<td class="summary">Prepare document for a server request.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "luchia.core.document:new"></a>
+    <strong>luchia.core.document:new(self, params)</strong>
+    </dt>
+    <dd>
+    Creates a new core document handler. </p>
+
+<p> In order to send a document via the core server methods, a document object
+ must be created, and passed to the 'data' parameter of
+ <a href="../classes/luchia.core.server.html#luchia.core.server:request">luchia.core.server:request</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">params</span>   Optional. A table with the metadata necessary to create a new document
+   object.
+        <ul>
+        <li><span class="parameter">id</span>
+           Optional. The document ID. If provided, this is copied into the document
+   itself.
+        </li>
+        <li><span class="parameter">rev</span>
+           Optional. The document revision. If provided, this is copied into the
+   document itself.
+        </li>
+        <li><span class="parameter">document</span>
+           Optional. A table representing the document to be stored in CouchDB. This
+   table is converted to proper JSON format before being sent to the
+   database.
+        </li>
+        </li></ul>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A new document object.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">document = luchia.core.document:new(params)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.document:add_attachment"></a>
+    <strong>luchia.core.document:add_attachment(attachment)</strong>
+    </dt>
+    <dd>
+    Add an inline attachment to a document. </p>
+
+<p> This method should not usually be called directly, instead use the
+ higher-level <a href="../classes/luchia.document.html#luchia.document:add_inline_attachment">luchia.document:add_inline_attachment</a>.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">attachment</span>
+           Required. The attachment object to add to the document, as generated by
+   <a href="../classes/luchia.core.attachment.html#luchia.core.attachment:new">luchia.core.attachment:new</a>.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The document table with the attachment added. Note that this does
+   not return the full document object.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">document_table = document:add_attachment(attachment)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.core.document:prepare_request_data"></a>
+    <strong>luchia.core.document:prepare_request_data(server)</strong>
+    </dt>
+    <dd>
+    Prepare document for a server request. </p>
+
+<p> This method is called by <a href="../classes/luchia.core.server.html#luchia.core.server:prepare_request_data">luchia.core.server:prepare_request_data</a> to allow
+ the document object to properly prepare the data for a server request.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">server</span>
+           Required. The server object to prepare the request for.
+        </li>
+    </ul>
+
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">document:prepare_request_data(server)</pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2021-02-26 22:17:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

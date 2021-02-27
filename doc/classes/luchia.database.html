@@ -1,0 +1,375 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Luchia documentation</title>
+    <link rel="stylesheet" href="../ldoc_fixed.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>Luchia</h1>
+
+<ul>
+  <li><a href="../index.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Local_Functions">Local Functions</a></li>
+<li><a href="#Methods">Methods</a></li>
+</ul>
+
+
+<h2>Classes</h2>
+<ul class="nowrap">
+  <li><a href="../classes/luchia.core.attachment.html">luchia.core.attachment</a></li>
+  <li><a href="../classes/luchia.core.document.html">luchia.core.document</a></li>
+  <li><a href="../classes/luchia.core.log.html">luchia.core.log</a></li>
+  <li><a href="../classes/luchia.core.server.html">luchia.core.server</a></li>
+  <li><strong>luchia.database</strong></li>
+  <li><a href="../classes/luchia.document.html">luchia.document</a></li>
+  <li><a href="../classes/luchia.utilities.html">luchia.utilities</a></li>
+</ul>
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/luchia.html">luchia</a></li>
+  <li><a href="../modules/luchia.conf.html">luchia.conf</a></li>
+</ul>
+<h2>Topics</h2>
+<ul class="">
+  <li><a href="../topics/INTRODUCTION.md.html">INTRODUCTION</a></li>
+</ul>
+<h2>Examples</h2>
+<ul class="nowrap">
+  <li><a href="../examples/core.attachment.lua.html">core.attachment.lua</a></li>
+  <li><a href="../examples/core.document.lua.html">core.document.lua</a></li>
+  <li><a href="../examples/core.log.lua.html">core.log.lua</a></li>
+  <li><a href="../examples/core.server.lua.html">core.server.lua</a></li>
+  <li><a href="../examples/database.lua.html">database.lua</a></li>
+  <li><a href="../examples/document.lua.html">document.lua</a></li>
+  <li><a href="../examples/luchia.lua.html">luchia.lua</a></li>
+  <li><a href="../examples/utilities.lua.html">utilities.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Class <code>luchia.database</code></h1>
+<p>High-level database class.</p>
+<p> Contains all of the high-level methods to manage databases. This module
+ should be used instead of the core modules when possible.</p>
+
+<p> See the <a href="../examples/database.lua.html#">database.lua</a> example for more detail.</p>
+    <h3>Info:</h3>
+    <ul>
+        <li><strong>Copyright</strong>: 2011-2015 Chad Phillips</li>
+        <li><strong>Author</strong>: Chad Phillips</li>
+    </ul>
+
+
+<h2><a href="#Local_Functions">Local Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#luchia.database.database_call">luchia.database.database_call(self, method, database_name)</a></td>
+	<td class="summary">Make a database-related request to the server.</td>
+	</tr>
+</table>
+<h2><a href="#Methods">Methods</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#luchia.database:new">luchia.database:new(self, server_params)</a></td>
+	<td class="summary">Create a new database handler object.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.database:list">luchia.database:list()</a></td>
+	<td class="summary">List all databases.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.database:info">luchia.database:info(database_name)</a></td>
+	<td class="summary">Get information on a database.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.database:create">luchia.database:create(database_name)</a></td>
+	<td class="summary">Create a database.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.database:delete">luchia.database:delete(database_name)</a></td>
+	<td class="summary">Delete a database.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#luchia.database:response_ok">luchia.database:response_ok(response)</a></td>
+	<td class="summary">Check the response for success.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Local_Functions"></a>Local Functions</h2>
+    Methods
+    <dl class="function">
+    <dt>
+    <a name = "luchia.database.database_call"></a>
+    <strong>luchia.database.database_call(self, method, database_name)</strong>
+    </dt>
+    <dd>
+    Make a database-related request to the server.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">method</span>
+           Required. The HTTP method.
+        </li>
+        <li><span class="parameter">database_name</span>
+           Required. The database name.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        The following four values, in this order: response<em>data,
+   response</em>code, headers, status_code.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Methods"></a>Methods</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "luchia.database:new"></a>
+    <strong>luchia.database:new(self, server_params)</strong>
+    </dt>
+    <dd>
+    Create a new database handler object.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">server_params</span>
+           Optional. A table of server connection parameters (identical to
+   <code>default.server</code> in <a href="../modules/luchia.conf.html#">luchia.conf</a>. If not provided, a server
+   object will be generated from the default server configuration.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        A database handler object.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">db = luchia.database:new(server_params)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.database:list"></a>
+    <strong>luchia.database:list()</strong>
+    </dt>
+    <dd>
+    List all databases.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.database.html#luchia.database.database_call">database_call</a>, response_data is a list of databases.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.database.html#luchia.database.database_call">database_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">db:list()</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.database:info"></a>
+    <strong>luchia.database:info(database_name)</strong>
+    </dt>
+    <dd>
+    Get information on a database.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">database_name</span>
+           Required. The database to get info from.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.database.html#luchia.database.database_call">database_call</a>, response_data is a table of database
+   information.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.database.html#luchia.database.database_call">database_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">db:info(<span class="string">"example_database"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.database:create"></a>
+    <strong>luchia.database:create(database_name)</strong>
+    </dt>
+    <dd>
+    Create a database.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">database_name</span>
+           Required. The database to create.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.database.html#luchia.database.database_call">database_call</a>, response_data is a table of the
+   request result.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.database.html#luchia.database.database_call">database_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">db:create(<span class="string">"example_database"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.database:delete"></a>
+    <strong>luchia.database:delete(database_name)</strong>
+    </dt>
+    <dd>
+    Delete a database.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">database_name</span>
+           Required. The database to delete.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Same values as <a href="../classes/luchia.database.html#luchia.database.database_call">database_call</a>, response_data is a table of the
+   request result.
+    </ol>
+
+
+    <h3>See also:</h3>
+    <ul>
+         <a href="../classes/luchia.database.html#luchia.database.database_call">database_call</a>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">db:delete(<span class="string">"example_database"</span>)</pre>
+    </ul>
+
+</dd>
+    <dt>
+    <a name = "luchia.database:response_ok"></a>
+    <strong>luchia.database:response_ok(response)</strong>
+    </dt>
+    <dd>
+    Check the response for success. </p>
+
+<p> A convenience method to ensure a successful request.
+
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">response</span>
+           Required. The response object returned from the server request.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        true if the server responsed with an ok:true, false otherwise.
+    </ol>
+
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">operation_succeeded = db:response_ok(response)</pre>
+    </ul>
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2021-02-26 22:17:17 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
