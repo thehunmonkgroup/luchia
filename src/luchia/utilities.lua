@@ -21,6 +21,7 @@ local _M = {}
 
 --- Create a new utilities handler object.
 --
+-- @param self
 -- @param server_params
 --   Optional. A table of server connection parameters (identical to
 --   <code>default.server</code> in @{luchia.conf}. If not provided,
@@ -84,6 +85,8 @@ end
 
 --- Get the database server configuration.
 --
+-- @param node
+--   Optional. The cluster node name. Default is @{get_default_cluster_node}
 -- @return Same values as @{utilities_get_call}, response_data is a table of
 --   database server configuration information.
 -- @usage util:config()
@@ -95,6 +98,8 @@ end
 
 --- Get the database server statistics.
 --
+-- @param node
+--   Optional. The cluster node name. Default is @{get_default_cluster_node}
 -- @return Same values as @{utilities_get_call}, response_data is a table of
 --   database server statistics information.
 -- @usage util:stats()

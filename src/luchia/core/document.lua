@@ -30,6 +30,7 @@ local _M = {}
 -- must be created, and passed to the 'data' parameter of
 -- @{luchia.core.server:request}.
 --
+-- @param self
 -- @param params
 --   Optional. A table with the metadata necessary to create a new document
 --   object.

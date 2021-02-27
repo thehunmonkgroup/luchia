@@ -36,6 +36,7 @@ local _M = {}
 -- attachment object must be created, and passed to the 'data' parameter of
 -- @{luchia.core.server:request}.
 --
+-- @param self
 -- @param params
 --   Required. A table with the metadata necessary to create a new attachment
 --   object.

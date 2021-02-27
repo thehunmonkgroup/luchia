@@ -24,6 +24,7 @@ local _M = {}
 
 --- Create a new document handler object.
 --
+-- @param self
 -- @param database
 --   Required. The database to connect to.
 -- @param server_params

@@ -21,6 +21,7 @@ local _M = {}
 
 --- Create a new database handler object.
 --
+-- @param self
 -- @param server_params
 --   Optional. A table of server connection parameters (identical to
 --   <code>default.server</code> in @{luchia.conf}. If not provided, a server

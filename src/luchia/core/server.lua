@@ -76,6 +76,7 @@ end
 -- In order to talk to CouchDB, a server object must be created with the
 -- proper connection parameters.
 --
+-- @param self
 -- @param params
 --   Optional. A table with the metadata necessary to create a new server
 --   object. If a needed connection parameter is not passed
