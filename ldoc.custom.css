@@ -15,7 +15,7 @@ body,
 
 #content {
   background: no-repeat;
-  background-image: url('../images/luchia-logo.png');
+  background-image: url('/luchia/doc/images/luchia-logo.png');
   background-position: right top;
   background-origin: content-box;
 }

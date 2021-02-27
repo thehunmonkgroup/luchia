@@ -16,8 +16,6 @@ examples = "./examples"
 wrap = true
 no_space_before_args = true
 style = "!fixed"
--- This is a custom setting not currently available in LDoc, see
--- https://github.com/stevedonovan/LDoc/pull/223
---custom_css = "ldoc.custom.css"
+custom_css = "ldoc.custom.css"
 
 -- vi: ft=lua
